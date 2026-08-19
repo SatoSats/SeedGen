@@ -76,7 +76,7 @@ python3 seedgen_simulazione_sicuro.py
 
 Hash SHA-256 del programma:
 
-fd2459f18c8115cfcfa30e13617f10afb1be17fc827cfbb29f3b7e79aa124d5e
+df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
 
 Per verificare:
 sha256sum seedgen_simulazione_sicuro.py
@@ -154,7 +154,7 @@ gpg --verify seedgen_simulazione_sicuro.py.asc seedgen_simulazione_sicuro.py
 sha256sum seedgen_simulazione_sicuro.py
 
 L'hash deve corrispondere a:
-fd2459f18c8115cfcfa30e13617f10afb1be17fc827cfbb29f3b7e79aa124d5e
+df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
 
 
 ## Requisiti di Sicurezza ed Esecuzione

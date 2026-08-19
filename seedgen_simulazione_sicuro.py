@@ -12,6 +12,7 @@ import math
 import hashlib
 import hmac
 import re
+from typing import List, Tuple, Optional, Dict, Union, Callable
 from collections import Counter
 import termios
 import tty
@@ -67,7 +68,7 @@ def cyan(text): return colorize(text, Colors.CYAN)
 # FUNZIONI BIP39
 # ============================================================
 
-def checksum_bits(entropy):
+def checksum_bits(entropy: bytes) -> str:
     ent_bits = len(entropy) * 8
     if ent_bits not in (128, 160, 192, 224, 256):
         raise ValueError("Dimensione entropia non valida")
@@ -80,7 +81,7 @@ def checksum_bits(entropy):
             break
     return first_bits[:cs_len]
 
-def entropy_to_mnemonic(entropy, wordlist):
+def entropy_to_mnemonic(entropy: bytes, wordlist: List[str]) -> List[str]:
     ent_bits = len(entropy) * 8
     entropy_bin = "".join(f"{b:08b}" for b in entropy)
     cs = checksum_bits(entropy)
@@ -91,7 +92,7 @@ def entropy_to_mnemonic(entropy, wordlist):
         mnemonic.append(wordlist[index])
     return mnemonic
 
-def mnemonic_to_entropy(mnemonic, wordlist):
+def mnemonic_to_entropy(mnemonic: Union[str, List[str]], wordlist: List[str]) -> bytes:
     if isinstance(mnemonic, str):
         words = mnemonic.strip().split()
     else:
@@ -119,7 +120,7 @@ def mnemonic_to_entropy(mnemonic, wordlist):
 # WORDLIST CON VERIFICA SHA-256
 # ============================================================
 
-def load_wordlist():
+def load_wordlist() -> List[str]:
     """Carica e verifica rigorosamente la wordlist BIP39"""
     if not os.path.exists(WORDLIST_FILENAME):
         raise FileNotFoundError("File wordlist non trovato")
@@ -157,7 +158,7 @@ def load_wordlist():
 # SELF TEST
 # ============================================================
 
-def load_diceware_wordlist():
+def load_diceware_wordlist() -> List[str]:
     """Carica e verifica la wordlist Diceware"""
     if not os.path.exists(DICEWARE_FILENAME):
         raise FileNotFoundError(f"File {DICEWARE_FILENAME} non trovato")
@@ -185,7 +186,7 @@ def load_diceware_wordlist():
     
     return words
 
-def self_test_bip39(wordlist):
+def self_test_bip39(wordlist: List[str]) -> None:
     entropy = bytes.fromhex("00000000000000000000000000000000")
     expected = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
     mnemonic = entropy_to_mnemonic(entropy, wordlist)
@@ -227,7 +228,7 @@ BIP39_TEST_VECTORS = {
     },
 }
 
-def test_all_bip39_vectors(wordlist):
+def test_all_bip39_vectors(wordlist: List[str]) -> bool:
     for ent_bits, vector in BIP39_TEST_VECTORS.items():
         entropy = bytes.fromhex(vector["entropy"])
         expected = vector["mnemonic"]
@@ -244,7 +245,7 @@ def test_all_bip39_vectors(wordlist):
 # TEST REJECTION SAMPLING
 # ============================================================
 
-def test_rejection_sampling():
+def test_rejection_sampling() -> bool:
     rolls_zero = [1] * 50
     entropy, k, accepted = extract_entropy_from_dice_block(rolls_zero, 128)
     if not accepted:
@@ -270,7 +271,7 @@ def test_rejection_sampling():
 # TEST DICEWARE
 # ============================================================
 
-def test_diceware_mapping(diceware_wordlist):
+def test_diceware_mapping(diceware_wordlist: List[str]) -> bool:
     indice_11111 = 0
     for i, lancio in enumerate([1,1,1,1,1]):
         indice_11111 += (lancio - 1) * (6 ** (4 - i))
@@ -287,7 +288,7 @@ def test_diceware_mapping(diceware_wordlist):
         raise AssertionError("6^5 dovrebbe essere 7776")
     return True
 
-def analizza_distribuzione_lanci(rolls):
+def analizza_distribuzione_lanci(rolls: List[int]) -> Tuple[bool, float]:
     """Analizza la distribuzione dei lanci (diagnostico)"""
     if len(rolls) < 10:
         return True, 0
@@ -310,7 +311,7 @@ def analizza_distribuzione_lanci(rolls):
     
     return True, percentuale_max
 
-def test_rejection_boundary():
+def test_rejection_boundary() -> bool:
     """Test boundary M-1, M, M+1 per il rejection sampling"""
     # Per 50 lanci: 6^50, k = floor(log2(6^50)) = 129, M = 2^129
     # M-1 = 2^129 - 1 → deve essere accettato
@@ -334,7 +335,7 @@ def test_rejection_boundary():
     
     return True
 
-def test_diceware_completo():
+def test_diceware_completo() -> bool:
     """Verifica tutte le 7776 combinazioni Diceware"""
     # Verifica che 6^5 = 7776
     if 6**5 != 7776:
@@ -365,10 +366,10 @@ def test_diceware_completo():
     
     return True
 
-def dice_rolls_needed(entropy_bits):
+def dice_rolls_needed(entropy_bits: int) -> int:
     return DICE_ROLLS[entropy_bits]
 
-def extract_entropy_from_dice_block(rolls, target_bits):
+def extract_entropy_from_dice_block(rolls: List[int], target_bits: int) -> Tuple[Optional[bytes], int, bool]:
     expected_rolls = dice_rolls_needed(target_bits)
     if len(rolls) != expected_rolls:
         raise ValueError(f"Servono {expected_rolls} lanci")
@@ -395,7 +396,7 @@ def extract_entropy_from_dice_block(rolls, target_bits):
 # TERMINALE
 # ============================================================
 
-def esegui_tutti_test(wordlist, diceware_wordlist):
+def esegui_tutti_test(wordlist: List[str], diceware_wordlist: List[str]) -> List[Tuple[str, bool]]:
     """Routine unificata di tutti i test"""
     risultati = []
     
@@ -1065,7 +1066,7 @@ class SeedGenApp:
             elif scelta == '8':
                 self.test_integrita()
 
-def main():
+def main() -> None:
     try:
         app = SeedGenApp()
         app.run()
