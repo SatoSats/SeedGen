@@ -4,7 +4,7 @@ Questa guida spiega come usare SeedGen v14 in modo sicuro su Tails OS (Live USB)
 
 ## Principio di sicurezza
 
-Tails esegue tutto in RAM e cancella ogni traccia allo spegnimento. SeedGen deve essere usato esclusivamente offline su Tails.
+Tails esegue tutto in RAM e riduce significativamente il rischio di persistenza su disco allo spegnimento. SeedGen deve essere usato esclusivamente offline su Tails.
 
 ## Preparazione (su computer normale)
 
@@ -72,7 +72,7 @@ cd /media/amnesia/NOME_USB/dist
 - Chiudi il programma
 - Espelli la USB con SeedGen
 - Spegni Tails
-- Tails cancella automaticamente tutto dalla RAM
+- Tails riduce il rischio di persistenza dei dati su disco. Non è una garanzia di cancellazione forense della RAM
 
 ## Verifica finale
 
@@ -94,4 +94,4 @@ Posso usare lo stesso computer per scaricare e generare?
 Sì, ma assicurati che il download avvenga su un sistema normale, non su Tails.
 
 Quanto dura la sessione su Tails?
-Finché il computer è acceso. Allo spegnimento, Tails cancella tutto.
+Finché il computer è acceso. Allo spegnimento, Tails riduce il rischio di persistenza su disco.

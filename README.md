@@ -7,7 +7,7 @@ Generatore air-gapped di seed Bitcoin BIP39 e passphrase Diceware con entropia f
 
 ## Perché SeedGen?
 
-La sicurezza di un wallet Bitcoin dipende interamente dalla qualità dell'entropia usata per generare il seed. I generatori software usano RNG di sistema che potrebbero essere compromessi, manipolati o semplicemente deboli. SeedGen elimina questo rischio usando **solo entropia fisica da dadi**.
+La sicurezza di un wallet Bitcoin dipende interamente dalla qualità dell'entropia usata per generare il seed. I generatori software usano RNG di sistema che potrebbero essere compromessi, manipolati o semplicemente deboli. SeedGen elimina la dipendenza dall'RNG software usando **solo entropia fisica da dadi**, trasferendo la responsabilità della casualità alla sorgente fisica.
 
 ## Principi di progettazione
 
@@ -31,7 +31,7 @@ L'utente lancia un dado fisico a 6 facce. Ogni lancio produce un valore da 1 a 6
 Per evitare bias nella conversione, il programma usa il **rejection sampling**:
 - I valori del dado vengono raggruppati in blocchi
 - I blocchi che eccedono l'intervallo uniforme vengono scartati
-- Questo garantisce che ogni possibile output abbia **esattamente la stessa probabilità**
+- Questo garantisce che ogni possibile output abbia **esattamente la stessa probabilità**, assumendo dadi fisicamente equi
 
 ### 3. Generazione seed
 
@@ -184,7 +184,7 @@ Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema ope
 
 ### 1. Ambiente Consigliato
 
-- **Tails OS (Live USB):** Avvia il PC tramite Tails in modalità offline. Tails esegue lo script totalmente in RAM e la cancella all'arresto.
+- **Tails OS (Live USB):** Avvia il PC tramite Tails in modalità offline. Tails esegue lo script in RAM e riduce il rischio di persistenza su disco allo spegnimento.
 - **Zero Swap:** L'assenza di dischi rigidi montati impedisce la scrittura temporanea dell'entropia su disco.
 
 ### 2. Prevenzione Bias Fisico
