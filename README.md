@@ -1,5 +1,8 @@
 # SeedGen v14
 
+> **DISCLAIMER:** SeedGen è un progetto open-source fornito senza garanzie di alcun tipo. L'utente è l'unico responsabile della sicurezza dei propri fondi. Usa a tuo rischio.
+
+
 Generatore air-gapped di seed Bitcoin BIP39 e passphrase Diceware con entropia fisica da dadi (D6).
 
 ## Perché SeedGen?
