@@ -2,53 +2,129 @@
 
 Generatore air-gapped di seed Bitcoin BIP39 e passphrase Diceware con entropia fisica da dadi (D6).
 
-## Caratteristiche
+## Perché SeedGen?
 
-- **Zero networking**: nessuna connessione di rete
-- **Zero logging**: nessun log su disco
-- **Zero RNG di sistema**: entropia solo da dadi fisici
-- **Rejection sampling**: estrazione entropia uniforme
-- **Verifica SHA-256** delle wordlist
-- **Test vector BIP39** completi
-- **Documentazione completa**: threat model, audit, procedura operativa
+La sicurezza di un wallet Bitcoin dipende interamente dalla qualità della entropia usata per generare il seed. I generatori software usano RNG di sistema che potrebbero essere compromessi, manipolati o semplicemente deboli. SeedGen elimina questo rischio usando **solo entropia fisica da dadi**.
 
-## Generazione supportata
+## Principi di progettazione
 
-| Tipo | Parole | Entropia |
-|------|--------|----------|
-| BIP39 | 12/15/18/21/24 | 128-256 bit |
-| Diceware | 6/7/8/9 | ~77-116 bit |
+| Principio | Implementazione |
+|-----------|----------------|
+| **Zero networking** | Nessuna chiamata di rete, nessuna API, nessun socket |
+| **Zero logging** | Nessun file di log, nessun output su disco |
+| **Zero RNG di sistema** | Nessun uso di random, os.urandom o simili |
+| **Entropia fisica** | Solo lanci di dadi D6 (6 facce) |
+| **Rejection sampling** | Estrazione entropia uniforme senza bias |
+| **Verifica integrità** | SHA-256 delle wordlist prima dell'uso |
+
+## Come funziona
+
+### 1. Raccolta entropia
+
+L'utente lancia un dado fisico a 6 facce. Ogni lancio produce un valore da 1 a 6, che viene convertito in **2,58 bit di entropia** (log2(6) = 2,585).
+
+### 2. Rejection sampling
+
+Per evitare bias nella conversione, il programma usa il **rejection sampling**:
+- I valori del dado vengono raggruppati in blocchi
+- I blocchi che eccedono l'intervallo uniforme vengono scartati
+- Questo garantisce che ogni possibile output abbia **esattamente la stessa probabilità**
+
+### 3. Generazione seed
+
+L'entropia raccolta viene convertita in:
+- **Seed BIP39**: 12, 15, 18, 21 o 24 parole (128-256 bit)
+- **Passphrase Diceware**: 6, 7, 8 o 9 parole (~77-116 bit)
+
+### 4. Verifica wordlist
+
+Prima di ogni generazione, il programma verifica l'hash SHA-256 delle wordlist per garantire che non siano state manomesse.
+
+## Entropia richiesta
+
+| Tipo | Parole | Entropia | Lanci di dado (min) |
+|------|--------|----------|---------------------|
+| BIP39 | 12 | 128 bit | 50 |
+| BIP39 | 15 | 160 bit | 62 |
+| BIP39 | 18 | 192 bit | 75 |
+| BIP39 | 21 | 224 bit | 87 |
+| BIP39 | 24 | 256 bit | 100 |
+| Diceware | 6 | ~77,5 bit | 30 |
+| Diceware | 7 | ~90,4 bit | 35 |
+| Diceware | 8 | ~103,3 bit | 40 |
+| Diceware | 9 | ~116,2 bit | 45 |
+
+*I numeri di lanci sono arrotondati per eccesso e tengono conto del rejection sampling.*
 
 ## Requisiti
 
-- Python 3.8+
+- Python 3.8+ (nessuna dipendenza esterna)
 - Sistema air-gapped (es. Raspberry Pi)
 - Dadi fisici (D6)
+- Terminale
+
+## Installazione
+
+git clone https://github.com/SatoSats/SeedGen.git
+cd SeedGen
 
 ## Utilizzo
 
 python3 seedgen_simulazione_sicuro.py
 
-## Verifica wordlist
-
-Il programma verifica automaticamente l'hash SHA-256 delle wordlist prima dell'uso.
-
-## Documentazione
-
-- THREAT_MODEL.md - Modello delle minacce
-- AUDIT_SEEDGEN.md - Guida all'audit
-- COLD_STORAGE_PROCEDURE.md - Procedura operativa
-- ANALISI_COMPLETA_SEEDGEN_v14.txt - Analisi matematica completa
-
 ## Verifica integrità
 
 Hash SHA-256 del programma:
+
 fd2459f18c8115cfcfa30e13617f10afb1be17fc827cfbb29f3b7e79aa124d5e
+
+Per verificare:
+sha256sum seedgen_simulazione_sicuro.py
+
+## Struttura del progetto
+
+| File | Contenuto |
+|------|-----------|
+| seedgen_simulazione_sicuro.py | Programma principale |
+| bip39_wordlist.txt | Wordlist BIP39 ufficiale (2048 parole) |
+| diceware_wordlist.txt | Wordlist Diceware EFF (7776 parole) |
+| THREAT_MODEL.md | Modello delle minacce dettagliato |
+| AUDIT_SEEDGEN.md | Guida per l'audit indipendente |
+| COLD_STORAGE_PROCEDURE.md | Procedura operativa per cold storage |
+| ANALISI_COMPLETA_SEEDGEN_v14.txt | Analisi matematica completa |
+
+## Documentazione tecnica
+
+- THREAT_MODEL.md: Analisi delle minacce e contromisure adottate
+- AUDIT_SEEDGEN.md: Procedura passo-passo per verificare il codice e le wordlist
+- COLD_STORAGE_PROCEDURE.md: Procedura operativa per usare SeedGen in cold storage
+- ANALISI_COMPLETA_SEEDGEN_v14.txt: Analisi matematica completa con calcolo entropia, dimostrazione uniformità, verifica rejection sampling, test vector BIP39
+
+## Sicurezza operativa
+
+### Cosa fare
+- Usare solo su sistema air-gapped
+- Verificare sempre gli hash SHA-256
+- Trascrivere il seed su supporto fisico
+- Distruggere l'ambiente dopo l'uso
+
+### Cosa NON fare
+- Non usare su sistemi connessi a rete
+- Non salvare il seed su dispositivi elettronici
+- Non fotografare il seed
+- Non modificare le wordlist senza verifica
 
 ## Licenza
 
 MIT - vedi file LICENSE
 
-## Contributi
+## Verifica finale
 
-Pull request e audit indipendenti sono benvenuti.
+Prima di usare SeedGen per fondi reali:
+1. Verifica gli hash SHA-256
+2. Fai un audit completo del codice
+3. Testa con importi minimi
+4. Verifica i test vector BIP39
+5. Leggi tutta la documentazione
+
+**Non usare per fondi reali senza aver completato tutti i passaggi di verifica.**
