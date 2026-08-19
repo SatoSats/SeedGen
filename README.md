@@ -65,21 +65,29 @@ Prima di ogni generazione, il programma verifica l'hash SHA-256 delle wordlist p
 
 ## Installazione
 
+```bash
 git clone https://github.com/SatoSats/SeedGen.git
 cd SeedGen
+```
 
 ## Utilizzo
 
+```bash
 python3 seedgen_simulazione_sicuro.py
+```
 
 ## Verifica integrità
 
 Hash SHA-256 del programma:
 
+```
 df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
+```
 
 Per verificare:
+```bash
 sha256sum seedgen_simulazione_sicuro.py
+```
 
 ## Struttura del progetto
 
@@ -139,22 +147,32 @@ Impronta: EA83 1AF9 D252 F9E4 43EE 6A1D ECD3 0979 3F79 E833
 
 ### Importare la chiave pubblica
 
+```bash
 gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F79E833
+```
 
 Oppure scaricare il file chiave_pubblica_gpg.asc e importarlo:
 
+```bash
 gpg --import chiave_pubblica_gpg.asc
+```
 
 ### Verificare la firma del programma
 
+```bash
 gpg --verify seedgen_simulazione_sicuro.py.asc seedgen_simulazione_sicuro.py
+```
 
 ### Verificare hash SHA-256
 
+```bash
 sha256sum seedgen_simulazione_sicuro.py
+```
 
 L'hash deve corrispondere a:
+```
 df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
+```
 
 
 ## Requisiti di Sicurezza ed Esecuzione
@@ -186,15 +204,23 @@ Scarica il binario e i file di verifica:
 - seedgen-v14-linux-x86_64.asc
 
 ### Verifica SHA-256
+```bash
 sha256sum -c seedgen-v14-linux-x86_64.sha256
+```
 
 ### Verifica Firma GPG
+```bash
 gpg --import chiave_pubblica_gpg.asc
+```
+```bash
 gpg --verify seedgen-v14-linux-x86_64.asc seedgen-v14-linux-x86_64
+```
 
 ### Esecuzione
+```bash
 chmod +x seedgen-v14-linux-x86_64
 ./seedgen-v14-linux-x86_64
+```
 
 Nota: eseguire dalla cartella con le wordlist.
 
@@ -212,22 +238,32 @@ Scarica dalla release v14:
 ### Verifica
 
 Importa la chiave pubblica GPG:
+```bash
 gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F79E833
+```
 
 Verifica la firma dell'archivio:
+```bash
 gpg --verify seedgen-v14-linux-x86_64.tar.gz.asc seedgen-v14-linux-x86_64.tar.gz
+```
 
 Verifica hash SHA-256:
+```bash
 sha256sum seedgen-v14-linux-x86_64.tar.gz
+```
 
 Hash atteso:
+```
 c2b74cc300b84b834d8b70186ce3d815f344ac9052d68c70efbc1d84b74a61aa
+```
 
 ### Installazione
 
+```bash
 tar -xzvf seedgen-v14-linux-x86_64.tar.gz
 cd dist
 ./seedgen-v14-linux-x86_64
+```
 
 Oppure usa il file SeedGen.desktop per avviare il programma con un click.
 
