@@ -1,6 +1,6 @@
 # Guida all'uso di SeedGen su Tails OS
 
-Questa guida spiega come usare SeedGen v14 in modo sicuro su Tails OS (Live USB).
+Questa guida spiega come usare SeedGen v15 in modo sicuro su Tails OS (Live USB).
 
 ## Principio di sicurezza
 
@@ -10,17 +10,17 @@ Tails esegue tutto in RAM e riduce significativamente il rischio di persistenza 
 
 ### 1. Scarica e verifica
 
-Scarica dalla release v14:
-- seedgen-v14-linux-x86_64.tar.gz
-- seedgen-v14-linux-x86_64.tar.gz.asc
+Scarica dalla release v15:
+- seedgen-v15-linux-x86_64.tar.gz
+- seedgen-v15-linux-x86_64.tar.gz.asc
 
 Verifica la firma GPG:
 
-gpg --verify seedgen-v14-linux-x86_64.tar.gz.asc seedgen-v14-linux-x86_64.tar.gz
+gpg --verify seedgen-v15-linux-x86_64.tar.gz.asc seedgen-v15-linux-x86_64.tar.gz
 
 Verifica hash SHA-256:
 
-sha256sum seedgen-v14-linux-x86_64.tar.gz
+sha256sum seedgen-v15-linux-x86_64.tar.gz
 
 Hash atteso:
 
@@ -57,7 +57,7 @@ Opzione A: Interfaccia grafica
 Opzione B: Terminale
 
 cd /media/amnesia/NOME_USB/dist
-./seedgen-v14-linux-x86_64
+./seedgen-v15-linux-x86_64
 
 ### 6. Genera il seed
 

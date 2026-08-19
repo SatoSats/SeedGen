@@ -1,4 +1,4 @@
-# SeedGen v14
+# SeedGen v15
 
 > **DISCLAIMER:** SeedGen è un progetto open-source fornito senza garanzie di alcun tipo. L'utente è l'unico responsabile della sicurezza dei propri fondi. Usa a tuo rischio.
 
@@ -180,7 +180,7 @@ df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
 
 ## Requisiti di Sicurezza ed Esecuzione
 
-Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v14** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
+Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v15** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
 
 ### 1. Ambiente Consigliato
 
@@ -202,13 +202,13 @@ Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema ope
 
 ### Download
 Scarica il binario e i file di verifica:
-- seedgen-v14-linux-x86_64 (7.2 MB)
-- seedgen-v14-linux-x86_64.sha256
-- seedgen-v14-linux-x86_64.asc
+- seedgen-v15-linux-x86_64 (7.2 MB)
+- seedgen-v15-linux-x86_64.sha256
+- seedgen-v15-linux-x86_64.asc
 
 ### Verifica SHA-256
 ```bash
-sha256sum -c seedgen-v14-linux-x86_64.sha256
+sha256sum -c seedgen-v15-linux-x86_64.sha256
 ```
 
 ### Verifica Firma GPG
@@ -216,13 +216,13 @@ sha256sum -c seedgen-v14-linux-x86_64.sha256
 gpg --import chiave_pubblica_gpg.asc
 ```
 ```bash
-gpg --verify seedgen-v14-linux-x86_64.asc seedgen-v14-linux-x86_64
+gpg --verify seedgen-v15-linux-x86_64.asc seedgen-v15-linux-x86_64
 ```
 
 ### Esecuzione
 ```bash
-chmod +x seedgen-v14-linux-x86_64
-./seedgen-v14-linux-x86_64
+chmod +x seedgen-v15-linux-x86_64
+./seedgen-v15-linux-x86_64
 ```
 
 Nota: eseguire dalla cartella con le wordlist.
@@ -234,9 +234,9 @@ Per chi preferisce non eseguire lo script Python, è disponibile una build isola
 
 ### Download
 
-Scarica dalla release v14:
-- seedgen-v14-linux-x86_64.tar.gz
-- seedgen-v14-linux-x86_64.tar.gz.asc
+Scarica dalla release v15:
+- seedgen-v15-linux-x86_64.tar.gz
+- seedgen-v15-linux-x86_64.tar.gz.asc
 
 ### Verifica
 
@@ -247,12 +247,12 @@ gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F7
 
 Verifica la firma dell'archivio:
 ```bash
-gpg --verify seedgen-v14-linux-x86_64.tar.gz.asc seedgen-v14-linux-x86_64.tar.gz
+gpg --verify seedgen-v15-linux-x86_64.tar.gz.asc seedgen-v15-linux-x86_64.tar.gz
 ```
 
 Verifica hash SHA-256:
 ```bash
-sha256sum seedgen-v14-linux-x86_64.tar.gz
+sha256sum seedgen-v15-linux-x86_64.tar.gz
 ```
 
 Hash atteso:
@@ -263,9 +263,9 @@ c2b74cc300b84b834d8b70186ce3d815f344ac9052d68c70efbc1d84b74a61aa
 ### Installazione
 
 ```bash
-tar -xzvf seedgen-v14-linux-x86_64.tar.gz
+tar -xzvf seedgen-v15-linux-x86_64.tar.gz
 cd dist
-./seedgen-v14-linux-x86_64
+./seedgen-v15-linux-x86_64
 ```
 
 Oppure usa il file SeedGen.desktop per avviare il programma con un click.

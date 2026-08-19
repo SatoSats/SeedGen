@@ -1,4 +1,4 @@
-# SeedGen v14 - Specifica Tecnica
+# SeedGen v15 - Specifica Tecnica
 
 ## Panoramica
 SeedGen genera seed Bitcoin BIP39 e passphrase Diceware usando esclusivamente entropia fisica da lanci di dadi a 6 facce (D6).

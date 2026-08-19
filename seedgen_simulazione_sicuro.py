@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SeedGen v14 - Generatore BIP39 da entropia fisica D6
+SeedGen v15 - Generatore BIP39 da entropia fisica D6
 Air-Gapped - Rejection Sampling - Verifica BIP39 completa
 Correzioni matematiche integrate
 """
@@ -739,7 +739,7 @@ class SeedGenApp:
         print(self.box_line(bold(green('███████║███████╗███████╗██████╔╝╚██████╔╝███████╗██║ ╚████║'))))
         print(self.box_line(bold(green('╚══════╝╚══════╝╚══════╝╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═══╝'))))
         print(self.box_line(''))
-        print(self.box_line(yellow('Generatore Sicuro Seed Bitcoin BIP39 v14')))
+        print(self.box_line(yellow('Generatore Sicuro Seed Bitcoin BIP39 v15')))
         print(self.box_line(yellow('Rejection Sampling - Air-Gapped')))
         print(self.box_bottom())
         print()
