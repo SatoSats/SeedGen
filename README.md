@@ -91,14 +91,14 @@ sha256sum seedgen_simulazione_sicuro.py
 | THREAT_MODEL.md | Modello delle minacce dettagliato |
 | AUDIT_SEEDGEN.md | Guida per l'audit indipendente |
 | COLD_STORAGE_PROCEDURE.md | Procedura operativa per cold storage |
-| ANALISI_COMPLETA_SEEDGEN_v14.txt | Analisi matematica completa |
+| SPECIFICATION.md | Analisi matematica completa |
 
 ## Documentazione tecnica
 
 - THREAT_MODEL.md: Analisi delle minacce e contromisure adottate
 - AUDIT_SEEDGEN.md: Procedura passo-passo per verificare il codice e le wordlist
 - COLD_STORAGE_PROCEDURE.md: Procedura operativa per usare SeedGen in cold storage
-- ANALISI_COMPLETA_SEEDGEN_v14.txt: Analisi matematica completa con calcolo entropia, dimostrazione uniformità, verifica rejection sampling, test vector BIP39
+- SPECIFICATION.md: Analisi matematica completa con calcolo entropia, dimostrazione uniformità, verifica rejection sampling, test vector BIP39
 
 ## Sicurezza operativa
 
