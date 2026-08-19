@@ -230,3 +230,10 @@ cd dist
 ./seedgen-v14-linux-x86_64
 
 Oppure usa il file SeedGen.desktop per avviare il programma con un click.
+
+
+## Utilizzo su Tails OS
+
+Per usare SeedGen in modo sicuro su Tails OS (Live USB air-gapped), segui la guida completa:
+
+Vedi TAILS_GUIDE.md
