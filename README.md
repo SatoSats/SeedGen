@@ -4,7 +4,7 @@ Generatore air-gapped di seed Bitcoin BIP39 e passphrase Diceware con entropia f
 
 ## Perché SeedGen?
 
-La sicurezza di un wallet Bitcoin dipende interamente dalla qualità della entropia usata per generare il seed. I generatori software usano RNG di sistema che potrebbero essere compromessi, manipolati o semplicemente deboli. SeedGen elimina questo rischio usando **solo entropia fisica da dadi**.
+La sicurezza di un wallet Bitcoin dipende interamente dalla qualità dell'entropia usata per generare il seed. I generatori software usano RNG di sistema che potrebbero essere compromessi, manipolati o semplicemente deboli. SeedGen elimina questo rischio usando **solo entropia fisica da dadi**.
 
 ## Principi di progettazione
 
@@ -155,3 +155,22 @@ sha256sum seedgen_simulazione_sicuro.py
 
 L'hash deve corrispondere a:
 fd2459f18c8115cfcfa30e13617f10afb1be17fc827cfbb29f3b7e79aa124d5e
+
+
+## Requisiti di Sicurezza ed Esecuzione
+
+Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v14** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
+
+### 1. Ambiente Consigliato
+
+- **Tails OS (Live USB):** Avvia il PC tramite Tails in modalità offline. Tails esegue lo script totalmente in RAM e la cancella all'arresto.
+- **Zero Swap:** L'assenza di dischi rigidi montati impedisce la scrittura temporanea dell'entropia su disco.
+
+### 2. Prevenzione Bias Fisico
+
+- Il Rejection Sampling elimina il *modulo bias* matematico.
+- Utilizza sempre dadi di precisione/casinò per evitare bias meccanici della plastica.
+
+### 3. Roadmap Futura
+
+È in fase di valutazione il porting della logica di Rejection Sampling su microcontrollori dedicati (Rust/C++ su Raspberry Pi Pico) per realizzare un generatore hardware indipendente privo di sistema operativo.
