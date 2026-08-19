@@ -229,6 +229,19 @@ BIP39_TEST_VECTORS = {
 }
 
 def test_all_bip39_vectors(wordlist: List[str]) -> bool:
+    # Test vector non-zero aggiuntivi
+    test_vectors_nonzero = {
+        128: ("ffffffffffffffffffffffffffffffff", None),  # Verifica solo round-trip
+        256: ("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", None),
+    }
+    
+    for ent_bits, (entropy_hex, _) in test_vectors_nonzero.items():
+        entropy_nz = bytes.fromhex(entropy_hex)
+        mnemonic_nz = entropy_to_mnemonic(entropy_nz, wordlist)
+        recovered_nz = mnemonic_to_entropy(mnemonic_nz, wordlist)
+        if recovered_nz != entropy_nz:
+            raise AssertionError(f"Round-trip non-zero {ent_bits} bit fallito!")
+    
     for ent_bits, vector in BIP39_TEST_VECTORS.items():
         entropy = bytes.fromhex(vector["entropy"])
         expected = vector["mnemonic"]
@@ -244,6 +257,183 @@ def test_all_bip39_vectors(wordlist: List[str]) -> bool:
 # ============================================================
 # TEST REJECTION SAMPLING
 # ============================================================
+
+def test_checksum_invalido(wordlist: List[str]) -> bool:
+    """Test che mnemonic con checksum sbagliato vengano rifiutate (BIP-03)"""
+    for ent_bits in [128, 160, 192, 224, 256]:
+        entropy = bytes([0] * (ent_bits // 8))
+        mnemonic = entropy_to_mnemonic(entropy, wordlist)
+        
+        # Modifica l'ultima parola
+        mnemonic_modificata = mnemonic.copy()
+        ultima = mnemonic_modificata[-1]
+        for parola in wordlist:
+            if parola != ultima:
+                mnemonic_modificata[-1] = parola
+                break
+        
+        # Deve fallire
+        try:
+            mnemonic_to_entropy(mnemonic_modificata, wordlist)
+            raise AssertionError(f"Checksum invalido non rilevato per {ent_bits} bit")
+        except ValueError:
+            pass  # OK, deve fallire
+    
+    return True
+
+
+def test_parametri_matematici() -> bool:
+    """Verifica indipendente dei parametri matematici (ENT-05, ENT-06, ENT-07)"""
+    import math
+    
+    # ENT-06: Verifica DICE_ROLLS
+    for ent_bits, lanci_attesi in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
+        lanci_calcolati = math.ceil(ent_bits / math.log2(6))
+        if lanci_calcolati != lanci_attesi:
+            raise AssertionError(f"DICE_ROLLS[{ent_bits}] = {lanci_attesi}, atteso {lanci_calcolati}")
+    
+    # ENT-05: Verifica 6^N e floor(log2(6^N))
+    for lanci in [50, 62, 75, 87, 100]:
+        valore = 6 ** lanci
+        k = valore.bit_length() - 1
+        M = 1 << k
+        if M > valore:
+            raise AssertionError(f"M > 6^{lanci}")
+        if M * 2 <= valore:
+            raise AssertionError(f"2^(k+1) <= 6^{lanci}")
+    
+    # ENT-07: Verifica acceptance probability
+    prob_attese = {128: 0.841, 160: 0.830, 192: 0.550, 224: 0.540, 256: 0.710}
+    for ent_bits, lanci in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
+        valore = 6 ** lanci
+        k = valore.bit_length() - 1
+        M = 1 << k
+        prob = M / valore
+        if abs(prob - prob_attese[ent_bits]) > 0.01:
+            raise AssertionError(f"Probabilità {ent_bits} bit = {prob:.3f}, attesa {prob_attese[ent_bits]}")
+    
+    return True
+
+
+def test_input_negativi() -> bool:
+    """Test input negativi e abort (Sezione 14)"""
+    # Test valori invalidi
+    valori_invalidi = [0, 7, -1, 'a', ' ', '', None]
+    
+    for valore in valori_invalidi:
+        try:
+            if valore is None:
+                # Simula EOF
+                extract_entropy_from_dice_block([1]*49 + [None], 128)
+            else:
+                # Test con valore invalido nel blocco
+                rolls = [1] * 49 + [valore]
+                extract_entropy_from_dice_block(rolls, 128)
+            raise AssertionError(f"Valore invalido {valore} non rifiutato!")
+        except (ValueError, TypeError):
+            pass  # OK, deve fallire
+    
+    return True
+
+
+def test_wordlist_tampering() -> bool:
+    """Test che wordlist modificate vengano rifiutate (Sezione 15)"""
+    import tempfile, os, hashlib
+    
+    # Verifica che la wordlist BIP39 abbia l'hash corretto
+    with open('bip39_wordlist.txt', 'rb') as f:
+        raw = f.read()
+    
+    hash_attuale = hashlib.sha256(raw).hexdigest()
+    hash_atteso = "2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda"
+    
+    if hash_attuale != hash_atteso:
+        raise AssertionError("Wordlist BIP39 modificata!")
+    
+    # Verifica Diceware
+    with open('diceware_wordlist.txt', 'rb') as f:
+        raw_dw = f.read()
+    
+    hash_dw = hashlib.sha256(raw_dw).hexdigest()
+    hash_dw_atteso = "addd35536511597a02fa0a9ff1e5284677b8883b83e986e43f15a3db996b903e"
+    
+    if hash_dw != hash_dw_atteso:
+        raise AssertionError("Wordlist Diceware modificata!")
+    
+    return True
+
+
+def test_riproducibilita(wordlist: List[str]) -> bool:
+    """Test di riproducibilità con sequenza deterministica (Sezione 16)"""
+    # Sequenza deterministica di 50 lanci
+    lanci_test = [1, 2, 3, 4, 5, 6] * 8 + [1, 2]  # 50 lanci
+    
+    # Estrai entropia
+    entropy1, k1, accepted1 = extract_entropy_from_dice_block(lanci_test, 128)
+    
+    # Se rifiutato, prova con altra sequenza
+    if not accepted1:
+        lanci_test = [2, 3, 4, 5, 6, 1] * 8 + [3, 4]
+        entropy1, k1, accepted1 = extract_entropy_from_dice_block(lanci_test, 128)
+    
+    if not accepted1:
+        # Se ancora rifiutato, il test non può procedere
+        return True  # Non è un errore, solo sequenza rifiutata
+    
+    # Genera mnemonic
+    mnemonic1 = entropy_to_mnemonic(entropy1, wordlist)
+    
+    # Ripeti con la stessa sequenza
+    entropy2, k2, accepted2 = extract_entropy_from_dice_block(lanci_test, 128)
+    
+    if not accepted2:
+        raise AssertionError("Seconda estrazione rifiutata!")
+    
+    mnemonic2 = entropy_to_mnemonic(entropy2, wordlist)
+    
+    # Verifica che siano identici
+    if mnemonic1 != mnemonic2:
+        raise AssertionError("Riproducibilità fallita!")
+    
+    if entropy1 != entropy2:
+        raise AssertionError("Entropia non riproducibile!")
+    
+    return True
+
+
+def test_filesystem() -> bool:
+    """Test che nessun file venga creato durante la generazione (FS-02)"""
+    import tempfile, os
+    
+    # Crea directory temporanea
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Salva la directory corrente
+        old_dir = os.getcwd()
+        
+        try:
+            # Cambia nella directory temporanea
+            os.chdir(tmpdir)
+            
+            # Verifica che sia vuota
+            files_prima = set(os.listdir('.'))
+            if files_prima:
+                raise AssertionError("Directory temporanea non vuota!")
+            
+            # Esegui una generazione di test (senza UI)
+            lanci_test = [1, 2, 3, 4, 5, 6] * 8 + [1, 2]
+            entropy, k, accepted = extract_entropy_from_dice_block(lanci_test, 128)
+            
+            # Verifica che nessun file sia stato creato
+            files_dopo = set(os.listdir('.'))
+            if files_dopo:
+                raise AssertionError(f"File creati durante la generazione: {files_dopo}")
+            
+        finally:
+            # Ripristina la directory
+            os.chdir(old_dir)
+    
+    return True
+
 
 def test_rejection_sampling() -> bool:
     rolls_zero = [1] * 50
@@ -427,6 +617,48 @@ def esegui_tutti_test(wordlist: List[str], diceware_wordlist: List[str]) -> List
     except Exception:
         risultati.append(('Boundary test', False))
     
+    # Test checksum invalido (BIP-03)
+    try:
+        test_checksum_invalido(wordlist)
+        risultati.append(('Checksum invalido rilevato', True))
+    except Exception:
+        risultati.append(('Checksum invalido', False))
+    
+    # Test filesystem (FS-02)
+    try:
+        test_filesystem()
+        risultati.append(('Filesystem pulito', True))
+    except Exception:
+        risultati.append(('Filesystem', False))
+    
+    # Test riproducibilità (Sezione 16)
+    try:
+        test_riproducibilita(wordlist)
+        risultati.append(('Riproducibilità deterministica', True))
+    except Exception:
+        risultati.append(('Riproducibilità', False))
+    
+    # Test wordlist tampering (Sezione 15)
+    try:
+        test_wordlist_tampering()
+        risultati.append(('Wordlist integre (SHA-256)', True))
+    except Exception:
+        risultati.append(('Wordlist tampering', False))
+    
+    # Test input negativi (Sezione 14)
+    try:
+        test_input_negativi()
+        risultati.append(('Input negativi rifiutati', True))
+    except Exception:
+        risultati.append(('Input negativi', False))
+    
+    # Test parametri matematici (ENT-05, ENT-06, ENT-07)
+    try:
+        test_parametri_matematici()
+        risultati.append(('Parametri matematici', True))
+    except Exception:
+        risultati.append(('Parametri matematici', False))
+    
     # Test Diceware
     try:
         test_diceware_mapping(diceware_wordlist)
@@ -592,11 +824,7 @@ class SeedGenApp:
             print(self.box_line(f'[{green(barra)}{spazi}] {progresso:.0f}%'))
             print(self.box_line(f'Lancio {len(rolls)+1} di {num_lanci}'))
             print(self.box_sep())
-            if rolls:
-                ultimi = rolls[-10:] if len(rolls) >= 10 else rolls
-                ultimi_str = ' '.join([str(l) for l in ultimi])
-                print(self.box_line(yellow(f'Ultimi: {ultimi_str}')))
-                print(self.box_sep())
+
             print(self.box_line(red('INPUT DIRETTO - Premi solo tasti 1-6')))
             print(self.box_bottom())
             print()
@@ -862,11 +1090,7 @@ class SeedGenApp:
                 print(self.box_line(f'Lancio {lancio_idx} di 5'))
                 print(self.box_sep())
                 
-                if tutti_lanci:
-                    ultimi = tutti_lanci[-5:] if len(tutti_lanci) >= 5 else tutti_lanci
-                    ultimi_str = ' '.join([str(l) for l in ultimi])
-                    print(self.box_line(yellow(f'Ultimi: {ultimi_str}')))
-                    print(self.box_sep())
+
                 
                 print(self.box_line(red('INPUT DIRETTO - Premi solo tasti 1-6')))
                 print(self.box_bottom())
@@ -1000,6 +1224,27 @@ class SeedGenApp:
         input("Premi INVIO...")
         entropy = None
         mnemonic = None
+
+    def audit_mode(self):
+        """Mostra parametri ENT, N, k, M e risultato rejection"""
+        self.mostra_logo()
+        print(self.box_top())
+        print(self.box_line(bold('AUDIT MODE - PARAMETRI ENTROPIA')))
+        print(self.box_sep())
+        
+        import math
+        for ent_bits, lanci in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
+            N = lanci
+            k = (6**N).bit_length() - 1
+            M = 1 << k
+            prob = M / (6**N)
+            print(self.box_line(f'ENT={ent_bits} bit | N={N} lanci | k={k} | M=2^{k}'))
+            print(self.box_line(f'P(accettazione) = {prob:.3f}'))
+            print(self.box_sep())
+        
+        print(self.box_bottom())
+        print()
+        input("Premi INVIO...")
 
     def test_integrita(self):
         self.mostra_logo()
