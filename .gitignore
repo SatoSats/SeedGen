@@ -1,11 +1,23 @@
-# Backup
+# Backup locali
 backup/
 BACKUP_*/
+backup_completo_*/
 
-# File locali Linux
-*.desktop
-avvia_seedgen.sh
+# Cache Python
+__pycache__/
+*.pyc
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Build binarie (caricate solo come Release Assets)
+seedgen-v14-linux-x86_64
+seedgen-v14-linux-x86_64.asc
+seedgen-v14-linux-x86_64.sha256
 
 # File temporanei
-SEEDGEN_v13_RIEPILOGO.md
-*.save
+*.log
+*.tmp
+.DS_Store

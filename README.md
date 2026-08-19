@@ -174,3 +174,59 @@ Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema ope
 ### 3. Roadmap Futura
 
 È in fase di valutazione il porting della logica di Rejection Sampling su microcontrollori dedicati (Rust/C++ su Raspberry Pi Pico) per realizzare un generatore hardware indipendente privo di sistema operativo.
+
+---
+
+## Verifica del Binario (Linux x86_64)
+
+### Download
+Scarica il binario e i file di verifica:
+- seedgen-v14-linux-x86_64 (7.2 MB)
+- seedgen-v14-linux-x86_64.sha256
+- seedgen-v14-linux-x86_64.asc
+
+### Verifica SHA-256
+sha256sum -c seedgen-v14-linux-x86_64.sha256
+
+### Verifica Firma GPG
+gpg --import chiave_pubblica_gpg.asc
+gpg --verify seedgen-v14-linux-x86_64.asc seedgen-v14-linux-x86_64
+
+### Esecuzione
+chmod +x seedgen-v14-linux-x86_64
+./seedgen-v14-linux-x86_64
+
+Nota: eseguire dalla cartella con le wordlist.
+
+
+## Build Binaria (Linux x86_64)
+
+Per chi preferisce non eseguire lo script Python, è disponibile una build isolata pronta all'uso.
+
+### Download
+
+Scarica dalla release v14:
+- seedgen-v14-linux-x86_64.tar.gz
+- seedgen-v14-linux-x86_64.tar.gz.asc
+
+### Verifica
+
+Importa la chiave pubblica GPG:
+gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F79E833
+
+Verifica la firma dell'archivio:
+gpg --verify seedgen-v14-linux-x86_64.tar.gz.asc seedgen-v14-linux-x86_64.tar.gz
+
+Verifica hash SHA-256:
+sha256sum seedgen-v14-linux-x86_64.tar.gz
+
+Hash atteso:
+c2b74cc300b84b834d8b70186ce3d815f344ac9052d68c70efbc1d84b74a61aa
+
+### Installazione
+
+tar -xzvf seedgen-v14-linux-x86_64.tar.gz
+cd dist
+./seedgen-v14-linux-x86_64
+
+Oppure usa il file SeedGen.desktop per avviare il programma con un click.
