@@ -1,0 +1,10 @@
+# Backup
+backup/
+BACKUP_*/
+
+# File locali Linux
+*.desktop
+avvia_seedgen.sh
+
+# File temporanei
+SEEDGEN_v13_RIEPILOGO.md
