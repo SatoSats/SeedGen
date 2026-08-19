@@ -128,3 +128,30 @@ Prima di usare SeedGen per fondi reali:
 5. Leggi tutta la documentazione
 
 **Non usare per fondi reali senza aver completato tutti i passaggi di verifica.**
+
+
+## Verifica con firma GPG
+
+### Chiave pubblica
+
+ID chiave: EA831AF9D252F9E443EE6A1DECD309793F79E833
+Impronta: EA83 1AF9 D252 F9E4 43EE 6A1D ECD3 0979 3F79 E833
+
+### Importare la chiave pubblica
+
+gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F79E833
+
+Oppure scaricare il file chiave_pubblica_gpg.asc e importarlo:
+
+gpg --import chiave_pubblica_gpg.asc
+
+### Verificare la firma del programma
+
+gpg --verify seedgen_simulazione_sicuro.py.asc seedgen_simulazione_sicuro.py
+
+### Verificare hash SHA-256
+
+sha256sum seedgen_simulazione_sicuro.py
+
+L'hash deve corrispondere a:
+fd2459f18c8115cfcfa30e13617f10afb1be17fc827cfbb29f3b7e79aa124d5e
