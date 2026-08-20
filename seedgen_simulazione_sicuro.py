@@ -22,7 +22,10 @@ import tty
 # ============================================================
 
 ENTROPY_BITS = {12: 128, 15: 160, 18: 192, 21: 224, 24: 256}
-DICE_ROLLS = {128: 50, 160: 62, 192: 75, 224: 87, 256: 100}
+def dice_rolls_needed(entropy_bits: int) -> int:
+    """Calcola automaticamente il numero minimo di lanci necessari"""
+    return math.ceil(entropy_bits / math.log2(6))
+
 
 # Hash SHA-256 della wordlist BIP39 inglese ufficiale
 OFFICIAL_ENGLISH_WORDLIST_SHA256 = "2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda"
@@ -285,11 +288,11 @@ def test_parametri_matematici() -> bool:
     """Verifica indipendente dei parametri matematici (ENT-05, ENT-06, ENT-07)"""
     import math
     
-    # ENT-06: Verifica DICE_ROLLS
+    # ENT-06: Verifica dice_rolls_needed(entropy_bits)
     for ent_bits, lanci_attesi in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
         lanci_calcolati = math.ceil(ent_bits / math.log2(6))
         if lanci_calcolati != lanci_attesi:
-            raise AssertionError(f"DICE_ROLLS[{ent_bits}] = {lanci_attesi}, atteso {lanci_calcolati}")
+            raise AssertionError(f"dice_rolls_needed(entropy_bits)[{ent_bits}] = {lanci_attesi}, atteso {lanci_calcolati}")
     
     # ENT-05: Verifica 6^N e floor(log2(6^N))
     for lanci in [50, 62, 75, 87, 100]:
@@ -597,8 +600,7 @@ def test_diceware_completo() -> bool:
     
     return True
 
-def dice_rolls_needed(entropy_bits: int) -> int:
-    return DICE_ROLLS[entropy_bits]
+
 
 def extract_entropy_from_dice_block(rolls: List[int], target_bits: int) -> Tuple[Optional[bytes], int, bool]:
     expected_rolls = dice_rolls_needed(target_bits)
