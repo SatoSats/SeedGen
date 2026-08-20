@@ -1294,43 +1294,36 @@ class SeedGenApp:
         print(self.box_top())
         print(self.box_line(bold('CONTROLLO INTEGRITÀ')))
         print(self.box_sep())
-        # Voci allineate a sinistra (struttura centrata)
-        voci_test = [
-            '[OK] Wordlist SHA-256 verificato',
-            '[OK] Prima parola: abandon',
-            '[OK] Ultima parola: zoo',
-            '[OK] Test vector BIP39',
-            '[OK] Nessun duplicato',
-            '[OK] 2048 parole',
-        ]
         
-        # Trova la voce più lunga
-        max_lunghezza = max([len(v) for v in voci_test]) if voci_test else 0
+        # Usa la STESSA pipeline run_all_self_tests()
+        diceware_wl = load_diceware_wordlist()
+        risultati = run_all_self_tests(self.wordlist, diceware_wl)
         
-        # Padding sinistro per centrare il blocco
-        padding_sinistro = (68 - max_lunghezza) // 2
+        tutti_ok = True
+        for nome, ok in risultati:
+            if ok:
+                print(self.box_line(green(f'[OK] {nome}')))
+            else:
+                print(self.box_line(red(f'[FAIL] {nome}')))
+                tutti_ok = False
         
-        for voce in voci_test:
-            padding_destro = 68 - padding_sinistro - len(voce)
-            print(cyan('║') + ' ' * padding_sinistro + green(voce) + ' ' * padding_destro + cyan('║'))
-        
-        try:
-            self_test_bip39(self.wordlist)
-        except Exception as e:
-            print(self.box_line(red('[FAIL] ' + str(e))))
+        print(self.box_sep())
+        if tutti_ok:
+            print(self.box_line(green('TUTTI I TEST SUPERATI ✓')))
+        else:
+            print(self.box_line(red('ALCUNI TEST FALLITI ✗')))
         print(self.box_bottom())
         print()
         input("Premi INVIO...")
 
     def run(self):
-        # Self-test completo all'avvio
+        # Self-test unificato (UNICA pipeline)
         try:
-            self_test_bip39(self.wordlist)
-            test_all_bip39_vectors(self.wordlist)
-            test_rejection_sampling()
             diceware_wl = load_diceware_wordlist()
-            test_diceware_mapping(diceware_wl)
-            test_diceware_completo()
+            risultati = run_all_self_tests(self.wordlist, diceware_wl)
+            for nome, ok in risultati:
+                if not ok:
+                    raise Exception(f"Test fallito: {nome}")
         except Exception as e:
             Terminal.clear()
             print(red("ERRORE CRITICO DURANTE SELF-TEST"))
