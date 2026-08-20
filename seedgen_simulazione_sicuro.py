@@ -541,17 +541,44 @@ def test_rejection_boundary() -> bool:
     return True
 
 def test_diceware_completo() -> bool:
-    """Verifica tutte le 7776 combinazioni Diceware"""
+    """Test COMPLETO: tutte le 7776 combinazioni Diceware"""
     # Verifica che 6^5 = 7776
     if 6**5 != 7776:
         raise AssertionError("6^5 dovrebbe essere 7776")
     
-    # Verifica che ogni indice da 1 a 7776 sia raggiungibile
-    # Test a campione: primo, ultimo, alcuni intermedi
-    test_indici = [1, 2, 100, 500, 1000, 2000, 3000, 4000, 5000, 7000, 7775, 7776]
+    # TEST COMPLETO 7776/7776
+    # Verifica che TUTTE le 7776 combinazioni producano indici unici 1-7776
+    risultati = set()
     
-    for indice_atteso in test_indici:
-        # Converti indice in 5 lanci (inverso della formula)
+    for d1 in range(1, 7):
+        for d2 in range(1, 7):
+            for d3 in range(1, 7):
+                for d4 in range(1, 7):
+                    for d5 in range(1, 7):
+                        # Formula Diceware
+                        indice = 0
+                        lanci = [d1, d2, d3, d4, d5]
+                        for i, lancio in enumerate(lanci):
+                            indice += (lancio - 1) * (6 ** (4 - i))
+                        indice += 1
+                        
+                        # Verifica range
+                        if indice < 1 or indice > 7776:
+                            raise AssertionError(f"Indice fuori range: {indice}")
+                        
+                        risultati.add(indice)
+    
+    # Verifica che ci siano ESATTAMENTE 7776 indici unici
+    if len(risultati) != 7776:
+        raise AssertionError(f"Trovati {len(risultati)} indici, attesi 7776")
+    
+    # Verifica che coprano 1..7776
+    if min(risultati) != 1 or max(risultati) != 7776:
+        raise AssertionError(f"Range errato: {min(risultati)}-{max(risultati)}")
+    
+    # Verifica bijectivity inversa: ogni indice 1-7776 è raggiungibile
+    for indice_atteso in range(1, 7777):
+        # Inverso: indice → lanci
         resto = indice_atteso - 1
         lanci = []
         for i in range(5):
@@ -567,7 +594,7 @@ def test_diceware_completo() -> bool:
         indice_calcolato += 1
         
         if indice_calcolato != indice_atteso:
-            raise AssertionError(f"Indice {indice_atteso} → {indice_calcolato}")
+            raise AssertionError(f"Bijectivity fallita: {indice_atteso} → {indice_calcolato}")
     
     return True
 
