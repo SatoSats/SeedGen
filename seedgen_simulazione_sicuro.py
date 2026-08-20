@@ -501,27 +501,42 @@ def analizza_distribuzione_lanci(rolls: List[int]) -> Tuple[bool, float]:
     
     return True, percentuale_max
 
+def encode_base6(value: int, N: int) -> List[int]:
+    """Converte un intero in lanci base-6 (valori 1-6)"""
+    rolls = []
+    for _ in range(N):
+        rolls.append((value % 6) + 1)
+        value //= 6
+    return list(reversed(rolls))
+
+
 def test_rejection_boundary() -> bool:
-    """Test boundary M-1, M, M+1 per il rejection sampling"""
-    # Per 50 lanci: 6^50, k = floor(log2(6^50)) = 129, M = 2^129
-    # M-1 = 2^129 - 1 → deve essere accettato
-    # M = 2^129 → deve essere rifiutato
-    # M+1 = 2^129 + 1 → deve essere rifiutato
-    
-    # Verifica che M = 2^129 sia il confine
-    k = (6**50).bit_length() - 1
-    M = 1 << k
-    
-    if k != 129:
-        raise AssertionError(f"k dovrebbe essere 129, ottenuto {k}")
-    
-    # Verifica che M-1 < M (accettato)
-    if M - 1 >= M:
-        raise AssertionError("M-1 dovrebbe essere < M")
-    
-    # Verifica che M+1 > M (rifiutato)
-    if M + 1 <= M:
-        raise AssertionError("M+1 dovrebbe essere > M")
+    """Test boundary REALE: M-1, M, M+1 attraverso la funzione production"""
+    # Test per ogni configurazione
+    for ent_bits, lanci_attesi in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
+        N = lanci_attesi
+        k = (6**N).bit_length() - 1
+        M = 1 << k
+        
+        # TEST M-1 → deve essere ACCETTATO
+        rolls_m_minus_1 = encode_base6(M - 1, N)
+        entropy, k_result, accepted = extract_entropy_from_dice_block(rolls_m_minus_1, ent_bits)
+        if not accepted:
+            raise AssertionError(f"M-1 dovrebbe essere ACCETTATO per {ent_bits} bit (X={M-1})")
+        if entropy is None:
+            raise AssertionError(f"M-1: entropy None per {ent_bits} bit")
+        
+        # TEST M → deve essere RIFIUTATO
+        rolls_m = encode_base6(M, N)
+        entropy_m, k_m, accepted_m = extract_entropy_from_dice_block(rolls_m, ent_bits)
+        if accepted_m:
+            raise AssertionError(f"M dovrebbe essere RIFIUTATO per {ent_bits} bit (X={M})")
+        
+        # TEST M+1 → deve essere RIFIUTATO
+        rolls_m_plus_1 = encode_base6(M + 1, N)
+        entropy_mp1, k_mp1, accepted_mp1 = extract_entropy_from_dice_block(rolls_m_plus_1, ent_bits)
+        if accepted_mp1:
+            raise AssertionError(f"M+1 dovrebbe essere RIFIUTATO per {ent_bits} bit (X={M+1})")
     
     return True
 
