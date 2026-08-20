@@ -761,16 +761,16 @@ class SeedGenApp:
             padding = 0
         sinistra = padding // 2
         destra = padding - sinistra
-        return cyan('║') + ' ' * sinistra + testo + ' ' * destra + cyan('║')
+        return ' ' * 21 + cyan('║') + ' ' * sinistra + testo + ' ' * destra + cyan('║')
 
     def box_top(self):
-        return cyan('╔' + '═' * 68 + '╗')
+        return ' ' * 21 + cyan('╔' + '═' * 68 + '╗')
 
     def box_bottom(self):
-        return cyan('╚' + '═' * 68 + '╝')
+        return ' ' * 21 + cyan('╚' + '═' * 68 + '╝')
 
     def box_sep(self):
-        return cyan('╠' + '═' * 68 + '╣')
+        return ' ' * 21 + cyan('╠' + '═' * 68 + '╣')
 
     def mostra_logo(self):
         Terminal.clear()
@@ -816,7 +816,7 @@ class SeedGenApp:
                 testo = numero + ' ' + descrizione
                 testo_pulito = re.sub(r'\033\[[0-9;]*m', '', testo)
                 padding = 68 - 3 - len(testo_pulito)
-                print(cyan('║') + '   ' + testo + ' ' * padding + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + testo + ' ' * padding + cyan('║'))
         print(self.box_line(''))
         print(self.box_bottom())
         print()
@@ -843,12 +843,12 @@ class SeedGenApp:
         # Opzione 1
         testo1 = green('[1]') + ' Ho capito, continua'
         padding1 = 68 - 3 - len('[1] Ho capito, continua')
-        print(cyan('║') + '   ' + testo1 + ' ' * padding1 + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo1 + ' ' * padding1 + cyan('║'))
         
         # Opzione 2
         testo2 = red('[0]') + ' Annulla'
         padding2 = 68 - 3 - len('[0] Annulla')
-        print(cyan('║') + '   ' + testo2 + ' ' * padding2 + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo2 + ' ' * padding2 + cyan('║'))
         
         print(self.box_line(''))
         print(self.box_bottom())
@@ -904,11 +904,11 @@ class SeedGenApp:
         print(self.box_line(''))
         testo1b = green('[1]') + ' Inizia blocco'
         padding1b = 68 - 3 - len('[1] Inizia blocco')
-        print(cyan('║') + '   ' + testo1b + ' ' * padding1b + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo1b + ' ' * padding1b + cyan('║'))
         
         testo2b = red('[0]') + ' Annulla'
         padding2b = 68 - 3 - len('[0] Annulla')
-        print(cyan('║') + '   ' + testo2b + ' ' * padding2b + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo2b + ' ' * padding2b + cyan('║'))
         print(self.box_line(''))
         print(self.box_bottom())
         print()
@@ -936,15 +936,15 @@ class SeedGenApp:
                 
                 testo1 = green('[1]') + ' Rifai tutti i lanci'
                 padding1 = 68 - 3 - len('[1] Rifai tutti i lanci')
-                print(cyan('║') + '   ' + testo1 + ' ' * padding1 + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + testo1 + ' ' * padding1 + cyan('║'))
                 
                 testo2 = yellow('[2]') + ' Procedi comunque (sotto mia responsabilità)'
                 padding2 = 68 - 3 - len('[2] Procedi comunque (sotto mia responsabilità)')
-                print(cyan('║') + '   ' + testo2 + ' ' * padding2 + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + testo2 + ' ' * padding2 + cyan('║'))
                 
                 testo3 = red('[0]') + ' Annulla e torna al menu'
                 padding3 = 68 - 3 - len('[0] Annulla e torna al menu')
-                print(cyan('║') + '   ' + testo3 + ' ' * padding3 + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + testo3 + ' ' * padding3 + cyan('║'))
                 
                 print(self.box_line(''))
                 print(self.box_bottom())
@@ -968,8 +968,8 @@ class SeedGenApp:
                 print(self.box_line(red('TUTTI I LANCI VENGONO SCARTATI')))
                 print(self.box_sep())
                 print(self.box_line(''))
-                print(cyan('║') + '   ' + green('[1]') + ' Nuovo blocco' + ' ' * 47 + cyan('║'))
-                print(cyan('║') + '   ' + red('[0]') + ' Annulla' + ' ' * 52 + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + green('[1]') + ' Nuovo blocco' + ' ' * 47 + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + red('[0]') + ' Annulla' + ' ' * 52 + cyan('║'))
                 print(self.box_line(''))
                 print(self.box_bottom())
                 print()
@@ -1022,14 +1022,14 @@ class SeedGenApp:
         # Opzione dentro la cornice
         testo_invio = green('[INVIO]') + ' Visualizza la seed'
         padding_invio = 68 - 3 - len('[INVIO] Visualizza la seed')
-        print(cyan('║') + '   ' + testo_invio + ' ' * padding_invio + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo_invio + ' ' * padding_invio + cyan('║'))
         
         print(self.box_line(''))
         print(self.box_bottom())
         print()
         
-        # Attende INVIO
-        input()
+        # Attende SOLO INVIO (blocca altri tasti)
+        Terminal.wait_key(['\r', '\n', ' '])
     
     def mostra_risultato(self, mnemonic, ent_bits):
         # Mostra prima la schermata di conferma
@@ -1059,7 +1059,7 @@ class SeedGenApp:
         for riga in righe_seed:
             padding = 68 - max_lunghezza
             sinistra = padding // 2
-            print(cyan('║') + ' ' * sinistra + green(riga) + ' ' * (68 - sinistra - len(riga)) + cyan('║'))
+            print(' ' * 21 + cyan('║') + ' ' * sinistra + green(riga) + ' ' * (68 - sinistra - len(riga)) + cyan('║'))
         
         print(self.box_sep())
         print(self.box_line(green('✓ Checksum BIP39 verificato')))
@@ -1067,7 +1067,7 @@ class SeedGenApp:
         print(self.box_line(''))
         testo1d = green('[1]') + ' Torna al menu'
         padding1d = 68 - 3 - len('[1] Torna al menu')
-        print(cyan('║') + '   ' + testo1d + ' ' * padding1d + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo1d + ' ' * padding1d + cyan('║'))
         print(self.box_line(''))
         print(self.box_bottom())
         print()
@@ -1101,7 +1101,7 @@ class SeedGenApp:
                 testo = numero + ' ' + descrizione
                 testo_pulito = re.sub(r'\033\[[0-9;]*m', '', testo)
                 padding = 68 - 3 - len(testo_pulito)
-                print(cyan('║') + '   ' + testo + ' ' * padding + cyan('║'))
+                print(' ' * 21 + cyan('║') + '   ' + testo + ' ' * padding + cyan('║'))
         
         print(self.box_line(''))
         print(self.box_bottom())
@@ -1181,14 +1181,14 @@ class SeedGenApp:
         # Opzione dentro la cornice
         testo_invio2 = green('[INVIO]') + ' Visualizza la passphrase'
         padding_invio2 = 68 - 3 - len('[INVIO] Visualizza la passphrase')
-        print(cyan('║') + '   ' + testo_invio2 + ' ' * padding_invio2 + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo_invio2 + ' ' * padding_invio2 + cyan('║'))
         
         print(self.box_line(''))
         print(self.box_bottom())
         print()
         
-        # Attende INVIO
-        input()
+        # Attende SOLO INVIO (blocca altri tasti)
+        Terminal.wait_key(['\r', '\n', ' '])
         
         # Mostra passphrase
         self.mostra_logo()
@@ -1229,7 +1229,7 @@ class SeedGenApp:
             spazi_dx = 68 - padding_sinistro - len(riga_pura)
             
             # Stampa con la larghezza ESATTA
-            print(cyan('║') + ' ' * padding_sinistro + green(riga_pura) + ' ' * spazi_dx + cyan('║'))
+            print(' ' * 21 + cyan('║') + ' ' * padding_sinistro + green(riga_pura) + ' ' * spazi_dx + cyan('║'))
         
         print(self.box_sep())
         print(self.box_line(yellow(f'Entropia: {num_parole * math.log2(7776):.0f} bit')))
@@ -1237,7 +1237,7 @@ class SeedGenApp:
         print(self.box_line(''))
         testo1d = green('[1]') + ' Torna al menu'
         padding1d = 68 - 3 - len('[1] Torna al menu')
-        print(cyan('║') + '   ' + testo1d + ' ' * padding1d + cyan('║'))
+        print(' ' * 21 + cyan('║') + '   ' + testo1d + ' ' * padding1d + cyan('║'))
         print(self.box_line(''))
         print(self.box_bottom())
         print()
@@ -1255,6 +1255,15 @@ class SeedGenApp:
         print(self.box_bottom())
         print()
         mnemonic = input("Mnemonic: ").strip()
+        if mnemonic == '0':
+            return
+        if mnemonic == '':
+            return
+        import re as _re
+        if _re.search(r'[0-9]', mnemonic):
+            print()
+            print(yellow('La mnemonic non contiene numeri. Torna al menu.'))
+            return
         try:
             entropy = mnemonic_to_entropy(mnemonic, self.wordlist)
             print()
@@ -1265,7 +1274,7 @@ class SeedGenApp:
             print(red("✗ MNEMONIC NON VALIDA"))
             print(red(str(e)))
         print()
-        input("Premi INVIO...")
+        Terminal.wait_key(['\r', '\n', ' '])
         entropy = None
         mnemonic = None
 
@@ -1286,9 +1295,15 @@ class SeedGenApp:
             print(self.box_line(f'P(accettazione) = {prob:.3f}'))
             print(self.box_sep())
         
+        print(self.box_sep())
+        print(self.box_line(''))
+        testo_invio3 = green('[INVIO]') + ' Torna al menu'
+        padding_invio3 = 68 - 3 - len('[INVIO] Torna al menu')
+        print(' ' * 21 + cyan('║') + '   ' + testo_invio3 + ' ' * padding_invio3 + cyan('║'))
+        print(self.box_line(''))
         print(self.box_bottom())
         print()
-        input("Premi INVIO...")
+        Terminal.wait_key(['\r', '\n', ' '])
 
     def test_integrita(self):
         self.mostra_logo()
@@ -1313,9 +1328,15 @@ class SeedGenApp:
             print(self.box_line(green('TUTTI I TEST SUPERATI ✓')))
         else:
             print(self.box_line(red('ALCUNI TEST FALLITI ✗')))
+        print(self.box_sep())
+        print(self.box_line(''))
+        testo_invio3 = green('[INVIO]') + ' Torna al menu'
+        padding_invio3 = 68 - 3 - len('[INVIO] Torna al menu')
+        print(' ' * 21 + cyan('║') + '   ' + testo_invio3 + ' ' * padding_invio3 + cyan('║'))
+        print(self.box_line(''))
         print(self.box_bottom())
         print()
-        input("Premi INVIO...")
+        Terminal.wait_key(['\r', '\n', ' '])
 
     def run(self):
         # Self-test unificato (UNICA pipeline)
