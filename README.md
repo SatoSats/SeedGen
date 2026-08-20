@@ -1,4 +1,4 @@
-# SeedGen v15.2
+# SeedGen v15.2 (BETA)
 
 > **DISCLAIMER:** SeedGen è un progetto open-source fornito senza garanzie di alcun tipo. L'utente è l'unico responsabile della sicurezza dei propri fondi. Usa a tuo rischio.
 
