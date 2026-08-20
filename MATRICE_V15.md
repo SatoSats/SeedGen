@@ -45,7 +45,7 @@
 | TERM-04 | Clear screen ≠ sicuro | ✅ GREEN | Documentato |
 
 | FS-01 | Nessun file segreto | ✅ GREEN | Zero open("w") |
-| FS-02 | Test before/after | ✅ GREEN | test_filesystem() |
+| FS-02 | Test filesystem applicativo | ✅ GREEN | Verifica estrazione senza creare file (non prova assoluta) |
 | FS-03 | Core dump disabilitati | ✅ GREEN | Documentato |
 | FS-04 | Swap disabilitato | ✅ GREEN | Documentato |
 
