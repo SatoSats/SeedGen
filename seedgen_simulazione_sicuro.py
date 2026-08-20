@@ -629,7 +629,7 @@ def extract_entropy_from_dice_block(rolls: List[int], target_bits: int) -> Tuple
 # TERMINALE
 # ============================================================
 
-def esegui_tutti_test(wordlist: List[str], diceware_wordlist: List[str]) -> List[Tuple[str, bool]]:
+def run_all_self_tests(wordlist: List[str], diceware_wordlist: List[str]) -> List[Tuple[str, bool]]:
     """Routine unificata di tutti i test"""
     risultati = []
     
