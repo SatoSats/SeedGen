@@ -27,14 +27,13 @@ DICE_ROLLS = {128: 50, 160: 62, 192: 75, 224: 87, 256: 100}
 # Hash SHA-256 della wordlist BIP39 inglese ufficiale
 OFFICIAL_ENGLISH_WORDLIST_SHA256 = "2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda"
 
-# Probabilità di accettazione REALI (calcolate esattamente)
-ACCEPTANCE_PROBABILITY = {
-    128: 0.841,  # 50 lanci
-    160: 0.830,  # 62 lanci
-    192: 0.550,  # 75 lanci
-    224: 0.540,  # 87 lanci
-    256: 0.710,  # 100 lanci
-}
+def acceptance_probability(entropy_bits: int) -> float:
+    """Calcola automaticamente la probabilità di accettazione del blocco"""
+    N = dice_rolls_needed(entropy_bits)
+    total = 6 ** N
+    k = total.bit_length() - 1
+    M = 1 << k
+    return M / total
 
 WORDLIST_FILENAME = "bip39_wordlist.txt"
 DICEWARE_FILENAME = "diceware_wordlist.txt"
@@ -880,7 +879,7 @@ class SeedGenApp:
     def genera(self, parole):
         ent_bits = ENTROPY_BITS[parole]
         lanci_richiesti = dice_rolls_needed(ent_bits)
-        prob_accettazione = ACCEPTANCE_PROBABILITY[ent_bits]
+        prob_accettazione = acceptance_probability(ent_bits)
         
         # Avviso dadi fisici
         scelta = self.avviso_dadi_fisici()
