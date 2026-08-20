@@ -1,4 +1,4 @@
-# THREAT MODEL - SEEDGEN v15
+# THREAT MODEL - SEEDGEN v15.2 (BETA)
 
 ## Scopo
 Questo documento descrive le minacce considerate per SeedGen e le relative mitigazioni.

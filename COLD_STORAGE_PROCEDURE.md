@@ -1,4 +1,4 @@
-# PROCEDURA COLD STORAGE - SEEDGEN v15
+# PROCEDURA COLD STORAGE - SEEDGEN v15.2 (BETA)
 
 ## Preparazione
 1. Hardware dedicato
