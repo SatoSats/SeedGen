@@ -4,8 +4,8 @@
 
 | File | SHA-256 |
 |------|---------|
-| seedgen_simulazione_sicuro.py | 5ee1ea53fde575e7ce0442e27df76679bd3163bac3b846bf8b011622c2dc56b8 |
-| seedgen-v15-linux-x86_64 | 7db78b6aec7e8e09e67b384d338eb6654572afddfddccf9bc81b4a75e0021fc7 |
+| seedgen_simulazione_sicuro.py | 6774d20716a8d653afbcac77abb05246e12c76abd75aae31763a9397abd4de7b |
+| seedgen-v15-linux-x86_64 | 932fc6df6f8162f701cf2dcc50264eebc13286a9c360f58898571ed2f205b776 |
 | bip39_wordlist.txt | 2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda |
 | diceware_wordlist.txt | addd35536511597a02fa0a9ff1e5284677b8883b83e986e43f15a3db996b903e |
 

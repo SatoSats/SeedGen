@@ -82,7 +82,7 @@ Entropia per parola: log2(7776) = 12.925 bit
 
 ## Hash di Verifica
 
-Programma: df6595c3b9e71f48361053db60524cbdd6fd17a0d26cb0e87653889698caf311
+Programma: 6774d20716a8d653afbcac77abb05246e12c76abd75aae31763a9397abd4de7b
 BIP39: 2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda
 Diceware: addd35536511597a02fa0a9ff1e5284677b8883b83e986e43f15a3db996b903e
 
