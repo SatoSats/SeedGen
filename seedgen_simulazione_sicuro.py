@@ -304,15 +304,16 @@ def test_parametri_matematici() -> bool:
         if M * 2 <= valore:
             raise AssertionError(f"2^(k+1) <= 6^{lanci}")
     
-    # ENT-07: Verifica acceptance probability
-    prob_attese = {128: 0.841, 160: 0.830, 192: 0.550, 224: 0.540, 256: 0.710}
-    for ent_bits, lanci in [(128, 50), (160, 62), (192, 75), (224, 87), (256, 100)]:
-        valore = 6 ** lanci
-        k = valore.bit_length() - 1
+    # ENT-07: Verifica che acceptance_probability() sia coerente
+    for ent_bits in [128, 160, 192, 224, 256]:
+        N = dice_rolls_needed(ent_bits)
+        totale = 6 ** N
+        k = totale.bit_length() - 1
         M = 1 << k
-        prob = M / valore
-        if abs(prob - prob_attese[ent_bits]) > 0.01:
-            raise AssertionError(f"Probabilità {ent_bits} bit = {prob:.3f}, attesa {prob_attese[ent_bits]}")
+        prob_esatta = M / totale
+        prob_funzione = acceptance_probability(ent_bits)
+        if abs(prob_funzione - prob_esatta) > 1e-10:
+            raise AssertionError(f"Probabilità {ent_bits} bit: funzione={prob_funzione}, esatta={prob_esatta}")
     
     return True
 
