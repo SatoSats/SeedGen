@@ -1,4 +1,4 @@
-# SeedGen v15
+# SeedGen v15.2
 
 > **DISCLAIMER:** SeedGen è un progetto open-source fornito senza garanzie di alcun tipo. L'utente è l'unico responsabile della sicurezza dei propri fondi. Usa a tuo rischio.
 
@@ -180,7 +180,7 @@ L'hash deve corrispondere a:
 
 ## Requisiti di Sicurezza ed Esecuzione
 
-Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v15** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
+Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v15.2** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
 
 ### 1. Ambiente Consigliato
 
