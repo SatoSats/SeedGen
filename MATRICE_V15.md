@@ -67,7 +67,7 @@
 | ID | Requisito | Stato | Evidenza |
 |----|-----------|-------|----------|
 | FS-01 | Nessun file segreto | ✅ GREEN | Zero open("w") |
-| FS-02 | Test before/after | ⚠️ DA FARE | Serve test automatico |
+| FS-02 | Test before/after | ✅ GREEN | test_filesystem() verifica directory vuota |
 | FS-03 | Core dump disabilitati | ✅ GREEN | Documentato in procedura |
 | FS-04 | Swap disabilitato | ✅ GREEN | Documentato in procedura |
 
