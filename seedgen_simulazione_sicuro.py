@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SeedGen v15.3 (BETA) - Generatore BIP39 da entropia fisica D6
+SeedGen v15.4 (BETA) - Generatore BIP39 da entropia fisica D6
 Air-Gapped - Rejection Sampling - Verifica BIP39 completa
 Correzioni matematiche integrate
 """
@@ -793,7 +793,7 @@ class SeedGenApp:
         print(self.box_line(bold(green('███████║███████╗███████╗██████╔╝╚██████╔╝███████╗██║ ╚████║'))))
         print(self.box_line(bold(green('╚══════╝╚══════╝╚══════╝╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═══╝'))))
         print(self.box_line(''))
-        print(self.box_line(yellow('Generatore Sicuro Seed Bitcoin BIP39 v15')))
+        print(self.box_line(yellow('Generatore Sicuro Seed Bitcoin BIP39 v15.4 (BETA)')))
         print(self.box_line(yellow('Rejection Sampling - Air-Gapped')))
         print(self.box_bottom())
         print()
@@ -815,6 +815,8 @@ class SeedGenApp:
             None,
             (green('[7]'), 'Verifica Mnemonic BIP39'),
             (green('[8]'), 'Test Integrità Programma'),
+            None,
+            (green('[9]'), 'Audit Mode (ENT, N, k, M)'),
             None,
             (red('[0]'), 'Esci'),
         ]
@@ -1082,6 +1084,7 @@ class SeedGenApp:
         print(self.box_bottom())
         print()
         Terminal.wait_key(['1'])
+        Terminal.clear()
 
     def genera_diceware(self):
         """Genera passphrase Diceware con dadi fisici"""
@@ -1167,7 +1170,40 @@ class SeedGenApp:
             
             parole_generate.append(diceware_wordlist[indice - 1])
         
-        # Mostra schermata di conferma
+        # CONTROLLO DISTRIBUZIONE DICEWARE
+        ok_rip, perc_max = analizza_distribuzione_lanci(tutti_lanci)
+        if not ok_rip:
+            self.mostra_logo()
+            print(self.box_top())
+            print(self.box_line(bold(red('⚠️ AVVISO: DISTRIBUZIONE ANOMALA'))))
+            print(self.box_sep())
+            print(self.box_line(f'Valore più frequente: {perc_max:.0f}%'))
+            print(self.box_line(''))
+            print(self.box_line(red('Distribuzione sospetta rilevata.')))
+            print(self.box_line(red('Puoi rifare i lanci se lo ritieni necessario.')))
+            print(self.box_sep())
+            print(self.box_line(''))
+            testo1 = green('[1]') + ' Rifai tutti i lanci'
+            padding1 = 68 - 3 - len('[1] Rifai tutti i lanci')
+            print(' ' * 21 + cyan('║') + '   ' + testo1 + ' ' * padding1 + cyan('║'))
+            testo2 = yellow('[2]') + ' Procedi comunque (sotto mia responsabilità)'
+            padding2 = 68 - 3 - len('[2] Procedi comunque (sotto mia responsabilità)')
+            print(' ' * 21 + cyan('║') + '   ' + testo2 + ' ' * padding2 + cyan('║'))
+            testo3 = red('[0]') + ' Annulla e torna al menu'
+            padding3 = 68 - 3 - len('[0] Annulla e torna al menu')
+            print(' ' * 21 + cyan('║') + '   ' + testo3 + ' ' * padding3 + cyan('║'))
+            print(self.box_line(''))
+            print(self.box_bottom())
+            print()
+            scelta = Terminal.wait_key(['0', '1', '2'])
+            if scelta == '0':
+                return
+            elif scelta == '1':
+                self.genera_diceware()
+                return
+            else:
+                pass
+# Mostra schermata di conferma
         self.mostra_logo()
         print(self.box_top())
         print(self.box_line(''))
@@ -1275,7 +1311,7 @@ class SeedGenApp:
         import re as _re
         if _re.search(r'[0-9]', mnemonic):
             print()
-            print(yellow('La mnemonic non contiene numeri. Torna al menu.'))
+            print(yellow('La mnemonic non deve contenere numeri. Rilevati caratteri numerici.'))
             return
         try:
             entropy = mnemonic_to_entropy(mnemonic, self.wordlist)
@@ -1369,7 +1405,7 @@ class SeedGenApp:
         
         while True:
             self.mostra_menu()
-            scelta = Terminal.wait_key('012345678')
+            scelta = Terminal.wait_key('0123456789')
             if scelta == '0':
                 Terminal.clear()
                 print(green("Uscita."))
@@ -1383,6 +1419,8 @@ class SeedGenApp:
                 self.verifica_mnemonic()
             elif scelta == '8':
                 self.test_integrita()
+            elif scelta == '9':
+                self.audit_mode()
 
 def main() -> None:
     try:
@@ -1390,6 +1428,10 @@ def main() -> None:
         app.run()
     except KeyboardInterrupt:
         print(red("\n\nInterrotto."))
+    except EOFError:
+        print(red("\n\nEOF rilevato. Uscita."))
+        Terminal.clear()
+        sys.exit(0)
     except Exception as e:
         print(red("\nERRORE:"))
         print(red(str(e)))

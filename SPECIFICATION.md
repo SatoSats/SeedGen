@@ -1,4 +1,4 @@
-# SeedGen v15.3 (BETA) - Specifica Tecnica
+# SeedGen v15.4 (BETA) - Specifica Tecnica
 
 ## Panoramica
 SeedGen genera seed Bitcoin BIP39 e passphrase Diceware usando esclusivamente entropia fisica da lanci di dadi a 6 facce (D6).
@@ -42,11 +42,11 @@ entropy = X & mask
 
 | Entropia | P(accettazione) |
 |----------|-----------------|
-| 128 bit  | 84.1%           |
-| 160 bit  | 83.0%           |
-| 192 bit  | 55.0%           |
-| 224 bit  | 54.0%           |
-| 256 bit  | 71.0%           |
+| 128 bit  | 84.2%           |
+| 160 bit  | 83.1%           |
+| 192 bit  | 54.6%           |
+| 224 bit  | 53.9%           |
+| 256 bit  | 70.9%           |
 
 ## Algoritmo Diceware
 
@@ -82,7 +82,7 @@ Entropia per parola: log2(7776) = 12.925 bit
 
 ## Hash di Verifica
 
-Programma: e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
+Programma: a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
 BIP39: 2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda
 Diceware: addd35536511597a02fa0a9ff1e5284677b8883b83e986e43f15a3db996b903e
 

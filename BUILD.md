@@ -1,4 +1,4 @@
-# BUILD SEEDGEN v15.3 (BETA) - Procedura di Build Riproducibile
+# BUILD SEEDGEN v15.4 (BETA) - Procedura di Build Riproducibile
 
 ## Ambiente di Build
 
@@ -20,31 +20,31 @@ Nessuna dipendenza esterna. Solo librerie standard Python.
 ### 1. Verifica del sorgente
 ```bash
 sha256sum seedgen_simulazione_sicuro.py
-# Atteso: e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
+# Atteso: a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
 
 ### 2. Build
 
 ```bash
 rm -rf build dist
-pyinstaller --onefile --name seedgen-v15-linux-x86_64 seedgen_simulazione_sicuro.py
+pyinstaller --onefile --name seedgen-v15.4-linux-x86_64 seedgen_simulazione_sicuro.py
 ```
 
 ### 3. Verifica del binario
 
 ```bash
-sha256sum dist/seedgen-v15-linux-x86_64
+sha256sum dist/seedgen-v15.4-linux-x86_64
 ```
 
 ### 4. Firma GPG del binario
 
 ```bash
-gpg --detach-sign --armor dist/seedgen-v15-linux-x86_64
+gpg --detach-sign --armor dist/seedgen-v15.4-linux-x86_64
 ```
 
 ### 5. Verifica della firma
 
 ```bash
-gpg --verify dist/seedgen-v15-linux-x86_64.asc dist/seedgen-v15-linux-x86_64
+gpg --verify dist/seedgen-v15.4-linux-x86_64.asc dist/seedgen-v15.4-linux-x86_64
 ```
 
 ## Nota

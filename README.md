@@ -1,4 +1,4 @@
-# SeedGen v15.3 (BETA)
+# SeedGen v15.4 (BETA)
 
 > **DISCLAIMER:** SeedGen è un progetto open-source fornito senza garanzie di alcun tipo. L'utente è l'unico responsabile della sicurezza dei propri fondi. Usa a tuo rischio.
 
@@ -84,7 +84,7 @@ python3 seedgen_simulazione_sicuro.py
 Hash SHA-256 del programma:
 
 ```
-e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
+a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
 ```
 
 Per verificare:
@@ -174,13 +174,13 @@ sha256sum seedgen_simulazione_sicuro.py
 
 L'hash deve corrispondere a:
 ```
-e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
+a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
 ```
 
 
 ## Requisiti di Sicurezza ed Esecuzione
 
-Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v15.2** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
+Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema operativo, **SeedGen v15.3** deve essere eseguito esclusivamente in ambienti isolati (*Air-Gapped*).
 
 ### 1. Ambiente Consigliato
 
@@ -202,13 +202,13 @@ Per annullare i rischi legati alla memoria RAM e ai file di swap del sistema ope
 
 ### Download
 Scarica il binario e i file di verifica:
-- seedgen-v15-linux-x86_64 (7.2 MB)
-- seedgen-v15-linux-x86_64.sha256
-- seedgen-v15-linux-x86_64.asc
+- seedgen-v15.4-linux-x86_64 (7.2 MB)
+- seedgen-v15.4-linux-x86_64.sha256
+- seedgen-v15.4-linux-x86_64.asc
 
 ### Verifica SHA-256
 ```bash
-sha256sum -c seedgen-v15-linux-x86_64.sha256
+sha256sum -c seedgen-v15.4-linux-x86_64.sha256
 ```
 
 ### Verifica Firma GPG
@@ -216,13 +216,13 @@ sha256sum -c seedgen-v15-linux-x86_64.sha256
 gpg --import chiave_pubblica_gpg.asc
 ```
 ```bash
-gpg --verify seedgen-v15-linux-x86_64.asc seedgen-v15-linux-x86_64
+gpg --verify seedgen-v15.4-linux-x86_64.asc seedgen-v15.4-linux-x86_64
 ```
 
 ### Esecuzione
 ```bash
-chmod +x seedgen-v15-linux-x86_64
-./seedgen-v15-linux-x86_64
+chmod +x seedgen-v15.4-linux-x86_64
+./seedgen-v15.4-linux-x86_64
 ```
 
 Nota: eseguire dalla cartella con le wordlist.
@@ -234,9 +234,9 @@ Per chi preferisce non eseguire lo script Python, è disponibile una build isola
 
 ### Download
 
-Scarica dalla release v15:
-- seedgen-v15-linux-x86_64.tar.gz
-- seedgen-v15-linux-x86_64.tar.gz.asc
+Scarica dalla release v15.4:
+- seedgen-v15.4-linux-x86_64.tar.gz
+- seedgen-v15.4-linux-x86_64.tar.gz.asc
 
 ### Verifica
 
@@ -247,25 +247,25 @@ gpg --keyserver keys.openpgp.org --recv-keys EA831AF9D252F9E443EE6A1DECD309793F7
 
 Verifica la firma dell'archivio:
 ```bash
-gpg --verify seedgen-v15-linux-x86_64.tar.gz.asc seedgen-v15-linux-x86_64.tar.gz
+gpg --verify seedgen-v15.4-linux-x86_64.tar.gz.asc seedgen-v15.4-linux-x86_64.tar.gz
 ```
 
 Verifica hash SHA-256:
 ```bash
-sha256sum seedgen-v15-linux-x86_64.tar.gz
+sha256sum seedgen-v15.4-linux-x86_64.tar.gz
 ```
 
 Hash atteso:
 ```
-e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
+a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
 ```
 
 ### Installazione
 
 ```bash
-tar -xzvf seedgen-v15-linux-x86_64.tar.gz
+tar -xzvf seedgen-v15.4-linux-x86_64.tar.gz
 cd dist
-./seedgen-v15-linux-x86_64
+./seedgen-v15.4-linux-x86_64
 ```
 
 Oppure usa il file SeedGen.desktop per avviare il programma con un click.

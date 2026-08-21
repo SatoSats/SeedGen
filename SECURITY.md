@@ -1,11 +1,11 @@
-# SECURITY POLICY - SEEDGEN v15.3 (BETA)
+# SECURITY POLICY - SEEDGEN v15.4 (BETA)
 
 ## Versioni Supportate
 
 | Versione | Stato |
 |----------|-------|
-| v15.3 (BETA) | ✅ Supportata |
-| v15.2 e precedenti | ❌ Non supportate |
+| v15.4 (BETA) | ✅ Supportata |
+| v15.3 e precedenti | ❌ Non supportate |
 
 ## Canale Privato per Vulnerabilità
 
