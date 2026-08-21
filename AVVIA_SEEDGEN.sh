@@ -16,15 +16,13 @@ POS_Y=$(( (SCREEN_H - TERM_H * 16) / 2 ))
 [ $POS_X -lt 0 ] && POS_X=0
 [ $POS_Y -lt 0 ] && POS_Y=0
 
-DIR="$(cd "$(dirname "$0")" && pwd)"
-
-# GNOME Terminal: --wait per chiudere alla fine, no shell residua
+# Usa --working-directory (evita interpolazione shell)
 if command -v gnome-terminal &> /dev/null; then
-    gnome-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --wait -- bash -c "cd '$DIR' && python3 seedgen_simulazione_sicuro.py"
+    gnome-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --wait --working-directory="$PWD" -- python3 seedgen_simulazione_sicuro.py
 elif command -v xfce4-terminal &> /dev/null; then
-    xfce4-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --command="cd '$DIR' && python3 seedgen_simulazione_sicuro.py" &
+    xfce4-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --working-directory="$PWD" --command="python3 seedgen_simulazione_sicuro.py" &
 elif command -v xterm &> /dev/null; then
-    xterm -geometry ${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} -e "cd '$DIR' && python3 seedgen_simulazione_sicuro.py" &
+    xterm -geometry ${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} -e "cd '$PWD' && python3 seedgen_simulazione_sicuro.py" &
 else
     echo "Terminale non trovato"
     echo "Esegui: python3 seedgen_simulazione_sicuro.py"
