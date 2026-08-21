@@ -21,6 +21,15 @@ import tty
 # PARAMETRI CRITTOGRAFICI
 # ============================================================
 
+# Directory del programma (funziona con PyInstaller e script Python)
+import sys as _sys
+if getattr(_sys, 'frozen', False):
+    # Binario PyInstaller
+    _SCRIPT_DIR = os.path.dirname(_sys.executable)
+else:
+    # Script Python
+    _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 ENTROPY_BITS = {12: 128, 15: 160, 18: 192, 21: 224, 24: 256}
 def dice_rolls_needed(entropy_bits: int) -> int:
     """Calcola automaticamente il numero minimo di lanci necessari"""
@@ -38,8 +47,8 @@ def acceptance_probability(entropy_bits: int) -> float:
     M = 1 << k
     return M / total
 
-WORDLIST_FILENAME = "bip39_wordlist.txt"
-DICEWARE_FILENAME = "diceware_wordlist.txt"
+WORDLIST_FILENAME = os.path.join(_SCRIPT_DIR, "bip39_wordlist.txt")
+DICEWARE_FILENAME = os.path.join(_SCRIPT_DIR, "diceware_wordlist.txt")
 
 # Hash SHA-256 della wordlist Diceware EFF ufficiale
 # Verrà verificato all'avvio della funzione Diceware
@@ -344,7 +353,7 @@ def test_wordlist_tampering() -> bool:
     import tempfile, os, hashlib
     
     # Verifica che la wordlist BIP39 abbia l'hash corretto
-    with open('bip39_wordlist.txt', 'rb') as f:
+    with open(WORDLIST_FILENAME, 'rb') as f:
         raw = f.read()
     
     hash_attuale = hashlib.sha256(raw).hexdigest()
@@ -354,7 +363,7 @@ def test_wordlist_tampering() -> bool:
         raise AssertionError("Wordlist BIP39 modificata!")
     
     # Verifica Diceware
-    with open('diceware_wordlist.txt', 'rb') as f:
+    with open(DICEWARE_FILENAME, 'rb') as f:
         raw_dw = f.read()
     
     hash_dw = hashlib.sha256(raw_dw).hexdigest()

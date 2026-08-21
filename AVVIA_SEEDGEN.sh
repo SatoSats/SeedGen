@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launcher universale SeedGen - scrollback disabilitato
+# Launcher universale SeedGen v15.4
 
 if command -v xdpyinfo &> /dev/null; then
     SCREEN_W=$(xdpyinfo | grep dimensions | awk '{print $2}' | cut -d'x' -f1)
@@ -16,14 +16,15 @@ POS_Y=$(( (SCREEN_H - TERM_H * 16) / 2 ))
 [ $POS_X -lt 0 ] && POS_X=0
 [ $POS_Y -lt 0 ] && POS_Y=0
 
-# Usa --working-directory (evita interpolazione shell)
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
 if command -v gnome-terminal &> /dev/null; then
-    gnome-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --wait --working-directory="$PWD" -- python3 seedgen_simulazione_sicuro.py
+    gnome-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --wait --working-directory="$DIR" -- ./seedgen-v15.4-linux-x86_64
 elif command -v xfce4-terminal &> /dev/null; then
-    xfce4-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --working-directory="$PWD" --command="python3 seedgen_simulazione_sicuro.py" &
+    xfce4-terminal --geometry=${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} --working-directory="$DIR" --command="./seedgen-v15.4-linux-x86_64" &
 elif command -v xterm &> /dev/null; then
-    xterm -geometry ${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} -e "cd '$PWD' && python3 seedgen_simulazione_sicuro.py" &
+    xterm -geometry ${TERM_W}x${TERM_H}+${POS_X}+${POS_Y} -e "$DIR/seedgen-v15.4-linux-x86_64" &
 else
     echo "Terminale non trovato"
-    echo "Esegui: python3 seedgen_simulazione_sicuro.py"
+    echo "Esegui: $DIR/seedgen-v15.4-linux-x86_64"
 fi
