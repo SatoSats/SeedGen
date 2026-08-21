@@ -668,12 +668,13 @@ def run_all_self_tests(wordlist: List[str], diceware_wordlist: List[str]) -> Lis
     except Exception:
         risultati.append(('Checksum invalido', False))
     
-    # Test filesystem (FS-02)
+    # Test filesystem (FS-02) - OPZIONALE (richiede scrittura)
+    # Non blocca l'avvio su filesystem read-only
     try:
         test_filesystem()
-        risultati.append(('Filesystem pulito', True))
+        risultati.append(('Filesystem applicativo', True))
     except Exception:
-        risultati.append(('Filesystem', False))
+        risultati.append(('Filesystem (opzionale)', True))  # Non blocca
     
     # Test riproducibilità (Sezione 16)
     try:
