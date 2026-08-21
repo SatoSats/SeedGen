@@ -84,7 +84,7 @@ python3 seedgen_simulazione_sicuro.py
 Hash SHA-256 del programma:
 
 ```
-f35e60ac0ce7683c6d68810f44baf9b863876dc3fe7f8b1e6070c54a6d33be59
+e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
 ```
 
 Per verificare:
@@ -174,7 +174,7 @@ sha256sum seedgen_simulazione_sicuro.py
 
 L'hash deve corrispondere a:
 ```
-f35e60ac0ce7683c6d68810f44baf9b863876dc3fe7f8b1e6070c54a6d33be59
+e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
 ```
 
 
@@ -257,7 +257,7 @@ sha256sum seedgen-v15-linux-x86_64.tar.gz
 
 Hash atteso:
 ```
-f35e60ac0ce7683c6d68810f44baf9b863876dc3fe7f8b1e6070c54a6d33be59
+e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
 ```
 
 ### Installazione

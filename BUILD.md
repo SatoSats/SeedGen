@@ -20,32 +20,37 @@ Nessuna dipendenza esterna. Solo librerie standard Python.
 ### 1. Verifica del sorgente
 ```bash
 sha256sum seedgen_simulazione_sicuro.py
-# Atteso: f35e60ac0ce7683c6d68810f44baf9b863876dc3fe7f8b1e6070c54a6d33be59
-cd ~/Scaricati/SeedGen && cat > BUILD.md << 'FINE'
-# BUILD SEEDGEN v15.3 (BETA) - Procedura di Build
+# Atteso: e96b8b8c329accd8fdb59b3129b97872a801a015d292ee147890599adca31eb0
 
-## Ambiente di Build
+### 2. Build
 
-| Componente | Versione |
-|------------|----------|
-| Sistema operativo | Linux Mint 22 |
-| Kernel | 7.0.0-29-generic |
-| Architettura | x86_64 |
-| Python | 3.12.3 |
-| PyInstaller | 6.22.2 |
+```bash
+rm -rf build dist
+pyinstaller --onefile --name seedgen-v15-linux-x86_64 seedgen_simulazione_sicuro.py
+```
 
-## Dipendenze
+### 3. Verifica del binario
 
-Nessuna dipendenza esterna. Solo librerie standard Python.
+```bash
+sha256sum dist/seedgen-v15-linux-x86_64
+```
 
-## Procedura
+### 4. Firma GPG del binario
 
-1. Verifica sorgente: sha256sum seedgen_simulazione_sicuro.py
-2. Build: pyinstaller --onefile --name seedgen-v15-linux-x86_64 seedgen_simulazione_sicuro.py
-3. Verifica binario: sha256sum dist/seedgen-v15-linux-x86_64
-4. Firma: gpg --detach-sign --armor dist/seedgen-v15-linux-x86_64
+```bash
+gpg --detach-sign --armor dist/seedgen-v15-linux-x86_64
+```
+
+### 5. Verifica della firma
+
+```bash
+gpg --verify dist/seedgen-v15-linux-x86_64.asc dist/seedgen-v15-linux-x86_64
+```
 
 ## Nota
 
-PyInstaller NON garantisce build bit-for-bit identiche.
-Il sorgente e la fonte di verita per l'audit.
+PyInstaller non garantisce build bit-for-bit identiche tra ambienti diversi.
+
+Il sorgente `seedgen_simulazione_sicuro.py` è la fonte di verità per l'audit.
+
+L'hash SHA-256 del sorgente deve corrispondere a quello documentato sopra.
