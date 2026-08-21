@@ -727,6 +727,10 @@ class Terminal:
             tty.setraw(fd)
             while True:
                 char = sys.stdin.read(1)
+                if char == "":
+                    # EOF: ripristina e termina
+                    termios.tcsetattr(fd, termios.TCSADRAIN, old)
+                    raise EOFError
                 if char == "\x03":
                     raise KeyboardInterrupt
                 if char.lower() in valid:
@@ -741,6 +745,9 @@ class Terminal:
             tty.setraw(fd)
             while True:
                 char = sys.stdin.read(1)
+                if char == "":
+                    termios.tcsetattr(fd, termios.TCSADRAIN, old)
+                    raise EOFError
                 if char == "\x03":
                     raise KeyboardInterrupt
                 if char in "123456":
