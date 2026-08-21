@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=SeedGen v15.3 (BETA)
-Comment=Generatore BIP39 Air-Gapped da Dadi
-Exec=/home/ax16/Scaricati/SeedGen/dist/AVVIA_SEEDGEN.sh
-Path=/home/ax16/Scaricati/SeedGen/dist
-Terminal=false
-Type=Application
-Icon=/home/ax16/Scaricati/SeedGen/dist/seedgen-icon.svg
-Categories=Utility;Security;
