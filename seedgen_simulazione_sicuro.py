@@ -716,7 +716,9 @@ def run_all_self_tests(wordlist: List[str], diceware_wordlist: List[str]) -> Lis
 class Terminal:
     @staticmethod
     def clear():
-        print("\033[2J\033[H", end="")
+        # Pulisce schermo E scrollback
+        print("\033[3J\033[2J\033[H", end="")
+        sys.stdout.flush()
     @staticmethod
     def wait_key(valid):
         fd = sys.stdin.fileno()
