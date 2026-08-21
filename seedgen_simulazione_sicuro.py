@@ -728,7 +728,7 @@ class Terminal:
             while True:
                 char = sys.stdin.read(1)
                 if char == "\x03":
-                    return "0"
+                    raise KeyboardInterrupt
                 if char.lower() in valid:
                     return char.lower()
         finally:
@@ -742,7 +742,7 @@ class Terminal:
             while True:
                 char = sys.stdin.read(1)
                 if char == "\x03":
-                    return None
+                    raise KeyboardInterrupt
                 if char in "123456":
                     return int(char)
         finally:
