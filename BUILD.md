@@ -20,7 +20,7 @@ Nessuna dipendenza esterna. Solo librerie standard Python.
 ### 1. Verifica del sorgente
 ```bash
 sha256sum seedgen_simulazione_sicuro.py
-# Atteso: a5d904e2e9300e5288fab66ac94a1fb0fe7803a534582f2883a4c90c0d4a99da
+# Atteso: 9d227ec1fde33af9fd0c2184f6bb5b81d12e76617294474e1b5d172a63e19cc2
 
 ### 2. Build
 
