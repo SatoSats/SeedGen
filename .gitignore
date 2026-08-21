@@ -21,3 +21,10 @@ seedgen-v14-linux-x86_64.sha256
 *.log
 *.tmp
 .DS_Store
+
+# Binari e archivi (solo come Release Asset)
+seedgen-v15-linux-x86_64
+seedgen-v15-linux-x86_64.asc
+seedgen-v15-linux-x86_64.sha256
+seedgen-v15-linux-x86_64.tar.gz
+seedgen-v15-linux-x86_64.tar.gz.asc
