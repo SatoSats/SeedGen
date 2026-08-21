@@ -43,3 +43,15 @@ In caso di compromissione della chiave:
 - Il progetto è in BETA
 - Non usare per fondi significativi senza audit
 - La sicurezza dipende anche da hardware e procedura
+
+## Policy Release Immutabili
+
+Le release NON devono essere modificate dopo la pubblicazione.
+Qualsiasi correzione deve produrre una NUOVA versione (v15.4, v15.5, ecc).
+Gli asset pubblicati non devono essere sostituiti.
+
+Procedura:
+1. Correzione → nuovo commit firmato
+2. Nuovo tag firmato (vX.Y.Z)
+3. Nuova release dal tag
+4. La vecchia release resta intatta per riferimento
