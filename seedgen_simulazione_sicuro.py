@@ -1256,7 +1256,10 @@ class SeedGenApp:
         print(self.box_line(bold('VERIFICA MNEMONIC BIP39')))
         print(self.box_bottom())
         print()
-        mnemonic = input("Mnemonic: ").strip()
+        # Input senza echo (la mnemonic non viene mostrata)
+        import getpass
+        print("Mnemonic (input nascosto - Ctrl+C per annullare):")
+        mnemonic = getpass.getpass("> ").strip()
         if mnemonic == '0':
             return
         if mnemonic == '':
@@ -1279,6 +1282,8 @@ class SeedGenApp:
         Terminal.wait_key(['\r', '\n', ' '])
         entropy = None
         mnemonic = None
+        # Pulisci schermo e scrollback
+        Terminal.clear()
 
     def audit_mode(self):
         """Mostra parametri ENT, N, k, M e risultato rejection"""
