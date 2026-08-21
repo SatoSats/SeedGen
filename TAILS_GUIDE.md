@@ -1,4 +1,4 @@
-# GUIDA TAILS OS - SEEDGEN v15.2 (BETA)
+# GUIDA TAILS OS - SEEDGEN v15.3 (BETA)
 
 ## Procedura per massima sicurezza
 

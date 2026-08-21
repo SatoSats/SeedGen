@@ -1,4 +1,4 @@
-# DOCUMENTAZIONE SICUREZZA - SEEDGEN v15.2 (BETA)
+# DOCUMENTAZIONE SICUREZZA - SEEDGEN v15.3 (BETA)
 
 ## DOC-01: Nessun claim assoluto
 SeedGen non è "invulnerabile" o "perfetto". La sicurezza dipende da:

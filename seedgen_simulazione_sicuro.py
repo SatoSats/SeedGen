@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SeedGen v15.2 (BETA) - Generatore BIP39 da entropia fisica D6
+SeedGen v15.3 (BETA) - Generatore BIP39 da entropia fisica D6
 Air-Gapped - Rejection Sampling - Verifica BIP39 completa
 Correzioni matematiche integrate
 """
