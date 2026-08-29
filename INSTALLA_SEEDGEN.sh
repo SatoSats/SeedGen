@@ -34,8 +34,6 @@ cp "$SRC_DIR/AVVIA_SEEDGEN.sh" "$APP_DIR/AVVIA_SEEDGEN.sh"
 cp "$SRC_DIR/INSTALLA_SEEDGEN.sh" "$APP_DIR/INSTALLA_SEEDGEN.sh"
 cp "$SRC_DIR/bip39_wordlist.txt" "$APP_DIR/bip39_wordlist.txt"
 cp "$SRC_DIR/diceware_wordlist.txt" "$APP_DIR/diceware_wordlist.txt"
-cp "$SRC_DIR/README.md" "$APP_DIR/README.md"
-cp "$SRC_DIR/SECURITY.md" "$APP_DIR/SECURITY.md"
 cp "$SRC_DIR/seedgen-icon.svg" "$ICON_DIR/seedgen-icon.svg"
 
 chmod 755 "$APP_DIR/$BIN_NAME"
@@ -43,8 +41,6 @@ chmod 755 "$APP_DIR/AVVIA_SEEDGEN.sh"
 chmod 755 "$APP_DIR/INSTALLA_SEEDGEN.sh"
 chmod 644 "$APP_DIR/bip39_wordlist.txt"
 chmod 644 "$APP_DIR/diceware_wordlist.txt"
-chmod 644 "$APP_DIR/README.md"
-chmod 644 "$APP_DIR/SECURITY.md"
 chmod 644 "$ICON_DIR/seedgen-icon.svg"
 
 cat > "$DESKTOP_DIR/seedgen.desktop" <<DESKTOP
