@@ -20,7 +20,9 @@ Una conversione non uniforme dei risultati dei dadi potrebbe introdurre bias nel
 
 ### Mitigazione
 
-SeedGen utilizza rejection sampling per convertire i risultati dei D6 evitando il bias derivante dalla rappresentazione binaria.
+Prima dell'estrazione dell'entropia SeedGen esegue un controllo della distribuzione dei lanci. Una sequenza viene considerata anomala se un singolo valore compare per più del 40% dei lanci oppure se sono presenti soltanto 1 o 2 valori distinti tra le sei facce del dado. In questo caso il blocco viene scartato e l'utente deve rifare tutti i lanci oppure annullare la generazione.
+
+SeedGen utilizza inoltre rejection sampling per convertire i risultati dei D6 evitando il bias derivante dalla rappresentazione binaria. Se il blocco viene rifiutato dal rejection sampling, tutti i lanci del blocco vengono scartati e viene richiesto un nuovo blocco.
 
 ## 4. Wordlist modificata
 
@@ -52,7 +54,7 @@ I test comprendono:
 - verifica delle wordlist;
 - rejection sampling.
 
-In caso di errore la generazione non viene avviata.
+I self-test possono produrre gli stati `PASS`, `FAIL` e `SKIPPED`. In caso di `FAIL` la generazione non viene avviata. Uno stato `SKIPPED` viene segnalato ma non blocca l'avvio.
 
 ## 6. Errore di trascrizione
 

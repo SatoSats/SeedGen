@@ -12,7 +12,11 @@ SeedGen non è un wallet e non gestisce fondi o transazioni.
 
 L'entropia primaria viene fornita esclusivamente dai lanci fisici di dadi D6.
 
-La conversione dei risultati utilizza rejection sampling.
+Prima dell'estrazione dell'entropia, SeedGen controlla la distribuzione dei risultati dei lanci. Una sequenza viene considerata anomala se un singolo valore compare per più del 40% dei lanci oppure se sono presenti soltanto 1 o 2 valori distinti tra le sei facce del dado.
+
+In caso di distribuzione anomala, il blocco viene scartato e SeedGen richiede di rifare tutti i lanci oppure di annullare la generazione.
+
+La conversione dei risultati utilizza rejection sampling. Se il blocco viene rifiutato dal rejection sampling, tutti i lanci del blocco vengono scartati e viene richiesto un nuovo blocco.
 
 Questo evita di introdurre bias dovuto alla diversa rappresentazione delle potenze di due rispetto alle sei facce del dado.
 
@@ -39,11 +43,17 @@ Il programma include test vettoriali BIP39 e verifica:
 
 ## 5. Diceware
 
-SeedGen può generare passphrase utilizzando una wordlist Diceware.
+SeedGen può generare passphrase di 6, 7, 8 o 9 parole utilizzando una wordlist Diceware.
 
 La wordlist viene verificata prima dell'utilizzo.
 
 Sono controllati formato, codici, sequenza, numero di parole e assenza di duplicati.
+
+Per ogni parola vengono effettuati 5 lanci di un dado D6. La combinazione dei cinque risultati determina direttamente un indice da 1 a 7776 nella wordlist Diceware.
+
+Al termine della raccolta dei lanci viene applicato il controllo della distribuzione descritto nella sezione 2. Se la distribuzione viene considerata anomala, tutti i lanci della passphrase vengono rifatti oppure la generazione viene annullata.
+
+La passphrase viene quindi mostrata e la procedura richiede la verifica obbligatoria della trascrizione.
 
 ## 6. Integrità delle wordlist
 
@@ -57,7 +67,13 @@ SeedGen esegue controlli automatici prima della generazione.
 
 I test verificano le funzioni critiche di conversione dell'entropia, BIP39, checksum, wordlist e rejection sampling.
 
-Se un test fallisce, la generazione non viene avviata.
+I self-test possono produrre tre stati:
+
+- `PASS`: test eseguito e superato;
+- `FAIL`: test eseguito e fallito;
+- `SKIPPED`: test non eseguibile nell'ambiente corrente.
+
+Se un test è in stato `FAIL`, l'avvio del programma viene bloccato. Uno stato `SKIPPED` viene segnalato ma non blocca l'avvio.
 
 ## 8. Verifica della trascrizione
 
