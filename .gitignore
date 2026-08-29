@@ -1,0 +1,28 @@
+# Backup locali
+BACKUP_*.tar.gz
+backup/
+backup_*/
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Build e release locali
+seedgen-v1.0.0-linux-x86_64
+*.tar.gz
+*.sha256
+*.asc
+
+# File temporanei
+*.log
+*.tmp
+.DS_Store
+
+# Test locali
+TEST/
+test/
