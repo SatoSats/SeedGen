@@ -2,14 +2,14 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BIN="$DIR/seedgen-v1.0.0-linux-x86_64"
+BIN="$DIR/seedgen-v1.0.1-linux-x86_64"
 
 # Controllo architettura
 ARCH="$(uname -m)"
 
 if [ "$ARCH" != "x86_64" ]; then
     echo "=================================================="
-    echo "SeedGen v1.0.0 richiede Linux x86_64 (64 bit)."
+    echo "SeedGen v1.0.1 richiede Linux x86_64 (64 bit)."
     echo
     echo "Architettura rilevata: $ARCH"
     echo "=================================================="

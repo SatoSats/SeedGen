@@ -1,11 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 NAME="seedgen-v${VERSION}-linux-x86_64"
-EXPECTED_SOURCE_SHA256="db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a"
+EXPECTED_SOURCE_SHA256="9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BUILD_ROOT="/tmp/seedgen-v1.0.0-build-scripted"
+BUILD_ROOT="/tmp/seedgen-v1.0.1-build-scripted"
 
 cd "$ROOT_DIR"
 
@@ -15,7 +15,7 @@ ACTUAL_SOURCE_SHA256="$(sha256sum seedgen.py | cut -d" " -f1)"
 echo "Hash sorgente: $ACTUAL_SOURCE_SHA256"
 
 if [ "$ACTUAL_SOURCE_SHA256" != "$EXPECTED_SOURCE_SHA256" ]; then
-    echo "ERRORE: hash seedgen.py diverso da quello congelato per v1.0.0" >&2
+    echo "ERRORE: hash seedgen.py diverso da quello congelato per v1.0.1" >&2
     exit 1
 fi
 

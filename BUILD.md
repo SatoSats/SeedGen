@@ -1,8 +1,8 @@
-# BUILD - SEEDGEN v1.0.0
+# BUILD - SEEDGEN v1.0.1
 
 ## 1. Scopo
 
-Questo documento descrive la procedura congelata per ricostruire il binario Linux x86_64 della release pubblicata SeedGen v1.0.0 a partire dal sorgente identificato dall'hash riportato di seguito.
+Questo documento descrive la procedura congelata per ricostruire il binario Linux x86_64 della release candidata SeedGen v1.0.1 a partire dal sorgente identificato dall'hash riportato di seguito.
 
 La build utilizza PyInstaller e produce un singolo eseguibile.
 
@@ -14,6 +14,7 @@ Sono richiesti:
 - Python 3;
 - PyInstaller;
 - `sha256sum`;
+- `readelf`;
 - il sorgente `seedgen.py`;
 - le wordlist del progetto.
 
@@ -27,19 +28,19 @@ Per verificare PyInstaller:
 
 ## 3. Sorgente congelato
 
-La release v1.0.0 utilizza il seguente sorgente:
+La release v1.0.1 utilizza il seguente sorgente:
 
     seedgen.py
 
 SHA-256 del sorgente:
 
-    db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
+    9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
 
 Lo script `build.sh` verifica automaticamente questo hash prima di avviare la compilazione.
 
 Se l'hash non corrisponde, la build viene interrotta.
 
-Il branch `main` può contenere modifiche successive non ancora rilasciate. In tal caso è intenzionale che `build.sh` rifiuti il sorgente corrente: lo script resta congelato sulla release v1.0.0 finché non viene deliberata e preparata una nuova release.
+Il branch `main` può contenere modifiche successive non ancora rilasciate. In tal caso è intenzionale che `build.sh` rifiuti il sorgente corrente: lo script resta congelato sulla release v1.0.1 finché non viene deliberata e preparata una nuova release.
 
 ## 4. Build
 
@@ -62,25 +63,25 @@ Lo script:
 
 La directory temporanea utilizzata è:
 
-    /tmp/seedgen-v1.0.0-build-scripted
+    /tmp/seedgen-v1.0.1-build-scripted
 
 Il binario prodotto è:
 
-    /tmp/seedgen-v1.0.0-build-scripted/dist/seedgen-v1.0.0-linux-x86_64
+    /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64
 
 ## 5. Verifica del binario
 
 Dopo la build:
 
-    ls -lh /tmp/seedgen-v1.0.0-build-scripted/dist/
+    ls -lh /tmp/seedgen-v1.0.1-build-scripted/dist/
 
 Calcolare l'hash:
 
-    sha256sum /tmp/seedgen-v1.0.0-build-scripted/dist/seedgen-v1.0.0-linux-x86_64
+    sha256sum /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64
 
-Per la build di riferimento v1.0.0 l'hash del binario è:
+Per la build di riferimento v1.0.1 l'hash del binario è:
 
-    43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2
+    b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e
 
 ## 6. Verifica dell'architettura
 
@@ -88,13 +89,25 @@ Verificare l'architettura del sistema:
 
     uname -m
 
-La build ufficiale v1.0.0 è destinata a:
+La build candidata v1.0.1 è destinata a:
 
     x86_64
 
 Verificare anche il tipo di file:
 
-    file /tmp/seedgen-v1.0.0-build-scripted/dist/seedgen-v1.0.0-linux-x86_64
+    file /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64
+
+### Verifica requisito GLIBC
+
+Ricavare le versioni GLIBC referenziate direttamente dal binario:
+
+    readelf --version-info /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64 | grep -oE 'GLIBC_[0-9]+(\.[0-9]+)*' | sort -Vu
+
+Per la build candidata v1.0.1 il simbolo GLIBC più recente richiesto è:
+
+    GLIBC_2.14
+
+Il requisito minimo del launcher resta quindi GLIBC 2.14. Questo controllo deve essere ripetuto su ogni nuova build e non deve essere dedotto dalla sola versione GLIBC del sistema usato per compilare.
 
 ## 7. Test del binario
 
@@ -102,17 +115,17 @@ Il binario richiede le wordlist del progetto.
 
 Per eseguire il test dalla directory del repository, copiare il binario nella directory corrente:
 
-    cp /tmp/seedgen-v1.0.0-build-scripted/dist/seedgen-v1.0.0-linux-x86_64 .
+    cp /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64 .
 
 quindi avviarlo:
 
-    ./seedgen-v1.0.0-linux-x86_64
+    ./seedgen-v1.0.1-linux-x86_64
 
 Il programma deve avviarsi correttamente e completare i propri self-test prima di permettere la generazione.
 
 ## 8. Installazione
 
-L'installer ufficiale è:
+L'installer previsto per la release candidata è:
 
     INSTALLA_SEEDGEN.sh
 
@@ -124,7 +137,7 @@ L'installer copia i componenti necessari nell'installazione locale dell'utente e
 
 ## 9. Riproducibilità della build
 
-La build v1.0.0 è associata a:
+La build v1.0.1 è associata a:
 
 - versione sorgente;
 - hash SHA-256 del sorgente;
@@ -159,12 +172,12 @@ Prima della pubblicazione verificare:
 
 Versione:
 
-    1.0.0
+    1.0.1
 
 SHA-256 sorgente:
 
-    db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
+    9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
 
 SHA-256 binario Linux x86_64:
 
-    43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2
+    b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e

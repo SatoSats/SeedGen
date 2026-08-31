@@ -7,7 +7,7 @@ APP_DIR="$HOME/.local/share/seedgen"
 DESKTOP_DIR="$HOME/.local/share/applications"
 ICON_DIR="$HOME/.local/share/icons"
 
-BIN_NAME="seedgen-v1.0.0-linux-x86_64"
+BIN_NAME="seedgen-v1.0.1-linux-x86_64"
 
 echo
 echo "========================================"
@@ -45,7 +45,7 @@ chmod 644 "$ICON_DIR/seedgen-icon.svg"
 
 cat > "$DESKTOP_DIR/seedgen.desktop" <<DESKTOP
 [Desktop Entry]
-Name=SeedGen v1.0.0
+Name=SeedGen v1.0.1
 Comment=Generatore offline BIP39 e passphrase Diceware
 Exec=$APP_DIR/AVVIA_SEEDGEN.sh
 Icon=$ICON_DIR/seedgen-icon.svg

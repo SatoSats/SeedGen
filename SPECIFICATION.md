@@ -1,4 +1,4 @@
-# SPECIFICHE TECNICHE - SEEDGEN v1.0.0
+# SPECIFICHE TECNICHE - SEEDGEN v1.0.1 (candidata)
 
 ## 1. Scopo
 
@@ -113,11 +113,11 @@ Le wordlist richieste dal programma devono essere presenti nella directory previ
 
 ## 12. Piattaforma binaria
 
-La release binaria ufficiale v1.0.0 è fornita per:
+La build binaria candidata v1.0.1 è destinata a:
 
 - Linux x86_64.
 
-Il binario pubblicato della release v1.0.0 richiede simboli GLIBC fino a `GLIBC_2.14` e richiede quindi GLIBC 2.14 o successiva.
+Il binario candidato v1.0.1 richiede simboli GLIBC fino a `GLIBC_2.14` e richiede quindi GLIBC 2.14 o successiva.
 
 Il codice sorgente Python può essere eseguito separatamente tramite Python 3.
 
@@ -145,12 +145,12 @@ Se la versione GLIBC è almeno 2.14, oppure non viene rilevata nel formato previ
 
 Versione:
 
-    1.0.0
+    1.0.1
 
-SHA-256 del sorgente `seedgen.py` della release pubblicata v1.0.0:
+SHA-256 del sorgente `seedgen.py` della build candidata v1.0.1:
 
-    db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
+    9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
 
-SHA-256 del binario Linux x86_64 della release pubblicata v1.0.0:
+SHA-256 del binario Linux x86_64 della build candidata v1.0.1:
 
-    43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2
+    b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e

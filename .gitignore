@@ -13,7 +13,7 @@ dist/
 *.spec
 
 # Build e release locali
-seedgen-v1.0.0-linux-x86_64
+seedgen-v*-linux-x86_64
 *.tar.gz
 *.sha256
 *.asc
