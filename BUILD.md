@@ -2,7 +2,7 @@
 
 ## 1. Scopo
 
-Questo documento descrive la procedura congelata per ricostruire il binario Linux x86_64 della release candidata SeedGen v1.0.1 a partire dal sorgente identificato dall'hash riportato di seguito.
+Questo documento descrive la procedura congelata per ricostruire il binario Linux x86_64 della release SeedGen v1.0.1 a partire dal sorgente identificato dall'hash riportato di seguito.
 
 La build utilizza PyInstaller e produce un singolo eseguibile.
 
@@ -89,7 +89,7 @@ Verificare l'architettura del sistema:
 
     uname -m
 
-La build candidata v1.0.1 è destinata a:
+La build v1.0.1 è destinata a:
 
     x86_64
 
@@ -103,7 +103,7 @@ Ricavare le versioni GLIBC referenziate direttamente dal binario:
 
     readelf --version-info /tmp/seedgen-v1.0.1-build-scripted/dist/seedgen-v1.0.1-linux-x86_64 | grep -oE 'GLIBC_[0-9]+(\.[0-9]+)*' | sort -Vu
 
-Per la build candidata v1.0.1 il simbolo GLIBC più recente richiesto è:
+Per la build v1.0.1 il simbolo GLIBC più recente richiesto è:
 
     GLIBC_2.14
 
@@ -125,7 +125,7 @@ Il programma deve avviarsi correttamente e completare i propri self-test prima d
 
 ## 8. Installazione
 
-L'installer previsto per la release candidata è:
+L'installer previsto per la release v1.0.1 è:
 
     INSTALLA_SEEDGEN.sh
 

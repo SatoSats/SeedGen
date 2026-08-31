@@ -1,4 +1,4 @@
-# THREAT MODEL - SEEDGEN v1.0.1 (candidata)
+# THREAT MODEL - SEEDGEN v1.0.1
 
 ## 1. Scopo
 
@@ -167,16 +167,16 @@ La sicurezza finale dipende dalla combinazione di:
 5. corretta procedura dell'operatore;
 6. corretta conservazione del segreto.
 
-## 15. Identità della build candidata
+## 15. Identità della release
 
 Versione:
 
     1.0.1
 
-SHA-256 sorgente della build candidata v1.0.1:
+SHA-256 sorgente della release v1.0.1:
 
     9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
 
-SHA-256 binario Linux x86_64 della build candidata v1.0.1:
+SHA-256 binario Linux x86_64 della release v1.0.1:
 
     b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e

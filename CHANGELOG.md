@@ -1,6 +1,6 @@
 # CHANGELOG - SeedGen
 
-## Non rilasciato
+## v1.0.1
 
 ### Modifiche
 
@@ -8,7 +8,7 @@
 - Il controllo di raggiungibilità utilizza tentativi di connessione TCP verso endpoint pubblici sulla porta 443 e non trasmette mnemonic, passphrase o altri segreti.
 - Aggiunto nel launcher il controllo della versione GLIBC prima dell'avvio del binario.
 - Se la GLIBC rilevata è inferiore alla versione minima richiesta, il launcher mostra un messaggio di incompatibilità e non avvia il binario.
-- Per la build candidata v1.0.1 il simbolo GLIBC più recente richiesto è GLIBC_2.14, ricavato direttamente dal binario con readelf. Il requisito deve essere ricavato nuovamente per ogni futura build.
+- Per il binario v1.0.1 il simbolo GLIBC più recente richiesto è GLIBC_2.14, ricavato direttamente dal binario con readelf. Il requisito deve essere ricavato nuovamente per ogni futura build.
 
 ## v1.0.0
 

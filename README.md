@@ -12,7 +12,7 @@ Eseguire:
 
 L'installer installa SeedGen in ~/.local/share/seedgen e crea il launcher nel menu Applicazioni.
 
-Il binario Linux x86_64 della build candidata v1.0.1 richiede GLIBC 2.14 o successiva. Il launcher corrente verifica la versione GLIBC rilevata prima di avviare il binario e, se è troppo vecchia, mostra un messaggio di incompatibilità.
+Il binario Linux x86_64 della release v1.0.1 richiede GLIBC 2.14 o successiva. Il launcher corrente verifica la versione GLIBC rilevata prima di avviare il binario e, se è troppo vecchia, mostra un messaggio di incompatibilità.
 
 ## Avvio
 
@@ -38,15 +38,15 @@ La procedura richiede la verifica della trascrizione del segreto.
 
 Per l'utilizzo con fondi reali lavorare offline, usare un ambiente affidabile e conservare i segreti esclusivamente su supporto fisico.
 
-## Integrità release pubblicata v1.0.0
+## Integrità release v1.0.1
 
-Gli hash seguenti appartengono agli artefatti congelati della release pubblicata v1.0.0.
+Gli hash seguenti appartengono agli artefatti congelati della release v1.0.1.
 
 SHA-256 sorgente della release:
-db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
+9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
 
 SHA-256 binario Linux x86_64:
-43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2
+b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e
 
 ## Licenza
 
