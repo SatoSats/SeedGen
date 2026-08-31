@@ -77,6 +77,8 @@ La sicurezza complessiva dipende anche da:
 
 Per fondi reali è raccomandato utilizzare un ambiente offline e affidabile.
 
+Prima del menu principale, SeedGen verifica se Internet è raggiungibile. Se rileva una connessione, avvisa l'utente e permette di continuare consapevolmente oppure chiudere il programma. Il controllo non trasmette mnemonic, passphrase o altri segreti.
+
 ## Principio di sicurezza
 
 SeedGen è progettato per generare l'entropia del segreto a partire da lanci fisici di dadi D6.

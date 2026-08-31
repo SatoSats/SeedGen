@@ -25,6 +25,43 @@ if [ ! -f "$BIN" ]; then
     exit 1
 fi
 
+# Controllo versione GLIBC richiesta dal binario
+REQUIRED_GLIBC_MAJOR=2
+REQUIRED_GLIBC_MINOR=14
+GLIBC_VERSION=""
+
+if command -v getconf >/dev/null 2>&1; then
+    if GLIBC_OUTPUT="$(getconf GNU_LIBC_VERSION 2>/dev/null)"; then
+        GLIBC_VERSION="$(printf "%s\n" "$GLIBC_OUTPUT" | awk '{print $2}')"
+    fi
+fi
+
+if [[ "$GLIBC_VERSION" =~ ^([0-9]+)\.([0-9]+) ]]; then
+    GLIBC_MAJOR="${BASH_REMATCH[1]}"
+    GLIBC_MINOR="${BASH_REMATCH[2]}"
+
+    if (( GLIBC_MAJOR < REQUIRED_GLIBC_MAJOR ||
+          (GLIBC_MAJOR == REQUIRED_GLIBC_MAJOR && GLIBC_MINOR < REQUIRED_GLIBC_MINOR) )); then
+        echo "=================================================="
+        echo "VERSIONE GLIBC NON COMPATIBILE"
+        echo
+        echo "SeedGen richiede GLIBC 2.14 o successiva."
+        echo "Versione rilevata: GLIBC $GLIBC_VERSION"
+        echo
+        echo "La distribuzione Linux in uso è troppo vecchia"
+        echo "per eseguire questa versione di SeedGen."
+        echo "Questo non indica un malfunzionamento di SeedGen."
+        echo
+        echo "Aggiorna la distribuzione oppure utilizza"
+        echo "una distribuzione Linux più recente."
+        echo
+        echo "Non aggiornare manualmente GLIBC separatamente dal sistema."
+        echo "=================================================="
+        read -r -p "Premi INVIO per chiudere..."
+        exit 1
+    fi
+fi
+
 chmod 755 "$BIN"
 
 TERM_W=110

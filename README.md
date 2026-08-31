@@ -1,8 +1,8 @@
 # SeedGen v1.0.0
 
-SeedGen è un generatore offline di mnemonic BIP39 e passphrase Diceware opzionali.
+SeedGen è un generatore di mnemonic BIP39 e passphrase Diceware opzionali, progettato per essere utilizzato offline.
 
-SeedGen non è un wallet. Non conserva fondi, non deriva indirizzi, non firma transazioni e non invia dati in rete.
+SeedGen non è un wallet. Non conserva fondi, non deriva indirizzi e non firma transazioni. Non trasmette mnemonic, passphrase o altri segreti in rete. Il controllo iniziale della raggiungibilità Internet può effettuare brevi tentativi di connessione TCP verso endpoint pubblici sulla porta 443.
 
 ## Installazione Linux
 
@@ -12,9 +12,13 @@ Eseguire:
 
 L'installer installa SeedGen in ~/.local/share/seedgen e crea il launcher nel menu Applicazioni.
 
+Il binario Linux x86_64 della release v1.0.0 richiede GLIBC 2.14 o successiva. Il launcher corrente verifica la versione GLIBC rilevata prima di avviare il binario e, se è troppo vecchia, mostra un messaggio di incompatibilità.
+
 ## Avvio
 
 SeedGen può essere avviato dal menu Applicazioni oppure tramite AVVIA_SEEDGEN.sh.
+
+Dopo i self-test e prima del menu principale, SeedGen controlla se Internet è raggiungibile. Se rileva una connessione, avvisa l'utente e permette di continuare consapevolmente oppure chiudere SeedGen. Se Internet non viene rilevato, il menu principale viene mostrato senza alcun avviso.
 
 ## Generazione
 
@@ -32,11 +36,13 @@ La procedura richiede la verifica della trascrizione del segreto.
 
 ## Sicurezza
 
-Per l utilizzo con fondi reali lavorare offline, usare un ambiente affidabile e conservare i segreti esclusivamente su supporto fisico.
+Per l'utilizzo con fondi reali lavorare offline, usare un ambiente affidabile e conservare i segreti esclusivamente su supporto fisico.
 
-## Integrità v1.0.0
+## Integrità release pubblicata v1.0.0
 
-SHA-256 sorgente:
+Gli hash seguenti appartengono agli artefatti congelati della release pubblicata v1.0.0.
+
+SHA-256 sorgente della release:
 db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
 
 SHA-256 binario Linux x86_64:

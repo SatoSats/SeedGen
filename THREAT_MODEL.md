@@ -122,7 +122,13 @@ Un'applicazione che comunica con servizi esterni potrebbe trasmettere il segreto
 
 ### Mitigazione
 
-SeedGen è progettato per funzionare senza connessione di rete e non richiede servizi online per la generazione.
+SeedGen è progettato per essere utilizzato offline e non richiede servizi online per la generazione.
+
+Dopo i self-test e prima del menu principale, SeedGen effettua tentativi di connessione TCP verso endpoint pubblici sulla porta 443 per verificare se Internet è raggiungibile.
+
+Se Internet viene rilevato, SeedGen avvisa l'utente prima di mostrare il menu principale e permette di continuare consapevolmente oppure chiudere il programma. Se Internet non viene rilevato, non viene mostrato alcun avviso.
+
+Il controllo di raggiungibilità non trasmette mnemonic, passphrase o altri segreti.
 
 ## 12. Errore umano
 
@@ -167,10 +173,10 @@ Versione:
 
     1.0.0
 
-SHA-256 sorgente:
+SHA-256 sorgente della release pubblicata v1.0.0:
 
     db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
 
-SHA-256 binario Linux x86_64:
+SHA-256 binario Linux x86_64 della release pubblicata v1.0.0:
 
     43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2

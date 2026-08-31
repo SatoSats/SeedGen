@@ -2,7 +2,7 @@
 
 ## 1. Scopo
 
-Questo documento descrive la procedura per ricostruire il binario Linux x86_64 di SeedGen v1.0.0 a partire dal sorgente presente nel repository.
+Questo documento descrive la procedura congelata per ricostruire il binario Linux x86_64 della release pubblicata SeedGen v1.0.0 a partire dal sorgente identificato dall'hash riportato di seguito.
 
 La build utilizza PyInstaller e produce un singolo eseguibile.
 
@@ -38,6 +38,8 @@ SHA-256 del sorgente:
 Lo script `build.sh` verifica automaticamente questo hash prima di avviare la compilazione.
 
 Se l'hash non corrisponde, la build viene interrotta.
+
+Il branch `main` può contenere modifiche successive non ancora rilasciate. In tal caso è intenzionale che `build.sh` rifiuti il sorgente corrente: lo script resta congelato sulla release v1.0.0 finché non viene deliberata e preparata una nuova release.
 
 ## 4. Build
 

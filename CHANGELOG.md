@@ -1,5 +1,15 @@
 # CHANGELOG - SeedGen
 
+## Non rilasciato
+
+### Modifiche
+
+- Aggiunto un controllo iniziale della raggiungibilità Internet: se Internet viene rilevato prima del menu principale, SeedGen avvisa l'utente e permette di continuare consapevolmente oppure chiudere il programma.
+- Il controllo di raggiungibilità utilizza tentativi di connessione TCP verso endpoint pubblici sulla porta 443 e non trasmette mnemonic, passphrase o altri segreti.
+- Aggiunto nel launcher il controllo della versione GLIBC prima dell'avvio del binario.
+- Se la GLIBC rilevata è inferiore alla versione minima richiesta, il launcher mostra un messaggio di incompatibilità e non avvia il binario.
+- Per il binario pubblicato v1.0.0 il simbolo GLIBC più recente richiesto è GLIBC_2.14. Il requisito deve essere ricavato nuovamente per ogni futura build.
+
 ## v1.0.0
 
 Prima release ufficiale della nuova serie SeedGen.

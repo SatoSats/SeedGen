@@ -93,6 +93,17 @@ SeedGen è progettato per funzionare offline.
 
 Il programma non richiede una connessione di rete per la generazione.
 
+Dopo i self-test e prima del menu principale, SeedGen verifica la raggiungibilità Internet tentando connessioni TCP verso `1.1.1.1`, `8.8.8.8` e `1.0.0.1` sulla porta 443, con timeout di 1,5 secondi per tentativo.
+
+Al primo tentativo riuscito Internet viene considerato raggiungibile e viene mostrato un avviso con due possibilità:
+
+- `[1] Sono consapevole, continua`;
+- `[2] Chiudi SeedGen`.
+
+Se nessun tentativo riesce, non viene mostrato alcun avviso e viene aperto il menu principale.
+
+Il controllo può generare esclusivamente traffico di rilevamento della raggiungibilità. Mnemonic, passphrase e altri segreti non vengono trasmessi.
+
 ## 11. Wordlist
 
 Le wordlist richieste dal programma devono essere presenti nella directory prevista dall'installazione:
@@ -105,6 +116,8 @@ Le wordlist richieste dal programma devono essere presenti nella directory previ
 La release binaria ufficiale v1.0.0 è fornita per:
 
 - Linux x86_64.
+
+Il binario pubblicato della release v1.0.0 richiede simboli GLIBC fino a `GLIBC_2.14` e richiede quindi GLIBC 2.14 o successiva.
 
 Il codice sorgente Python può essere eseguito separatamente tramite Python 3.
 
@@ -122,7 +135,11 @@ Il launcher principale è:
 
     AVVIA_SEEDGEN.sh
 
-Il launcher verifica l'architettura del sistema, individua il binario e apre una finestra terminale per l'esecuzione.
+Il launcher verifica l'architettura del sistema e la presenza del binario.
+
+Se `getconf GNU_LIBC_VERSION` permette di rilevare la versione GLIBC e questa è inferiore alla 2.14, il launcher blocca l'avvio e mostra un messaggio che indica l'incompatibilità della distribuzione Linux. Il messaggio raccomanda di aggiornare la distribuzione o utilizzarne una più recente e di non aggiornare manualmente GLIBC separatamente dal sistema.
+
+Se la versione GLIBC è almeno 2.14, oppure non viene rilevata nel formato previsto, il launcher prosegue e apre una finestra terminale per l'esecuzione del binario.
 
 ## 15. Identità della versione
 
@@ -130,10 +147,10 @@ Versione:
 
     1.0.0
 
-SHA-256 del sorgente `seedgen.py`:
+SHA-256 del sorgente `seedgen.py` della release pubblicata v1.0.0:
 
     db687c2c9a9443f2588d9005e02f9eecb1291676a493f27a43566088455ea43a
 
-SHA-256 del binario Linux x86_64:
+SHA-256 del binario Linux x86_64 della release pubblicata v1.0.0:
 
     43b18f0c53698ed4c16a7dee703a9a6033f379d6a85329a3d9f644476ec4d3c2
