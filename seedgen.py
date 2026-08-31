@@ -16,6 +16,7 @@ import math
 import hashlib
 import hmac
 import re
+import socket
 from typing import List, Tuple, Optional, Dict, Union, Callable
 from collections import Counter
 import termios
@@ -57,6 +58,22 @@ DICEWARE_FILENAME = os.path.join(_SCRIPT_DIR, "diceware_wordlist.txt")
 # Hash SHA-256 della wordlist Diceware EFF ufficiale
 # Verrà verificato all'avvio della funzione Diceware
 DICEWARE_SHA256 = "addd35536511597a02fa0a9ff1e5284677b8883b83e986e43f15a3db996b903e"
+
+def internet_raggiungibile(timeout: float = 1.5) -> bool:
+    """Rileva se Internet è raggiungibile tramite connessioni TCP alla porta 443."""
+    endpoints = (
+        ("1.1.1.1", 443),
+        ("8.8.8.8", 443),
+        ("1.0.0.1", 443),
+    )
+    for host, port in endpoints:
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                return True
+        except OSError:
+            continue
+    return False
+
 
 # ============================================================
 # COLORI
@@ -879,6 +896,30 @@ class SeedGenApp:
         print(self.box_line(yellow('Rejection Sampling - Air-Gapped')))
         print(self.box_bottom())
         print()
+
+    def avviso_connessione_internet(self) -> bool:
+        self.mostra_logo()
+        print(self.box_top())
+        print(self.box_line(bold(red("ATTENZIONE: CONNESSIONE INTERNET RILEVATA"))))
+        print(self.box_sep())
+        print(self.box_line(""))
+        print(self.box_line("SeedGen ha rilevato che questo computer può raggiungere Internet."))
+        print(self.box_line(""))
+        print(self.box_line("SeedGen è progettato per essere utilizzato offline,"))
+        print(self.box_line("preferibilmente su un sistema air-gapped."))
+        print(self.box_line(""))
+        print(self.box_line("Per ridurre il rischio di esposizione durante la generazione"))
+        print(self.box_line("di informazioni segrete, è consigliato scollegare tutte"))
+        print(self.box_line("le connessioni Internet prima di continuare."))
+        print(self.box_line(""))
+        print(self.box_line(green("[1]") + " Sono consapevole, continua"))
+        print(self.box_line(red("[2]") + " Chiudi SeedGen           "))
+        print(self.box_line(""))
+        print(self.box_bottom())
+        print()
+
+        scelta = Terminal.wait_key("12")
+        return scelta == "1"
 
     def mostra_menu(self):
         self.mostra_logo()
@@ -1971,6 +2012,10 @@ class SeedGenApp:
             print(red(str(e)))
             sys.exit(1)
         
+        if internet_raggiungibile():
+            if not self.avviso_connessione_internet():
+                return
+
         while True:
             self.mostra_menu()
             scelta = Terminal.wait_key('0123456789')
