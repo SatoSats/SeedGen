@@ -1,4 +1,4 @@
-# SPECIFICHE TECNICHE - SEEDGEN v1.0.1
+# SPECIFICHE TECNICHE - SEEDGEN v1.0.2
 
 ## 1. Scopo
 
@@ -113,11 +113,11 @@ Le wordlist richieste dal programma devono essere presenti nella directory previ
 
 ## 12. Piattaforma binaria
 
-La release binaria v1.0.1 è destinata a:
+La release binaria v1.0.2 è destinata a:
 
 - Linux x86_64.
 
-Il binario della release v1.0.1 richiede simboli GLIBC fino a `GLIBC_2.14` e richiede quindi GLIBC 2.14 o successiva.
+Il binario della release v1.0.2 richiede simboli GLIBC fino a `GLIBC_2.38` e richiede quindi GLIBC 2.38 o successiva.
 
 Il codice sorgente Python può essere eseguito separatamente tramite Python 3.
 
@@ -137,20 +137,20 @@ Il launcher principale è:
 
 Il launcher verifica l'architettura del sistema e la presenza del binario.
 
-Se `getconf GNU_LIBC_VERSION` permette di rilevare la versione GLIBC e questa è inferiore alla 2.14, il launcher blocca l'avvio e mostra un messaggio che indica l'incompatibilità della distribuzione Linux. Il messaggio raccomanda di aggiornare la distribuzione o utilizzarne una più recente e di non aggiornare manualmente GLIBC separatamente dal sistema.
+Se `getconf GNU_LIBC_VERSION` permette di rilevare la versione GLIBC e questa è inferiore alla 2.38, il launcher blocca l'avvio e mostra un messaggio che indica l'incompatibilità della distribuzione Linux. Il messaggio raccomanda di aggiornare la distribuzione o utilizzarne una più recente e di non aggiornare manualmente GLIBC separatamente dal sistema.
 
-Se la versione GLIBC è almeno 2.14, oppure non viene rilevata nel formato previsto, il launcher prosegue e apre una finestra terminale per l'esecuzione del binario.
+Se la versione GLIBC è almeno 2.38, oppure non viene rilevata nel formato previsto, il launcher prosegue e apre una finestra terminale per l'esecuzione del binario.
 
 ## 15. Identità della versione
 
 Versione:
 
-    1.0.1
+    1.0.2
 
-SHA-256 del sorgente `seedgen.py` della release v1.0.1:
+SHA-256 del sorgente `seedgen.py` della release v1.0.2:
 
-    9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
+    a347d11ec5d23dac0799c5d19ef5495d74b744e479eb67e706c0a7ad62c2564b
 
-SHA-256 del binario Linux x86_64 della release v1.0.1:
+SHA-256 del binario Linux x86_64 della release v1.0.2:
 
-    b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e
+    9f90c5566eb21b0ef3e9766378ea33db406a85623d2855e8b4078e682519765f

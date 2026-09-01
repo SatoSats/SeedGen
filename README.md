@@ -1,4 +1,4 @@
-# SeedGen v1.0.1
+# SeedGen v1.0.2
 
 SeedGen è un generatore di mnemonic BIP39 e passphrase Diceware opzionali, progettato per essere utilizzato offline.
 
@@ -12,7 +12,7 @@ Eseguire:
 
 L'installer installa SeedGen in ~/.local/share/seedgen e crea il launcher nel menu Applicazioni.
 
-Il binario Linux x86_64 della release v1.0.1 richiede GLIBC 2.14 o successiva. Il launcher corrente verifica la versione GLIBC rilevata prima di avviare il binario e, se è troppo vecchia, mostra un messaggio di incompatibilità.
+Il binario Linux x86_64 della release v1.0.2 richiede GLIBC 2.38 o successiva. Il launcher corrente verifica la versione GLIBC rilevata prima di avviare il binario e, se è troppo vecchia, mostra un messaggio di incompatibilità.
 
 ## Avvio
 
@@ -38,15 +38,15 @@ La procedura richiede la verifica della trascrizione del segreto.
 
 Per l'utilizzo con fondi reali lavorare offline, usare un ambiente affidabile e conservare i segreti esclusivamente su supporto fisico.
 
-## Integrità release v1.0.1
+## Integrità release v1.0.2
 
-Gli hash seguenti appartengono agli artefatti congelati della release v1.0.1.
+Gli hash seguenti appartengono agli artefatti congelati della release v1.0.2.
 
 SHA-256 sorgente della release:
-9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
+a347d11ec5d23dac0799c5d19ef5495d74b744e479eb67e706c0a7ad62c2564b
 
 SHA-256 binario Linux x86_64:
-b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e
+9f90c5566eb21b0ef3e9766378ea33db406a85623d2855e8b4078e682519765f
 
 ## Licenza
 

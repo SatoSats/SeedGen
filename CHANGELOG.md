@@ -1,5 +1,15 @@
 # CHANGELOG - SeedGen
 
+## v1.0.2
+
+### Modifiche
+
+- Corretto il requisito minimo GLIBC del launcher da 2.14 a 2.38 per il binario Linux x86_64.
+- Il requisito è stato verificato analizzando tutti i 20 componenti binari incorporati nella build PyInstaller `--onefile`, non soltanto l'eseguibile ELF esterno.
+- `GLIBC_2.38` è il requisito massimo rilevato nella build v1.0.2.
+- Il comportamento del launcher con GLIBC 2.35 è stato verificato anche su Linux Mint 21.1: SeedGen non tenta di avviare il binario incompatibile e mostra invece un messaggio chiaro di incompatibilità.
+- Nessuna modifica alla generazione BIP39, alla generazione Diceware, alla gestione dell'entropia D6 o ai controlli di distribuzione dei lanci.
+
 ## v1.0.1
 
 ### Modifiche
@@ -8,7 +18,7 @@
 - Il controllo di raggiungibilità utilizza tentativi di connessione TCP verso endpoint pubblici sulla porta 443 e non trasmette mnemonic, passphrase o altri segreti.
 - Aggiunto nel launcher il controllo della versione GLIBC prima dell'avvio del binario.
 - Se la GLIBC rilevata è inferiore alla versione minima richiesta, il launcher mostra un messaggio di incompatibilità e non avvia il binario.
-- Per il binario v1.0.1 il simbolo GLIBC più recente richiesto è GLIBC_2.14, ricavato direttamente dal binario con readelf. Il requisito deve essere ricavato nuovamente per ogni futura build.
+- Nella release v1.0.1 il requisito GLIBC era stato erroneamente determinato come GLIBC_2.14 controllando soltanto l’eseguibile ELF esterno. Un successivo audit dei componenti binari incorporati da PyInstaller ha rilevato requisiti fino a GLIBC_2.38; la correzione è introdotta in v1.0.2.
 
 ## v1.0.0
 

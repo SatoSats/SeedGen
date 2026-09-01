@@ -2,14 +2,14 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BIN="$DIR/seedgen-v1.0.1-linux-x86_64"
+BIN="$DIR/seedgen-v1.0.2-linux-x86_64"
 
 # Controllo architettura
 ARCH="$(uname -m)"
 
 if [ "$ARCH" != "x86_64" ]; then
     echo "=================================================="
-    echo "SeedGen v1.0.1 richiede Linux x86_64 (64 bit)."
+    echo "SeedGen v1.0.2 richiede Linux x86_64 (64 bit)."
     echo
     echo "Architettura rilevata: $ARCH"
     echo "=================================================="
@@ -27,7 +27,7 @@ fi
 
 # Controllo versione GLIBC richiesta dal binario
 REQUIRED_GLIBC_MAJOR=2
-REQUIRED_GLIBC_MINOR=14
+REQUIRED_GLIBC_MINOR=38
 GLIBC_VERSION=""
 
 if command -v getconf >/dev/null 2>&1; then
@@ -45,7 +45,7 @@ if [[ "$GLIBC_VERSION" =~ ^([0-9]+)\.([0-9]+) ]]; then
         echo "=================================================="
         echo "VERSIONE GLIBC NON COMPATIBILE"
         echo
-        echo "SeedGen richiede GLIBC 2.14 o successiva."
+        echo "SeedGen richiede GLIBC 2.38 o successiva."
         echo "Versione rilevata: GLIBC $GLIBC_VERSION"
         echo
         echo "La distribuzione Linux in uso è troppo vecchia"

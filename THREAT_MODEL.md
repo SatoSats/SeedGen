@@ -1,8 +1,8 @@
-# THREAT MODEL - SEEDGEN v1.0.1
+# THREAT MODEL - SEEDGEN v1.0.2
 
 ## 1. Scopo
 
-Questo documento descrive le principali minacce considerate nel progetto SeedGen v1.0.1 e le relative misure di mitigazione.
+Questo documento descrive le principali minacce considerate nel progetto SeedGen v1.0.2 e le relative misure di mitigazione.
 
 SeedGen è un generatore offline di mnemonic BIP39 basato su entropia fisica ottenuta tramite dadi D6.
 
@@ -171,12 +171,12 @@ La sicurezza finale dipende dalla combinazione di:
 
 Versione:
 
-    1.0.1
+    1.0.2
 
-SHA-256 sorgente della release v1.0.1:
+SHA-256 sorgente della release v1.0.2:
 
-    9e0257cfabdfad75274f8572569d52551aff6e3ecd4906d487ec77bc38001d98
+    a347d11ec5d23dac0799c5d19ef5495d74b744e479eb67e706c0a7ad62c2564b
 
-SHA-256 binario Linux x86_64 della release v1.0.1:
+SHA-256 binario Linux x86_64 della release v1.0.2:
 
-    b85c0e21177d0edcc627761e2b486c75412f509561dda400d7c9e620ee90a28e
+    9f90c5566eb21b0ef3e9766378ea33db406a85623d2855e8b4078e682519765f

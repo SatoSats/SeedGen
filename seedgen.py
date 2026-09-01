@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SeedGen v1.0.1 - Generatore BIP39 da entropia fisica D6
+SeedGen v1.0.2 - Generatore BIP39 da entropia fisica D6
 Air-Gapped - Rejection Sampling - Verifica BIP39 completa
 
 AVVISO: SeedGen è un GENERATORE di seed phrase, NON un wallet.
@@ -8,7 +8,7 @@ Non detiene, gestisce, invia o firma transazioni Bitcoin.
 Le seed generate DEVONO essere trascritte e importate in un wallet separato.
 """
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 import os
 import sys
 import time

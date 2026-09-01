@@ -1,4 +1,4 @@
-# GUIDA SEEDGEN v1.0.1
+# GUIDA SEEDGEN v1.0.2
 
 ━━━━━━━━━━━━━━━━━━━━━━  1. SCARICARE SEEDGEN  ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -13,9 +13,9 @@ Scarica i cinque file che trovi in Assets.
 
 - GUIDA_INSTALLAZIONE_SEEDGEN.md
 - chiave_pubblica_gpg.asc
-- seedgen-v1.0.1-linux-x86_64.tar.gz
-- seedgen-v1.0.1-linux-x86_64.tar.gz.asc
-- seedgen-v1.0.1-linux-x86_64.tar.gz.sha256
+- seedgen-v1.0.2-linux-x86_64.tar.gz
+- seedgen-v1.0.2-linux-x86_64.tar.gz.asc
+- seedgen-v1.0.2-linux-x86_64.tar.gz.sha256
 
 Salvali in una chiavetta USB.
 
@@ -31,9 +31,9 @@ Dovrai avere al suo interno i cinque file:
 
 - GUIDA_INSTALLAZIONE_SEEDGEN.md
 - chiave_pubblica_gpg.asc
-- seedgen-v1.0.1-linux-x86_64.tar.gz
-- seedgen-v1.0.1-linux-x86_64.tar.gz.asc
-- seedgen-v1.0.1-linux-x86_64.tar.gz.sha256
+- seedgen-v1.0.2-linux-x86_64.tar.gz
+- seedgen-v1.0.2-linux-x86_64.tar.gz.asc
+- seedgen-v1.0.2-linux-x86_64.tar.gz.sha256
 
 ━━━━━━━━━━━━━━━━━━━━━━  2. VERIFICA SHA-256  ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -43,13 +43,13 @@ Apri il Terminale (su Tails si chiama "Console").
 
 Eseguire:
 
-sha256sum -c seedgen-v1.0.1-linux-x86_64.tar.gz.sha256
+sha256sum -c seedgen-v1.0.2-linux-x86_64.tar.gz.sha256
 
 (Premi Invio)
 
 Come risultato corretto deve dare:
 
-✅ seedgen-v1.0.1-linux-x86_64.tar.gz: OK
+✅ seedgen-v1.0.2-linux-x86_64.tar.gz: OK
 
 ━━━━━━━━━━━━━━━━━━━━━━  3. VERIFICA FIRMA GPG  ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -73,7 +73,7 @@ gpg --import chiave_pubblica_gpg.asc
 
 Eseguire:
 
-gpg --verify seedgen-v1.0.1-linux-x86_64.tar.gz.asc seedgen-v1.0.1-linux-x86_64.tar.gz
+gpg --verify seedgen-v1.0.2-linux-x86_64.tar.gz.asc seedgen-v1.0.2-linux-x86_64.tar.gz
 
 (Premi Invio)
 
@@ -85,13 +85,13 @@ Come risultato corretto deve dare:
 
 Clicca con il tasto destro del mouse sul pacchetto:
 
-seedgen-v1.0.1-linux-x86_64.tar.gz
+seedgen-v1.0.2-linux-x86_64.tar.gz
 
 Seleziona "Estrai qui".
 
 Verrà estratta la cartella chiamata:
 
-seedgen-v1.0.1-linux-x86_64
+seedgen-v1.0.2-linux-x86_64
 
 Entra nella cartella appena estratta.
 

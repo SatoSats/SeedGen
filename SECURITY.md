@@ -1,4 +1,4 @@
-# SECURITY POLICY - SEEDGEN v1.0.1
+# SECURITY POLICY - SEEDGEN v1.0.2
 
 ## Versione supportata
 
@@ -6,7 +6,7 @@ La versione attuale supportata è:
 
 | Versione | Stato |
 |----------|-------|
-| v1.0.1 | ✅ Versione corrente |
+| v1.0.2 | ✅ Versione corrente |
 
 Le versioni precedenti alla serie v1.0.0 non fanno parte della distribuzione corrente.
 
