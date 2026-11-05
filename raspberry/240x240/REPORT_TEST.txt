@@ -1,0 +1,75 @@
+test_all_lengths_and_checksum (__main__.Tests.test_all_lengths_and_checksum) ... ok
+test_audit_parameters (__main__.Tests.test_audit_parameters) ... ok
+test_choose_prefix (__main__.Tests.test_choose_prefix) ... ok
+test_correct_final_roll (__main__.Tests.test_correct_final_roll) ... ok
+test_diceware_all_indices (__main__.Tests.test_diceware_all_indices) ... ok
+test_full_copy_and_mismatch (__main__.Tests.test_full_copy_and_mismatch) ... ok
+test_generation_both_flows (__main__.Tests.test_generation_both_flows) ... ok
+test_guard_blocks_network_and_swap (__main__.Tests.test_guard_blocks_network_and_swap) ... ok
+test_hash_tamper_fails (__main__.Tests.test_hash_tamper_fails) ... ok
+test_invalid_dice (__main__.Tests.test_invalid_dice) ... ok
+test_large_font_word_pages (__main__.Tests.test_large_font_word_pages) ... ok
+test_menu_cancel (__main__.Tests.test_menu_cancel) ... ok
+test_menu_scroll_and_wrap (__main__.Tests.test_menu_scroll_and_wrap) ... ok
+test_mnemonic_valid_invalid (__main__.Tests.test_mnemonic_valid_invalid) ... ok
+test_note_pages_preserve_text (__main__.Tests.test_note_pages_preserve_text) ... ok
+test_original_tests (__main__.Tests.test_original_tests) ... ok
+test_rejection_and_distribution_redo (__main__.Tests.test_rejection_and_distribution_redo) ... ok
+test_undo_and_cancel (__main__.Tests.test_undo_and_cancel) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.276s
+
+OK
+
+test_all_new_flows_reject_offline_failure (__main__.PasswordTests.test_all_new_flows_reject_offline_failure) ... ok
+test_complete_small_spaces_are_uniform (__main__.PasswordTests.test_complete_small_spaces_are_uniform) ... ok
+test_dice_grid_moves_and_undo (__main__.PasswordTests.test_dice_grid_moves_and_undo) ... ok
+test_home_navigation (__main__.PasswordTests.test_home_navigation) ... ok
+test_invalid_input (__main__.PasswordTests.test_invalid_input) ... ok
+test_password_routes_all_types_strengths (__main__.PasswordTests.test_password_routes_all_types_strengths) ... ok
+test_secret_text_pages_preserve_wide_characters_and_spaces (__main__.PasswordTests.test_secret_text_pages_preserve_wide_characters_and_spaces) ... ok
+test_separators_and_bip39_password_is_not_mnemonic (__main__.PasswordTests.test_separators_and_bip39_password_is_not_mnemonic) ... ok
+test_short_wordlist_order_and_tamper (__main__.PasswordTests.test_short_wordlist_order_and_tamper) ... ok
+test_strength_and_boundary_all_formats (__main__.PasswordTests.test_strength_and_boundary_all_formats) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.066s
+
+OK
+
+test_all_languages_have_native_labels_and_accents (__main__.NavTests.test_all_languages_have_native_labels_and_accents) ... ok
+test_classic_route_still_generates_original_word_lengths (__main__.NavTests.test_classic_route_still_generates_original_word_lengths) ... ok
+test_diagnostics_back_without_k3 (__main__.NavTests.test_diagnostics_back_without_k3) ... ok
+test_dice_back_does_not_record_a_roll (__main__.NavTests.test_dice_back_does_not_record_a_roll) ... ok
+test_dice_return_from_header_then_enter (__main__.NavTests.test_dice_return_from_header_then_enter) ... ok
+test_dynamic_translation_and_page_titles (__main__.NavTests.test_dynamic_translation_and_page_titles) ... ok
+test_home_power_is_reachable_without_k3 (__main__.NavTests.test_home_power_is_reachable_without_k3) ... ok
+test_language_menu_updates_session_and_native_names (__main__.NavTests.test_language_menu_updates_session_and_native_names) ... ok
+test_language_validation (__main__.NavTests.test_language_validation) ... ok
+test_menu_header_left_then_down (__main__.NavTests.test_menu_header_left_then_down) ... ok
+test_menu_header_up_then_centre (__main__.NavTests.test_menu_header_up_then_centre) ... ok
+test_note_back_without_k3 (__main__.NavTests.test_note_back_without_k3) ... ok
+test_only_requested_password_entries (__main__.NavTests.test_only_requested_password_entries) ... ok
+test_password_settings_return_to_previous_step (__main__.NavTests.test_password_settings_return_to_previous_step) ... ok
+test_power_requires_explicit_confirmation (__main__.NavTests.test_power_requires_explicit_confirmation) ... ok
+test_secret_text_back_without_k3 (__main__.NavTests.test_secret_text_back_without_k3) ... ok
+test_secrets_and_dictionary_candidates_are_not_translated (__main__.NavTests.test_secrets_and_dictionary_candidates_are_not_translated) ... ok
+test_startup_back_opens_home_without_locking (__main__.NavTests.test_startup_back_opens_home_without_locking) ... ok
+test_translation_placeholders_are_preserved (__main__.NavTests.test_translation_placeholders_are_preserved) ... ok
+test_words_back_without_k3 (__main__.NavTests.test_words_back_without_k3) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.008s
+
+OK
+
+48 host tests PASS for this profile, including 14 original core self-tests.
+Regression coverage: three password choices, original classic word counts,
+header back in menus, notes, words, password review, dice and diagnostics;
+home Power focus and explicit confirmation; wizard previous-step navigation;
+startup Back; four UI languages, dynamic text, placeholders and accents;
+secret text and dictionary choices excluded from translation.
+Build harness PASS: main/modules/i18n overlay, output naming and Docker failure propagation.
+Python compile and Bash syntax PASS. Four-language 240x240 preview inspected.
+V9 not compiled or booted on real Raspberry hardware in this environment.
