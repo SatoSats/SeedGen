@@ -324,11 +324,20 @@ class App:
                     page+=1
         finally:self.ui.back_focused=False
 
-    def verify_copy(self, words, dictionary):
+    def verify_copy(self, words, dictionary, *, bip39=False):
         while True:
             self.note('Verifica copia', ['Usa solo il foglio.', 'Inserisci TUTTE le parole', 'nello stesso ordine.', 'K3 annulla: non verificata.'])
             entered = [self.choose_word(dictionary, i+1) for i in range(len(words))]
             good = hmac.compare_digest(' '.join(entered).encode('utf-8'), ' '.join(words).encode('utf-8'))
+            if good and bip39:
+                try:
+                    core.mnemonic_to_entropy(entered, dictionary)
+                except Exception:
+                    entered = None
+                    choice = self.menu('Copia non verificata', ['Riprova dal foglio', 'Annulla (non verificata)'])
+                    if choice == 1:
+                        raise Cancel()
+                    continue
             entered = None
             if good:
                 self.note('Copia verificata', ['Parole e ordine corretti.', 'Conserva il foglio al sicuro.'])
@@ -366,7 +375,7 @@ class App:
             if diceware:
                 self.note('Passphrase Diceware', ['Trascrivi in minuscolo.', 'Un solo spazio tra parole.', 'Numeri esclusi.', 'Conserva separata', 'dalla seed BIP39.'])
             self.display_words(words, 'Diceware' if diceware else 'Seed BIP39')
-            self.verify_copy(words, self.dw if diceware else self.wl)
+            self.verify_copy(words, self.dw if diceware else self.wl, bip39=not diceware)
         finally:
             self.screen('Sessione chiusa', ['Nessun segreto salvato.', 'RAM Python non azzerabile.', 'Spegni dopo la prova.'])
             words = rolls = entropy = None

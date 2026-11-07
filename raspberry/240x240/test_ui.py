@@ -79,6 +79,53 @@ class Tests(unittest.TestCase):
         a.verify_copy(['abandon'],self.wl)
         entered=iter(['ability']); a.choose_word=lambda *args:next(entered); a.menu=lambda *args:2
         with self.assertRaises(v5.Cancel): a.verify_copy(['abandon'],self.wl)
+    def test_copy_bip39_validates_reentered_words_before_confirmation(self):
+        words = v5.core.entropy_to_mnemonic(bytes(16), self.wl)
+        entered = iter(words)
+        a = self.app()
+        a.choose_word = lambda *args: next(entered)
+        with patch.object(v5.core, 'mnemonic_to_entropy', wraps=v5.core.mnemonic_to_entropy) as check:
+            def note(title, lines):
+                if title == 'Copia verificata':
+                    check.assert_called_once_with(words, self.wl)
+            a.note = note
+            a.verify_copy(words, self.wl, bip39=True)
+            check.assert_called_once_with(words, self.wl)
+
+    def test_identical_copy_with_invalid_bip39_checksum_cannot_be_verified(self):
+        words = ['abandon'] * 12
+        entered = iter(words)
+        a = self.app()
+        notes = []
+        a.note = lambda title, lines: notes.append(title)
+        a.choose_word = lambda *args: next(entered)
+        def cancel(title, options):
+            self.assertEqual(title, 'Copia non verificata')
+            self.assertEqual(options, ['Riprova dal foglio', 'Annulla (non verificata)'])
+            return 1
+        a.menu = cancel
+        with self.assertRaises(v5.Cancel):
+            a.verify_copy(words, self.wl, bip39=True)
+        self.assertNotIn('Copia verificata', notes)
+
+    def test_copy_bip39_can_retry_after_unexpected_validation_error(self):
+        entropy = bytes(16)
+        words = v5.core.entropy_to_mnemonic(entropy, self.wl)
+        entered = iter(words * 2)
+        a = self.app()
+        notes = []
+        a.note = lambda title, lines: notes.append(title)
+        a.choose_word = lambda *args: next(entered)
+        def retry(title, options):
+            self.assertEqual(title, 'Copia non verificata')
+            self.assertNotIn('Copia verificata', notes)
+            return 0
+        a.menu = retry
+        with patch.object(v5.core, 'mnemonic_to_entropy', side_effect=[RuntimeError('public test failure'), entropy]) as check:
+            a.verify_copy(words, self.wl, bip39=True)
+        self.assertEqual(check.call_count, 2)
+        self.assertEqual(notes.count('Copia verificata'), 1)
+
     def test_mnemonic_valid_invalid(self):
         for valid in (True,False):
             a=self.app(); a.menu=lambda *args:0; notes=[]
@@ -99,7 +146,10 @@ class Tests(unittest.TestCase):
             a.collect=lambda n:list(rolls)
             shown=[]; verified=[]
             a.display_words=lambda words,title:shown.extend(words)
-            a.verify_copy=lambda words,dictionary:verified.extend(words)
+            def verify(words, dictionary, *, bip39):
+                self.assertEqual(bip39, not dw)
+                verified.extend(words)
+            a.verify_copy = verify
             with patch.object(v5,'require_offline'),patch.object(v5.core,'analizza_distribuzione_lanci',return_value=(True,20)):
                 a.generate(count,dw)
             self.assertEqual(len(shown),count); self.assertEqual(shown,verified)
@@ -107,10 +157,14 @@ class Tests(unittest.TestCase):
         a=self.app(); notes=[]; a.note=lambda title,*args:notes.append(title)
         N=v5.core.dice_rolls_needed(128)
         public=([1,2,3,4,5,6]*10)[:N]
-        blocks=iter([[6]*N,[1]*N,public]); a.collect=lambda n:next(blocks)
-        a.display_words=lambda *args:None; a.verify_copy=lambda *args:None
-        original=v5.core.extract_entropy_from_dice_block
-        with patch.object(v5,'require_offline'),patch.object(v5.core,'analizza_distribuzione_lanci',side_effect=[(True,100),(False,100),(True,20)]):
+        rejected = ([6,5,4,3,2,1]*10)[:N]
+        self.assertTrue(v5.core.analizza_distribuzione_lanci(rejected)[0])
+        self.assertFalse(v5.core.extract_entropy_from_dice_block(rejected, 128)[2])
+        blocks = iter([rejected, [1]*N, public])
+        a.collect = lambda n: next(blocks)
+        a.display_words = lambda *args: None
+        a.verify_copy = lambda *args, **kwargs: None
+        with patch.object(v5, 'require_offline'):
             a.generate(12)
         self.assertIn('Blocco rifiutato',notes)
         self.assertIn('Distribuzione anomala',notes)
@@ -119,6 +173,51 @@ class Tests(unittest.TestCase):
         a=self.app()
         with patch.object(v5,'require_offline',side_effect=RuntimeError('offline')):
             with self.assertRaises(RuntimeError): a.generate(12)
+    def test_guard_reads_network_and_swap_state(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            network = root / 'net'
+            interface = network / 'eth0'
+            interface.mkdir(parents=True)
+            flags = interface / 'flags'
+            swaps = root / 'swaps'
+            swaps.write_text('Filename Type Size Used Priority\n')
+            flags.write_text('0x0\n')
+            paths = {'/proc/swaps': swaps, '/sys/class/net': network}
+            with patch.object(v5, 'Path', side_effect=paths.__getitem__):
+                v5.require_offline()
+                flags.write_text('0x1\n')
+                with self.assertRaisesRegex(RuntimeError, 'rete'):
+                    v5.require_offline()
+                flags.write_text('0x0\n')
+                swaps.write_text('Filename Type Size Used Priority\n/test file 1 0 -2\n')
+                with self.assertRaisesRegex(RuntimeError, 'Swap'):
+                    v5.require_offline()
+
+    def test_startup_self_test_fail_blocks_generation(self):
+        a = self.app()
+        with patch.object(a.ui, 'splash', create=True), \
+             patch.object(v5.core, 'run_all_self_tests', return_value=[('fixture', 'FAIL')]), \
+             patch.object(a, 'home') as home:
+            with self.assertRaisesRegex(RuntimeError, 'Self-test'):
+                a.run()
+        self.assertFalse(a.ready)
+        home.assert_not_called()
+
+    def test_cancelled_dice_generation_displays_no_mnemonic(self):
+        a = self.app()
+        a.note = lambda *args: None
+        with patch.object(v5, 'require_offline'), \
+             patch.object(a, 'collect', side_effect=v5.Cancel), \
+             patch.object(a, 'display_words') as display, \
+             patch.object(a, 'verify_copy') as verify:
+            with self.assertRaises(v5.Cancel):
+                a.generate(12)
+        display.assert_not_called()
+        verify.assert_not_called()
+        self.assertEqual(a.ui.frames[-1][0], 'Sessione chiusa')
+
     def test_hash_tamper_fails(self):
         with patch.object(v5,'CORE_SHA256','0'*64):
             with self.assertRaises(RuntimeError): v5.check_core()

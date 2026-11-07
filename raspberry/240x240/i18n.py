@@ -131,6 +131,7 @@ Controlla parole e checksum.|Check words and checksum.|Vérifiez mots et checksu
 Non prova che una seed sia|This does not prove a seed is|Cela ne prouve pas qu'une seed est|Esto no demuestra que una seed sea
 casuale o sicura.|random or secure.|aléatoire ou sûre.|aleatoria o segura.
 Mnemonic non valida|Invalid mnemonic|Mnémonique invalide|Mnemónica no válida
+Copia non verificata|Copy not verified|Copie non vérifiée|Copia sin verificar
 Checksum BIP39 errato.|Invalid BIP39 checksum.|Checksum BIP39 incorrect.|Checksum BIP39 incorrecto.
 Ricontrolla il foglio.|Check your paper copy.|Revérifiez votre feuille.|Revisa la copia en papel.
 Checksum BIP39 valido|Valid BIP39 checksum|Checksum BIP39 valide|Checksum BIP39 válido

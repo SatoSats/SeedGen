@@ -31,7 +31,7 @@ python3 -m unittest -v test_ui test_passwords test_navigation
 shasum -a 256 -c SOURCE-SHA256SUMS
 ```
 
-48 test: UI/core, password e navigazione/lingue. Nei test sono eseguiti anche i 14 self-test originali; non sono 14 casi aggiuntivi ai 48. Nessun GPIO o display richiesto per i test host. Il manutentore ha provato funzionalmente la V9 sullo schermo piccolo. I test non sostituiscono un audit indipendente.
+54 test: UI/core, password e navigazione/lingue. Nei test sono eseguiti anche i 14 self-test originali; non sono 14 casi aggiuntivi ai 48. Nessun GPIO o display richiesto per i test host. Il manutentore ha provato funzionalmente la V9 sullo schermo piccolo. I test non sostituiscono un audit indipendente.
 
 ## Compilazione
 
