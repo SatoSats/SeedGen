@@ -16,6 +16,8 @@ Al riavvio torna italiano.|Italian after restart.|Italien au redémarrage.|Itali
 Test integrita|Integrity test|Test d'intégrité|Test de integridad
 Test pulsanti|Button test|Test des boutons|Prueba de botones
 Spegni Raspberry|Power off|Éteindre|Apagar
+Riavvio|Restart|Redémarrage|Reinicio
+Riavvia ora|Restart now|Redémarrer maintenant|Reiniciar ahora
 Spegni ora|Power off now|Éteindre maintenant|Apagar ahora
 Spegnimento|Power off|Extinction|Apagado
 Spegnimento...|Powering off...|Extinction...|Apagando...
@@ -174,6 +176,7 @@ Sin/des: pagina K2: avanti / K3: esci|Left/right: page Up: Back / Centre: next|G
 Sin/des: pagina Centro: avanti / K3: esci|Left/right: page Up: Back / Centre: next|Gauche/droite : page Haut : Retour|Izq./der.: página Arriba: Atrás
 *=spazio / Centro: avanti K3: esci|*=space / Centre: next Up: Back|*=espace / Centre : suite Haut : Retour|*=espacio / Centro: seguir Arriba: Atrás
 Frecce: scegli / Centro: salva K1: cancella / K3: esci|Arrows: choose / Centre: OK K1: undo / Up: Back|Flèches: choix / Centre: OK K1: effacer / Haut: retour|Flechas: elegir / Centro: OK K1: borrar / Arriba: atrás
+Frecce: scegli / Centro: apri Su: freccia|Arrows: choose / Centre: open Up: back|Flèches : choix / Centre : ouvrir Haut : retour|Flechas: elegir / Centro: abrir Arriba: volver
 Frecce: scegli / Centro: apri Su: Power|Arrows: choose / Centre: open Up: Power|Flèches : choix / Centre : ouvrir Haut : Power|Flechas: elegir / Centro: abrir Arriba: Power
 Freccia: Centro per uscire|Back arrow: press Centre|Retour : appuyez au centre|Atrás: pulsa el centro
 Su: indietro / Centro: apri|Up: Back / Centre: open|Haut : Retour / Centre : ouvrir|Arriba: Atrás / Centro: abrir

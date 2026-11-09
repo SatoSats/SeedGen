@@ -10,11 +10,11 @@ Pin fisici BOARD: Su 31, Giù 35, Sinistra 29, Destra 37, Centro 33, KEY1 40, KE
 
 ## Funzioni e comandi
 
-Home: Seed BIP39, Password, Verifica, Strumenti. Seed BIP39 supporta 12/15/18/21/24 parole. Password offre soltanto Custom, Diceware classico (6–9 parole) e Diceware BIP39; fonte esclusivamente dadi fisici D6. Diceware BIP39 genera una password, non una mnemonic con checksum.
+Home: Seed BIP39, Passphrase, Verifica, Strumenti. Seed BIP39 supporta 12/15/18/21/24 parole. Passphrase offre soltanto Custom, Diceware classico (6–9 parole) e Diceware BIP39; fonte esclusivamente dadi fisici D6. Diceware BIP39 genera una password, non una mnemonic con checksum.
 
 Frecce per scegliere, centro/KEY2 per confermare. Nei menu Su dalla prima voce o Sinistra seleziona Indietro; centro lo attiva. Nelle pagine informative e dei risultati Su seleziona Indietro. KEY3 resta una scorciatoia. Nella griglia dadi centro registra il risultato fisico, KEY1 cancella l’ultimo; Su dalla riga superiore seleziona Indietro. Uscire annulla l’operazione.
 
-Su dai riquadri superiori della home seleziona Power. Lo spegnimento richiede conferma esplicita e Annulla è predefinito.
+Su dai riquadri superiori della home seleziona Power. Il menu Power mostra due riquadri, Restart e Power off. Entrambe le azioni richiedono conferma esplicita, con Annulla preselezionato. Dopo la conferma di Power off, il display mostra il logo Bitvero mentre il sistema si spegne.
 
 Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna italiano al riavvio. Dizionari e segreti non vengono tradotti. Splash SEEDGEN/by Bitvero incluso.
 

@@ -75,7 +75,7 @@ def body_font():
     return ImageFont.truetype(str(Path(__file__).resolve().parent / 'fonts' / 'DejaVuSans.ttf'),20)
 
 
-def splash_image():
+def splash_image(shutdown=False):
     # Code-drawn brand mark based on the supplied Bitvero reference.
     # Supersampling keeps the small shield and lettering legible on the LCD.
     scale=3
@@ -84,31 +84,33 @@ def splash_image():
     draw=ImageDraw.Draw(image)
     fonts=Path(__file__).resolve().parent / 'fonts'
     orange=(255,155,30)
-    size=44
-    while True:
-        font=ImageFont.truetype(str(fonts/'DejaVuSans-Bold.ttf'),size*scale)
-        box=draw.textbbox((0,0),'SEEDGEN',font=font)
-        if box[2]-box[0]<=(canvas_width-24)*scale: break
-        size-=1
-    width,height=box[2]-box[0],box[3]-box[1]
-    draw.text(((canvas_width*scale-width)//2-box[0],96*scale-height//2-box[1]),
-              'SEEDGEN',font=font,fill=orange)
-    draw.line((28*scale,59*scale,(canvas_width-28)*scale,59*scale),fill=orange,width=2*scale)
-    draw.line((28*scale,133*scale,(canvas_width-28)*scale,133*scale),fill=orange,width=2*scale)
+    if not shutdown:
+        size=44
+        while True:
+            font=ImageFont.truetype(str(fonts/'DejaVuSans-Bold.ttf'),size*scale)
+            box=draw.textbbox((0,0),'SEEDGEN',font=font)
+            if box[2]-box[0]<=(canvas_width-24)*scale: break
+            size-=1
+        width,height=box[2]-box[0],box[3]-box[1]
+        draw.text(((canvas_width*scale-width)//2-box[0],96*scale-height//2-box[1]),
+                  'SEEDGEN',font=font,fill=orange)
+        draw.line((28*scale,59*scale,(canvas_width-28)*scale,59*scale),fill=orange,width=2*scale)
+        draw.line((28*scale,133*scale,(canvas_width-28)*scale,133*scale),fill=orange,width=2*scale)
     byfont=ImageFont.truetype(str(fonts/'DejaVuSans.ttf'),17*scale)
     brandfont=ImageFont.truetype(str(fonts/'DejaVuSans-Bold.ttf'),22*scale)
-    by_width=draw.textlength('by',font=byfont)
+    by_width=0 if shutdown else draw.textlength('by',font=byfont)+7*scale
     brand_width=draw.textlength('Bitvero',font=brandfont)
     shield_w,shield_h=27*scale,31*scale
     gap=7*scale
-    total=by_width+gap+shield_w+gap+brand_width
+    total=by_width+shield_w+gap+brand_width
     left=(canvas_width*scale-total)/2
-    cy=174*scale
+    cy=(120 if shutdown else 174)*scale
     def text_center_y(x,text,font):
         box=draw.textbbox((0,0),text,font=font)
         draw.text((x-box[0],cy-(box[3]-box[1])/2-box[1]),text,font=font,fill='white')
-    text_center_y(left,'by',byfont)
-    x=left+by_width+gap; y=cy-shield_h/2
+    if not shutdown:
+        text_center_y(left,'by',byfont)
+    x=left+by_width; y=cy-shield_h/2
     points=[(.5,0),(1,.12),(.99,.37),(.96,.54),(.89,.70),(.79,.82),(.64,.93),(.5,1),(.36,.93),(.21,.82),(.11,.70),(.04,.54),(.01,.37),(0,.12)]
     draw.polygon([(x+px*shield_w,y+py*shield_h) for px,py in points],fill=(247,124,24))
     # Upright B and two short vertical stems, as on the supplied shield.
@@ -148,6 +150,12 @@ class UI:
 
     def home(self,index):
         views.home(self,CANVAS_WIDTH,index)
+
+    def power_menu(self,index):
+        views.power_menu(self,CANVAS_WIDTH,index)
+
+    def shutdown_logo(self):
+        self.disp.show_image(splash_image(shutdown=True),0,0)
 
     def fit(self, text):
         text=str(text)
@@ -431,9 +439,34 @@ class App:
 
     def shutdown(self):
         if self.menu('Spegnimento', ['Annulla', 'Spegni ora']) == 1:
-            self.screen('Spegnimento...', ['Attendi che il LED', 'smetta di lavorare.', 'Poi scollega.'])
+            self.ui.shutdown_logo()
             subprocess.run(['/sbin/poweroff'], check=True)
-            while True: time.sleep(60)
+            while True:
+                time.sleep(60)
+
+    def power_menu(self):
+        index=0
+        while True:
+            self.ui.power_menu(index)
+            key=self.ui.key()
+            if key=='BACK':
+                return
+            if key=='UP':
+                index=-1
+            elif key=='DOWN' and index==-1:
+                index=0
+            elif key in ('LEFT','RIGHT'):
+                index=0 if index==-1 else 1-index
+            elif key in ('OK','K2'):
+                if index==-1:
+                    return
+                if index==1:
+                    self.shutdown()
+                elif self.menu('Riavvio', ['Annulla', 'Riavvia ora']) == 1:
+                    subprocess.run(['/sbin/reboot'], check=True)
+                    while True:
+                        time.sleep(60)
+                return
 
     def home(self):
         index=getattr(self,'home_index',0)
@@ -443,7 +476,7 @@ class App:
             key=self.ui.key()
             if index==4:
                 if key in ('OK','K2'):
-                    try:self.shutdown()
+                    try:self.power_menu()
                     except Cancel:pass
                 elif key in ('DOWN','LEFT','BACK'):index=0
                 elif key=='RIGHT':index=1
@@ -453,7 +486,7 @@ class App:
             elif key in ('OK','K2'):
                 self.home_index=index;return index
             elif key=='BACK':
-                try:self.shutdown()
+                try:self.power_menu()
                 except Cancel:pass
 
     def text_result(self,text,mark_spaces=False):

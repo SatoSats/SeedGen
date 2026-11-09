@@ -95,7 +95,7 @@ def icon(d,kind,cx,cy,color):
 
 def home(ui,width,index):
     im,d=frame(width,'SEEDGEN',is_home=True,power_focused=index==4)
-    labels=tuple(tr(v) for v in ('Seed BIP39','Password','Verifica','Strumenti'))
+    labels=tuple(tr(v) for v in ('Seed BIP39','Passphrase','Verifica','Strumenti'))
     cw=(width-24)//2
     for i,label in enumerate(labels):
         x=8+(i%2)*(cw+8);y=43+(i//2)*76
@@ -107,4 +107,25 @@ def home(ui,width,index):
         while size>11 and font(size,True).getlength(label)>cw-8:size-=1
         centered(d,(x,y+46,x+cw,y+67),label,font(size,True),color)
     footer(d,width,tr('Frecce: scegli / Centro: apri Su: Power'))
+    ui.disp.show_image(im,0,0)
+
+def power_menu(ui,width,index):
+    im,d=frame(width,'Power',back_focused=index==-1)
+    card_width=(width-24)//2
+    for position,label in enumerate(('Restart','Power off')):
+        left=8+position*(card_width+8)
+        right=left+card_width
+        cx=(left+right)//2
+        cy=96
+        active=position==index
+        color=BG if active else TEXT
+        d.rounded_rectangle((left,52,right,167),radius=8,fill=ORANGE if active else CARD)
+        if position==0:
+            d.arc((cx-17,cy-17,cx+17,cy+17),-75,245,fill=color,width=4)
+            d.polygon(((cx-16,cy-18),(cx-4,cy-19),(cx-10,cy-8)),fill=color)
+        else:
+            d.arc((cx-17,cy-17,cx+17,cy+17),-55,235,fill=color,width=4)
+            d.line((cx,cy-20,cx,cy),fill=color,width=4)
+        centered(d,(left,126,right,157),label,font(16,True),color)
+    footer(d,width,tr('Frecce: scegli / Centro: apri Su: freccia'))
     ui.disp.show_image(im,0,0)
