@@ -66,7 +66,7 @@ class PasswordTests(unittest.TestCase):
     self.assertGreaterEqual(calls[0][0]**calls[0][1],1<<p.STRENGTHS[strength])
     if kind==2:self.assertEqual(shown[0],' '.join(wordlists[0]))
  def test_all_new_flows_reject_offline_failure(self):
-  a=app.App(FakeUI());a.wl=self.wl;a.menu=lambda title,options: 2 if title=='Tipo password' else (2 if title=='Separatore' else 0);a.note=lambda *args:None
+  a=app.App(FakeUI());a.wl=self.wl;a.menu=lambda title,options: 2 if title=='Tipo passphrase' else (2 if title=='Separatore' else 0);a.note=lambda *args:None
   a.collect=lambda *args:self.fail('must stop before dice collection')
   with patch.object(app,'require_offline',side_effect=RuntimeError('offline')):
    with self.assertRaises(RuntimeError):a.password_menu()

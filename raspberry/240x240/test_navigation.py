@@ -1,6 +1,6 @@
 """Navigation and language regression tests, using public strings only."""
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 import main as app
 import i18n
 from test_ui import FakeUI
@@ -110,13 +110,14 @@ class NavTests(unittest.TestCase):
    a=self.app(['OK']);a.display_words(['Verifica','Space'],'Words')
    self.assertEqual(a.ui.frames[0][1],['01  Verifica','02  Space'])
    a=self.app(['OK']);self.assertEqual(a.choose_word(['Verifica','Space'],1),'Verifica')
- def test_startup_back_opens_home_without_locking(self):
+ def test_startup_opens_home_without_confirmation(self):
   a=self.app();a.ui.splash=lambda:None
-  a.note=lambda *args:(_ for _ in ()).throw(app.Cancel())
+  a.note=Mock()
   a.home=lambda:(_ for _ in ()).throw(KeyboardInterrupt())
   with patch.object(app,'check_core',return_value=([],[],[('public','PASS')])):
    with self.assertRaises(KeyboardInterrupt):a.run()
   self.assertTrue(a.ready)
+  a.note.assert_not_called()
  def test_language_validation(self):
   with self.assertRaises(ValueError):i18n.set_language('xx')
   self.assertEqual(i18n.language(),'it')

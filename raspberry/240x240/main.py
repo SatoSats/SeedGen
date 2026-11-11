@@ -407,7 +407,7 @@ class App:
         require_offline()
         words=entropy=None
         try:
-            self.note('Verifica BIP39 - TEST', ['Usa solo seed di prova.', 'Controlla parole e checksum.', 'Non prova che una seed sia', 'casuale o sicura.'])
+            self.note('Verifica BIP39', ['Usa solo seed di prova.', 'Controlla parole e checksum.', 'Non prova che una seed sia', 'casuale o sicura.'])
             count=LENGTHS[self.menu('Numero parole', [str(n)+' parole' for n in LENGTHS])]
             words=[self.choose_word(self.wl,i+1) for i in range(count)]
             require_offline()
@@ -534,7 +534,7 @@ class App:
 
     def password_menu(self):
         while True:
-            kind=self.menu('Tipo password',passwords.FORMATS)
+            kind=self.menu('Tipo passphrase',passwords.FORMATS)
             try:return self.password_flow(kind)
             except Cancel:
                 self.ui.back_focused=False
@@ -636,12 +636,9 @@ class App:
 
     def run(self):
         self.ui.splash()
-        self.screen('SEEDGEN v9 - TEST', ['Self-test completi...', 'Attendi.'])
         self.ready=False
         self.wl,self.dw,self.tests=check_core()
         self.ready=True
-        try:self.note('SEEDGEN v9 - TEST',['Solo dati di prova.','%d self-test PASS'%len(self.tests),'Fonte: solo dadi fisici D6.'])
-        except Cancel:pass
         while True:
             try:
                 choice=self.home()

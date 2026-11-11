@@ -22,12 +22,12 @@ Spegni ora|Power off now|Éteindre maintenant|Apagar ahora
 Spegnimento|Power off|Extinction|Apagado
 Spegnimento...|Powering off...|Extinction...|Apagando...
 Annulla|Cancel|Annuler|Cancelar
-Tipo password|Password type|Mot de passe|Tipo de contraseña
+Tipo passphrase|Passphrase type|Type de phrase secrète|Tipo de frase de paso
 Diceware classico|Classic Diceware|Diceware classique|Diceware clásico
 Numero parole|Word count|Nombre de mots|Número de palabras
 Nuova seed BIP39|New BIP39 seed|Nouvelle seed BIP39|Nueva seed BIP39
 Verifica BIP39|Verify BIP39|Vérifier BIP39|Verificar BIP39
-Verifica BIP39 - TEST|Verify BIP39 - TEST|Vérifier BIP39 - TEST|Verificar BIP39 - TEST
+Verifica BIP39|Verify BIP39|Vérifier BIP39|Verificar BIP39
 Caratteri Custom|Custom characters|Caractères Custom|Caracteres Custom
 Minuscole|Lowercase|Minuscules|Minúsculas
 Maiuscole|Uppercase|Majuscules|Mayúsculas

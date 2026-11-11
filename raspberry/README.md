@@ -16,7 +16,7 @@ Frecce per scegliere, centro/KEY2 per confermare. Nei menu Su dalla prima voce o
 
 Su dai riquadri superiori della home seleziona Power. Il menu Power mostra due riquadri, Restart e Power off. Entrambe le azioni richiedono conferma esplicita, con Annulla preselezionato. Dopo la conferma di Power off, il display mostra il logo Bitvero mentre il sistema si spegne.
 
-Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna italiano al riavvio. Dizionari e segreti non vengono tradotti. Splash SEEDGEN/by Bitvero incluso.
+Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna italiano al riavvio. Dizionari e segreti non vengono tradotti. Dopo lo splash SEEDGEN/by Bitvero e i controlli di avvio, il display apre la home. Il logo Bitvero compare in basso nelle schermate con spazio dedicato. Il riquadro Passphrase apre il menu Tipo passphrase.
 
 ## Test host
 
@@ -31,7 +31,7 @@ python3 -m unittest -v test_ui test_passwords test_navigation
 shasum -a 256 -c SOURCE-SHA256SUMS
 ```
 
-54 test: UI/core, password e navigazione/lingue. Nei test sono eseguiti anche i 14 self-test originali; non sono 14 casi aggiuntivi ai 48. Nessun GPIO o display richiesto per i test host. Il manutentore ha provato funzionalmente la V9 sullo schermo piccolo. I test non sostituiscono un audit indipendente.
+56 test host coprono UI/core, passphrase, navigazione e lingue, incluso il controllo BIP39 finale sulle parole reinserite. I 14 self-test originali sono eseguiti dentro la suite. I test host non richiedono GPIO o display. [Comandi, output ed esiti hardware](240x240/REPORT_TEST.txt).
 
 ## Compilazione
 
@@ -57,4 +57,4 @@ La forza nominale presume dadi equi e indipendenti. Il filtro diagnostico non ce
 
 Il porting include branding Bitvero e integra driver/build SeedSigner; la sua proposta non implica approvazione ufficiale da parte di quei progetti.
 
-Questa integrazione aggiunge solo la cartella raspberry/. I launcher e i documenti della distribuzione originale restano quelli upstream. La release binaria del fork è disponibile separatamente: https://github.com/ilbitcoiner/SeedGen/releases/tag/pi-v9 .
+Questa integrazione aggiunge solo la cartella raspberry/. I launcher e i documenti della distribuzione originale restano quelli upstream. Le [release binarie del fork](https://github.com/ilbitcoiner/SeedGen/releases) riportano il commit sorgente e gli asset di verifica associati a ciascuna immagine.

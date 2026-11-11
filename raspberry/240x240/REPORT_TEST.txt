@@ -1,60 +1,31 @@
-SEEDGEN Pi — verifiche della PR #1
+SEEDGEN Pi V9 240×240 — verifiche della PR #1
 
-Commit sorgente testato: cb5f8226315f88a0fbcaa46ed7ab00d3981585b4
-Checkout: worktree Git detached ricavato dal commit pubblicato sul fork.
-git status --porcelain: vuoto prima e dopo i test.
-Ambiente: Linux, CPython 3.12.14, Pillow 13.0.0.
-Comando dalla cartella raspberry/240x240:
-PYTHONDONTWRITEBYTECODE=1 python -m unittest -v test_ui test_passwords test_navigation
-
-Esito: 54 test host, exit 0. Solo fixture pubbliche.
-shasum -a 256 -c SOURCE-SHA256SUMS: tutti i file OK.
-bash -n build-v9.sh: exit 0.
-La verifica è stata eseguita in locale sul checkout pulito.
-
-Build e hardware
-----------------
-Build tentata con bash build-v9.sh, exit 1 al controllo dei prerequisiti.
-Docker non è installato in questo ambiente. Nessuna immagine prodotta e
-nessun hash della nuova build disponibile. Raspberry Pi Zero v1.3 e display
-ST7789 240×240 non sono accessibili da questo ambiente.
-La prova fisica della revisione della PR resta aperta.
-
-Per riprodurre la build con Docker Desktop/Compose attivo, partire da un
-checkout pulito di cb5f8226315f88a0fbcaa46ed7ab00d3981585b4, senza directory work/ riutilizzata:
-  git checkout --detach cb5f8226315f88a0fbcaa46ed7ab00d3981585b4
-  cd raspberry/240x240
+Test host — 11 novembre 2026
+Ambiente: Linux, CPython 3.12.14 e Pillow 13.0.0.
+Sorgenti della revisione preparata per questa PR, copiati in una directory
+pulita con i soli file di progetto. Le prove usano fixture pubbliche.
+Dalla cartella raspberry/240x240:
   shasum -a 256 -c SOURCE-SHA256SUMS
-  bash build-v9.sh > build.log 2>&1
+  bash -n build-v9.sh
+  PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_ui test_passwords test_navigation
+I tre comandi sono terminati con codice 0.
 
-Registrare git rev-parse HEAD, git status --porcelain, docker version,
-docker compose version, i commit di work/SeedGen, work/seedsigner-os,
-work/seedsigner-app e git submodule status --recursive nelle dipendenze.
-Solo dopo exit 0 e [8/8] DONE registrare SHA-256 di
-images/seedgen_os.v1.0.2.pi0.v9.img, conservare build.log e scrivere la
-microSD di test. Identificare scheda e display nel verbale.
+Build e prove fisiche
+Profilo Raspberry Pi Zero v1.3 con display ST7789 240×240.
+Sulla build precedente del porting il manutentore ha verificato avvio,
+self-test, pulsanti, copia valida e discordante, annullamento, rifiuto
+del blocco, distribuzione anomala e accesso ad Audit Mode. Una build
+diagnostica separata ha mostrato il blocco all'avvio con self-test FAIL.
+Le foto della revisione successiva mostrano la home Passphrase e il menu
+Power con Restart e Power off.
 
-Casi da eseguire sul Raspberry con soli dati pubblici di prova:
-- Avvio, self-test PASS, display, joystick, KEY1/2/3, Indietro, spegnimento.
-- Copia BIP39 identica valida: conferma dopo il controllo finale.
-- Errore di checksum finale in build di test: copia non verificata,
-  opzioni riprova e annullamento. Usare una fixture separata che inietti
-  l'errore nel controllo finale dopo la generazione.
-- Self-test FAIL in build di test: schermata di errore e home inaccessibile.
-- Rete attiva (interfaccia non-loopback amministrativamente UP) e swap
-  attiva: provare separatamente in ambiente isolato con soli dati di prova.
-  Atteso: generazione/verifica bloccata.
-- Seed 12 parole, ripetere 6,5,4,3,2,1 fino a 50 input:
-  passa il filtro diagnostico, poi il campionatore scarta il blocco.
-- Seed 12 parole, 50 input di valore 1: diagnostica scarta il blocco.
-- Annullare durante inserimento e copia: nessuna conferma; dalla
-  generazione annullata non deve essere mostrata alcuna mnemonic.
-- Provare i tre percorsi password, verifica e lingue sul display.
-Per ogni caso registrare esito osservato, PASS/FAIL e identificativo della
-build. Non usare seed o fondi reali e non distribuire build con fault injection.
+Il manutentore ha riferito l'esito positivo della build con il logo nei menu.
+Per associare quel binario a questi sorgenti servono il log della build,
+il confronto degli hash dei file inclusi e lo SHA-256 dell'immagine.
+I risultati delle revisioni precedenti sono registrati separatamente.
+Le prove funzionali non costituiscono un audit indipendente.
 
-Output completo della suite host
--------------------------------
+Output completo dei test host
 test_all_lengths_and_checksum (test_ui.Tests.test_all_lengths_and_checksum) ... ok
 test_audit_parameters (test_ui.Tests.test_audit_parameters) ... ok
 test_cancelled_dice_generation_displays_no_mnemonic (test_ui.Tests.test_cancelled_dice_generation_displays_no_mnemonic) ... ok
@@ -103,14 +74,16 @@ test_menu_header_up_then_centre (test_navigation.NavTests.test_menu_header_up_th
 test_note_back_without_k3 (test_navigation.NavTests.test_note_back_without_k3) ... ok
 test_only_requested_password_entries (test_navigation.NavTests.test_only_requested_password_entries) ... ok
 test_password_settings_return_to_previous_step (test_navigation.NavTests.test_password_settings_return_to_previous_step) ... ok
+test_power_menu_selects_shutdown_and_can_go_back (test_navigation.NavTests.test_power_menu_selects_shutdown_and_can_go_back) ... ok
 test_power_requires_explicit_confirmation (test_navigation.NavTests.test_power_requires_explicit_confirmation) ... ok
+test_restart_tile_requires_confirmation (test_navigation.NavTests.test_restart_tile_requires_confirmation) ... ok
 test_secret_text_back_without_k3 (test_navigation.NavTests.test_secret_text_back_without_k3) ... ok
 test_secrets_and_dictionary_candidates_are_not_translated (test_navigation.NavTests.test_secrets_and_dictionary_candidates_are_not_translated) ... ok
-test_startup_back_opens_home_without_locking (test_navigation.NavTests.test_startup_back_opens_home_without_locking) ... ok
+test_startup_opens_home_without_confirmation (test_navigation.NavTests.test_startup_opens_home_without_confirmation) ... ok
 test_translation_placeholders_are_preserved (test_navigation.NavTests.test_translation_placeholders_are_preserved) ... ok
 test_words_back_without_k3 (test_navigation.NavTests.test_words_back_without_k3) ... ok
 
 ----------------------------------------------------------------------
-Ran 54 tests in 0.445s
+Ran 56 tests in 0.409s
 
 OK

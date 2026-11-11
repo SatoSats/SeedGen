@@ -33,18 +33,23 @@ def frame(width,title,back_focused=False,is_home=False,power_focused=False):
         d.text((36,7),fitted(d,title,font(18,True),width-44),font=font(18,True),fill=TEXT)
     return im,d
 
-def footer(d,width,text):
-    # The app supplies at most two useful instruction lines.
-    import textwrap
-    f=font(13 if width==240 else 15);lines=[];line=''
-    for word in str(text).split():
-        trial=(line+' '+word).strip()
-        if d.textlength(trial,font=f)<=width-16:line=trial
-        else:
-            if line:lines.append(line)
-            line=word
-    if line:lines.append(line)
-    for row,line in enumerate(lines[:2]):d.text((8,201+row*18),line,font=f,fill=MUTED)
+
+def brand_footer(image):
+    # Match the shield and wordmark used by the startup screen.
+    scale=3
+    badge=Image.new('RGBA',(156*scale,32*scale))
+    draw=ImageDraw.Draw(badge)
+    x,y=0,scale
+    shield_width,shield_height=26*scale,30*scale
+    points=[(.5,0),(1,.12),(.99,.37),(.96,.54),(.89,.70),(.79,.82),(.64,.93),(.5,1),(.36,.93),(.21,.82),(.11,.70),(.04,.54),(.01,.37),(0,.12)]
+    draw.polygon([(x+px*shield_width,y+py*shield_height) for px,py in points],fill=(247,124,24))
+    centered(draw,(x,y-2*scale,x+shield_width,y+shield_height),'B',font(23*scale,True),TEXT)
+    for stem in (.40,.56):
+        sx=x+shield_width*stem
+        draw.rectangle((sx,y+shield_height*.14,sx+1.4*scale,y+shield_height*.82),fill=TEXT)
+    centered(draw,(33*scale,0,156*scale,32*scale),'Bitvero',font(25*scale,True),TEXT)
+    badge=badge.resize((156,32),Image.Resampling.LANCZOS)
+    image.paste(badge,((image.width-badge.width)//2,200),badge)
 
 def render(ui,width,title,lines,help_text):
     im,d=frame(width,title,getattr(ui,'back_focused',False))
@@ -58,7 +63,8 @@ def render(ui,width,title,lines,help_text):
             d.text((15,y+1),fitted(d,text,ui.font,width-30),font=ui.font,fill=BG if selected else TEXT)
         else:
             d.text((9,42+row*29),fitted(d,text,ui.font,width-18),font=ui.font,fill=TEXT)
-    footer(d,width,help_text);ui.disp.show_image(im,0,0)
+    brand_footer(im)
+    ui.disp.show_image(im,0,0)
 
 def die(d,box,value,selected=False):
     fill=ORANGE if selected else '#eaf0fa';ink=BG
@@ -79,7 +85,7 @@ def dice(ui,width,value,done,total,rolls):
     for i in range(6):
         x=left+(i%3)*(cell+gap);y=79+(i//3)*55
         die(d,(x,y,x+cell,y+cell),i+1,selected=i+1==value and not getattr(ui,'back_focused',False))
-    footer(d,width,tr('Freccia: Centro per uscire' if getattr(ui,'back_focused',False) else 'Frecce: scegli / Centro: salva K1: cancella / K3: esci'))
+    brand_footer(im)
     ui.disp.show_image(im,0,0)
 
 def icon(d,kind,cx,cy,color):
@@ -106,7 +112,7 @@ def home(ui,width,index):
         size=15 if width==240 else 18
         while size>11 and font(size,True).getlength(label)>cw-8:size-=1
         centered(d,(x,y+46,x+cw,y+67),label,font(size,True),color)
-    footer(d,width,tr('Frecce: scegli / Centro: apri Su: Power'))
+    brand_footer(im)
     ui.disp.show_image(im,0,0)
 
 def power_menu(ui,width,index):
@@ -127,5 +133,5 @@ def power_menu(ui,width,index):
             d.arc((cx-17,cy-17,cx+17,cy+17),-55,235,fill=color,width=4)
             d.line((cx,cy-20,cx,cy),fill=color,width=4)
         centered(d,(left,126,right,157),label,font(16,True),color)
-    footer(d,width,tr('Frecce: scegli / Centro: apri Su: freccia'))
+    brand_footer(im)
     ui.disp.show_image(im,0,0)
