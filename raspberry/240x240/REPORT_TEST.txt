@@ -1,0 +1,89 @@
+SEEDGEN Pi V9 240×240 — verifiche della PR #1
+
+Test host — 11 novembre 2026
+Ambiente: Linux, CPython 3.12.14 e Pillow 13.0.0.
+Sorgenti della revisione preparata per questa PR, copiati in una directory
+pulita con i soli file di progetto. Le prove usano fixture pubbliche.
+Dalla cartella raspberry/240x240:
+  shasum -a 256 -c SOURCE-SHA256SUMS
+  bash -n build-v9.sh
+  PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_ui test_passwords test_navigation
+I tre comandi sono terminati con codice 0.
+
+Build e prove fisiche
+Profilo Raspberry Pi Zero v1.3 con display ST7789 240×240.
+Sulla build precedente del porting il manutentore ha verificato avvio,
+self-test, pulsanti, copia valida e discordante, annullamento, rifiuto
+del blocco, distribuzione anomala e accesso ad Audit Mode. Una build
+diagnostica separata ha mostrato il blocco all'avvio con self-test FAIL.
+Le foto della revisione successiva mostrano la home Passphrase e il menu
+Power con Restart e Power off.
+
+Il manutentore ha riferito l'esito positivo della build con il logo nei menu.
+Per associare quel binario a questi sorgenti servono il log della build,
+il confronto degli hash dei file inclusi e lo SHA-256 dell'immagine.
+I risultati delle revisioni precedenti sono registrati separatamente.
+Le prove funzionali non costituiscono un audit indipendente.
+
+Output completo dei test host
+test_all_lengths_and_checksum (test_ui.Tests.test_all_lengths_and_checksum) ... ok
+test_audit_parameters (test_ui.Tests.test_audit_parameters) ... ok
+test_cancelled_dice_generation_displays_no_mnemonic (test_ui.Tests.test_cancelled_dice_generation_displays_no_mnemonic) ... ok
+test_choose_prefix (test_ui.Tests.test_choose_prefix) ... ok
+test_copy_bip39_can_retry_after_unexpected_validation_error (test_ui.Tests.test_copy_bip39_can_retry_after_unexpected_validation_error) ... ok
+test_copy_bip39_validates_reentered_words_before_confirmation (test_ui.Tests.test_copy_bip39_validates_reentered_words_before_confirmation) ... ok
+test_correct_final_roll (test_ui.Tests.test_correct_final_roll) ... ok
+test_diceware_all_indices (test_ui.Tests.test_diceware_all_indices) ... ok
+test_full_copy_and_mismatch (test_ui.Tests.test_full_copy_and_mismatch) ... ok
+test_generation_both_flows (test_ui.Tests.test_generation_both_flows) ... ok
+test_guard_blocks_network_and_swap (test_ui.Tests.test_guard_blocks_network_and_swap) ... ok
+test_guard_reads_network_and_swap_state (test_ui.Tests.test_guard_reads_network_and_swap_state) ... ok
+test_hash_tamper_fails (test_ui.Tests.test_hash_tamper_fails) ... ok
+test_identical_copy_with_invalid_bip39_checksum_cannot_be_verified (test_ui.Tests.test_identical_copy_with_invalid_bip39_checksum_cannot_be_verified) ... ok
+test_invalid_dice (test_ui.Tests.test_invalid_dice) ... ok
+test_large_font_word_pages (test_ui.Tests.test_large_font_word_pages) ... ok
+test_menu_cancel (test_ui.Tests.test_menu_cancel) ... ok
+test_menu_scroll_and_wrap (test_ui.Tests.test_menu_scroll_and_wrap) ... ok
+test_mnemonic_valid_invalid (test_ui.Tests.test_mnemonic_valid_invalid) ... ok
+test_note_pages_preserve_text (test_ui.Tests.test_note_pages_preserve_text) ... ok
+test_original_tests (test_ui.Tests.test_original_tests) ... ok
+test_rejection_and_distribution_redo (test_ui.Tests.test_rejection_and_distribution_redo) ... ok
+test_startup_self_test_fail_blocks_generation (test_ui.Tests.test_startup_self_test_fail_blocks_generation) ... ok
+test_undo_and_cancel (test_ui.Tests.test_undo_and_cancel) ... ok
+test_all_new_flows_reject_offline_failure (test_passwords.PasswordTests.test_all_new_flows_reject_offline_failure) ... ok
+test_complete_small_spaces_are_uniform (test_passwords.PasswordTests.test_complete_small_spaces_are_uniform) ... ok
+test_dice_grid_moves_and_undo (test_passwords.PasswordTests.test_dice_grid_moves_and_undo) ... ok
+test_home_navigation (test_passwords.PasswordTests.test_home_navigation) ... ok
+test_invalid_input (test_passwords.PasswordTests.test_invalid_input) ... ok
+test_password_routes_all_types_strengths (test_passwords.PasswordTests.test_password_routes_all_types_strengths) ... ok
+test_secret_text_pages_preserve_wide_characters_and_spaces (test_passwords.PasswordTests.test_secret_text_pages_preserve_wide_characters_and_spaces) ... ok
+test_separators_and_bip39_password_is_not_mnemonic (test_passwords.PasswordTests.test_separators_and_bip39_password_is_not_mnemonic) ... ok
+test_short_wordlist_order_and_tamper (test_passwords.PasswordTests.test_short_wordlist_order_and_tamper) ... ok
+test_strength_and_boundary_all_formats (test_passwords.PasswordTests.test_strength_and_boundary_all_formats) ... ok
+test_all_languages_have_native_labels_and_accents (test_navigation.NavTests.test_all_languages_have_native_labels_and_accents) ... ok
+test_classic_route_still_generates_original_word_lengths (test_navigation.NavTests.test_classic_route_still_generates_original_word_lengths) ... ok
+test_diagnostics_back_without_k3 (test_navigation.NavTests.test_diagnostics_back_without_k3) ... ok
+test_dice_back_does_not_record_a_roll (test_navigation.NavTests.test_dice_back_does_not_record_a_roll) ... ok
+test_dice_return_from_header_then_enter (test_navigation.NavTests.test_dice_return_from_header_then_enter) ... ok
+test_dynamic_translation_and_page_titles (test_navigation.NavTests.test_dynamic_translation_and_page_titles) ... ok
+test_home_power_is_reachable_without_k3 (test_navigation.NavTests.test_home_power_is_reachable_without_k3) ... ok
+test_language_menu_updates_session_and_native_names (test_navigation.NavTests.test_language_menu_updates_session_and_native_names) ... ok
+test_language_validation (test_navigation.NavTests.test_language_validation) ... ok
+test_menu_header_left_then_down (test_navigation.NavTests.test_menu_header_left_then_down) ... ok
+test_menu_header_up_then_centre (test_navigation.NavTests.test_menu_header_up_then_centre) ... ok
+test_note_back_without_k3 (test_navigation.NavTests.test_note_back_without_k3) ... ok
+test_only_requested_password_entries (test_navigation.NavTests.test_only_requested_password_entries) ... ok
+test_password_settings_return_to_previous_step (test_navigation.NavTests.test_password_settings_return_to_previous_step) ... ok
+test_power_menu_selects_shutdown_and_can_go_back (test_navigation.NavTests.test_power_menu_selects_shutdown_and_can_go_back) ... ok
+test_power_requires_explicit_confirmation (test_navigation.NavTests.test_power_requires_explicit_confirmation) ... ok
+test_restart_tile_requires_confirmation (test_navigation.NavTests.test_restart_tile_requires_confirmation) ... ok
+test_secret_text_back_without_k3 (test_navigation.NavTests.test_secret_text_back_without_k3) ... ok
+test_secrets_and_dictionary_candidates_are_not_translated (test_navigation.NavTests.test_secrets_and_dictionary_candidates_are_not_translated) ... ok
+test_startup_opens_home_without_confirmation (test_navigation.NavTests.test_startup_opens_home_without_confirmation) ... ok
+test_translation_placeholders_are_preserved (test_navigation.NavTests.test_translation_placeholders_are_preserved) ... ok
+test_words_back_without_k3 (test_navigation.NavTests.test_words_back_without_k3) ... ok
+
+----------------------------------------------------------------------
+Ran 56 tests in 0.409s
+
+OK
