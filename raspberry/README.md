@@ -10,13 +10,15 @@ Pin fisici BOARD: Su 31, Giù 35, Sinistra 29, Destra 37, Centro 33, KEY1 40, KE
 
 ## Funzioni e comandi
 
-Home: Seed BIP39, Passphrase, Verifica, Strumenti. Seed BIP39 supporta 12/15/18/21/24 parole. Passphrase offre soltanto Custom, Diceware classico (6–9 parole) e Diceware BIP39; fonte esclusivamente dadi fisici D6. Diceware BIP39 genera una password, non una mnemonic con checksum.
+Home: Seed BIP39, Passphrase, Verifica, Strumenti. Seed BIP39 supporta 12/15/18/21/24 parole. Passphrase apre direttamente la scelta di 6–9 parole Diceware, con dadi fisici D6.
 
 Frecce per scegliere, centro/KEY2 per confermare. Nei menu Su dalla prima voce o Sinistra seleziona Indietro; centro lo attiva. Nelle pagine informative e dei risultati Su seleziona Indietro. KEY3 resta una scorciatoia. Nella griglia dadi centro registra il risultato fisico, KEY1 cancella l’ultimo; Su dalla riga superiore seleziona Indietro. Uscire annulla l’operazione.
 
 Su dai riquadri superiori della home seleziona Power. Il menu Power mostra due riquadri, Restart e Power off. Entrambe le azioni richiedono conferma esplicita, con Annulla preselezionato. Dopo la conferma di Power off, il display mostra il logo Bitvero mentre il sistema si spegne.
 
-Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna italiano al riavvio. Dizionari e segreti non vengono tradotti. Dopo lo splash SEEDGEN/by Bitvero e i controlli di avvio, il display apre la home. Il logo Bitvero compare in basso nelle schermate con spazio dedicato. Il riquadro Passphrase apre il menu Tipo passphrase.
+Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna italiano al riavvio. Dizionari e segreti non vengono tradotti. Dopo lo splash SEEDGEN/by Bitvero e i controlli di avvio, il display apre la home. Il marchio Bitvero compare all’avvio e allo spegnimento. Per digitare le parole, usa la tastiera a schermo: centro o KEY2 seleziona, DEL o KEY1 cancella l’ultima lettera e OK accetta la parola.
+
+La Home mostra quattro riquadri su tutta l’altezza utile, con il titolo centrato e il tasto Power in alto a destra. Menu, messaggi e griglia dei dadi usano lo stesso margine inferiore.
 
 ## Test host
 

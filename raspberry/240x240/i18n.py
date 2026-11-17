@@ -65,6 +65,28 @@ I blocchi fuori intervallo vanno rifatti.|Out-of-range blocks must be rerolled.|
 Lancio %d/%d|Roll %d/%d|Lancer %d/%d|Tirada %d/%d
 Ultimi: %s|Recent: %s|Derniers : %s|Últimos: %s
 Risultato: %d|Result: %d|Résultat : %d|Resultado: %d
+Avviso sui dadi fisici|Physical dice warning|Avertissement sur les dés|Aviso sobre dados físicos
+Il rejection sampling elimina solo il bias della conversione base 6 → bit.|Rejection sampling only removes bias from converting base 6 to bits.|Le rejet corrige seulement le biais de conversion de la base 6 en bits.|El muestreo por rechazo solo elimina el sesgo al convertir de base 6 a bits.
+Il bias fisico dei dadi resta.|Physical dice bias remains.|Le biais physique des dés demeure.|El sesgo físico de los dados permanece.
+Usa dadi non magnetici e non truccati.|Use non-magnetic, unloaded dice.|Utilisez des dés non magnétiques et non pipés.|Usa dados no magnéticos y sin trucar.
+Lancia su una superficie uniforme con tecnica costante.|Roll consistently on a level surface.|Lancez toujours de la même façon sur une surface plane.|Lanza de forma constante sobre una superficie plana.
+BIP39: %d parole|BIP39: %d words|BIP39 : %d mots|BIP39: %d palabras
+Diceware: %d parole|Diceware: %d words|Diceware : %d mots|Diceware: %d palabras
+5 lanci per parola.|5 rolls per word.|5 lancers par mot.|5 tiradas por palabra.
+Faccia più frequente: %d%%|Most frequent face: %d%%|Face la plus fréquente : %d%%|Cara más frecuente: %d%%
+Blocco accettato|Block accepted|Bloc accepté|Bloque aceptado
+Distribuzione accettata.|Distribution accepted.|Distribution acceptée.|Distribución aceptada.
+Ambiente sicuro e privato.|Use a secure, private space.|Utilisez un lieu sûr et privé.|Usa un lugar seguro y privado.
+Passphrase pronta|Passphrase ready|Phrase secrète prête|Frase de paso lista
+Conserva la passphrase separata dalla seed.|Store the passphrase separately from the seed.|Conservez la phrase secrète séparément de la graine.|Guarda la frase de paso separada de la semilla.
+Spegni il dispositivo.|Power off the device.|Éteignez l’appareil.|Apaga el dispositivo.
+Parola %d/%d|Word %d/%d|Mot %d/%d|Palabra %d/%d
+Parola non trovata|Word not found|Mot introuvable|Palabra no encontrada
+K1: cancella · K3: esci|K1: delete · K3: exit|K1 : effacer · K3 : quitter|K1: borrar · K3: salir
+Carattere %d|Character %d|Caractère %d|Carácter %d
+Prima del blocco|Before the block|Avant le bloc|Antes del bloque
+Prob. accettazione: %d%%|Acceptance: %d%%|Acceptation : %d%%|Aceptación: %d%%
+Seed BIP39 pronta|BIP39 seed ready|Seed BIP39 prête|Semilla BIP39 lista
 Conferma blocco|Confirm block|Confirmer le bloc|Confirmar bloque
 Usa questi %d lanci|Use these %d rolls|Utiliser ces %d lancers|Usar estas %d tiradas
 Correggi ultimo lancio|Edit last roll|Corriger le dernier lancer|Corregir última tirada

@@ -9,7 +9,13 @@ class NavTests(unittest.TestCase):
  def tearDown(self):i18n.set_language('it')
  def app(self,keys=()):return app.App(FakeUI(keys))
  def test_only_requested_password_entries(self):
-  self.assertEqual(app.passwords.FORMATS,('Custom','Diceware classico','Diceware BIP39'))
+  a=self.app()
+  menus=[]
+  a.menu=lambda title,options: menus.append((title,options)) or 2
+  a.generate=Mock()
+  a.password_menu()
+  self.assertEqual(menus,[('Passphrase',['6 parole','7 parole','8 parole','9 parole'])])
+  a.generate.assert_called_once_with(8,True)
  def test_menu_header_up_then_centre(self):
   a=self.app(['UP','OK'])
   with self.assertRaises(app.Cancel):a.menu('Menu',['Uno','Due'])
@@ -109,7 +115,9 @@ class NavTests(unittest.TestCase):
    self.assertEqual(''.join(line for _,lines,_ in a.ui.frames for line in lines),'Verifica Space Continua')
    a=self.app(['OK']);a.display_words(['Verifica','Space'],'Words')
    self.assertEqual(a.ui.frames[0][1],['01  Verifica','02  Space'])
-   a=self.app(['OK']);self.assertEqual(a.choose_word(['Verifica','Space'],1),'Verifica')
+   a=self.app(['OK','DOWN','DOWN','DOWN','DOWN','LEFT','OK'])
+   self.assertEqual(a.choose_word(['a','b'],1),'a')
+   self.assertEqual(a.ui.keyboard_frames[-1][1],'a')
  def test_startup_opens_home_without_confirmation(self):
   a=self.app();a.ui.splash=lambda:None
   a.note=Mock()

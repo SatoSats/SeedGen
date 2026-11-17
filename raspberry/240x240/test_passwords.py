@@ -50,7 +50,7 @@ class PasswordTests(unittest.TestCase):
   for kind in (0,2):
    for strength in range(3):
     a=app.App(FakeUI());a.wl=self.wl;a.dw=self.dw
-    choices=iter([kind]+([4] if kind==0 else [])+[strength]+([2] if kind==2 else [])+[0])
+    choices=iter(([4] if kind==0 else [])+[strength]+([2] if kind==2 else [])+[0])
     a.menu=lambda *args:next(choices);a.note=lambda *args:None
     a.collect=lambda n:([1,2,3,4,5,6]*100)[:n]
     shown=[];verified=[];wordlists=[]
@@ -61,15 +61,15 @@ class PasswordTests(unittest.TestCase):
     original=p.decode_block;calls=[]
     def accepted(rolls,base,count):
      calls.append((base,count));return original([1]*len(rolls),base,count)
-    with patch.object(app,'require_offline'),patch.object(app.core,'analizza_distribuzione_lanci',return_value=(True,20)),patch.object(p,'decode_block',side_effect=accepted):a.password_menu()
+    with patch.object(app,'require_offline'),patch.object(app.core,'analizza_distribuzione_lanci',return_value=(True,20)),patch.object(p,'decode_block',side_effect=accepted):a.password_flow(kind)
     self.assertEqual(len(shown),1);self.assertEqual(len(verified),1)
     self.assertGreaterEqual(calls[0][0]**calls[0][1],1<<p.STRENGTHS[strength])
     if kind==2:self.assertEqual(shown[0],' '.join(wordlists[0]))
  def test_all_new_flows_reject_offline_failure(self):
-  a=app.App(FakeUI());a.wl=self.wl;a.menu=lambda title,options: 2 if title=='Tipo passphrase' else (2 if title=='Separatore' else 0);a.note=lambda *args:None
+  a=app.App(FakeUI());a.wl=self.wl;a.menu=lambda title,options: 2 if title=='Separatore' else 0;a.note=lambda *args:None
   a.collect=lambda *args:self.fail('must stop before dice collection')
   with patch.object(app,'require_offline',side_effect=RuntimeError('offline')):
-   with self.assertRaises(RuntimeError):a.password_menu()
+   with self.assertRaises(RuntimeError):a.password_flow(2)
  def test_secret_text_pages_preserve_wide_characters_and_spaces(self):
   text='W'*45+' '*2+'~'*30
   a=app.App(FakeUI(['OK']*100));a.text_result(text)

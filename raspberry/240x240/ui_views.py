@@ -3,6 +3,11 @@ from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 from i18n import tr
 BG='#101827'; PANEL='#22344f'; CARD='#2d486b'; ORANGE='#ff9d24'; TEXT='#ffffff'; MUTED='#b6c9df'
+KEYBOARD_COLUMNS=6
+CONTENT_TOP = 42
+CONTENT_BOTTOM = 232
+MARGIN = 8
+GAP = 6
 
 def font(size,bold=False):
     return ImageFont.truetype(str(Path(__file__).resolve().parent/'fonts'/('DejaVuSans-Bold.ttf' if bold else 'DejaVuSans.ttf')),size)
@@ -19,52 +24,70 @@ def centered(draw,box,text,f,fill):
 
 def frame(width,title,back_focused=False,is_home=False,power_focused=False):
     im=Image.new('RGB',(width,240),BG);d=ImageDraw.Draw(im)
-    d.rounded_rectangle((5,4,width-5,34),radius=7,fill=PANEL)
     if is_home:
         x=width-22
         d.rounded_rectangle((width-38,5,width-6,33),radius=6,fill=ORANGE if power_focused else CARD)
         color=BG if power_focused else ORANGE
         d.arc((x-9,10,x+9,28),-55,235,fill=color,width=2)
         d.line((x,8,x,19),fill=color,width=3)
-        d.text((12,7),fitted(d,title,font(18,True),width-58),font=font(18,True),fill=TEXT)
+        title_font = font(19, True)
+        centered(d,(42,4,width-42,34),fitted(d,title,title_font,width-84),title_font,TEXT)
     else:
+        d.rounded_rectangle((5,4,width-5,34),radius=7,fill=PANEL)
         if back_focused:d.rounded_rectangle((7,5,31,33),radius=5,fill=ORANGE)
         d.line((23,12,16,19,23,26),fill=BG if back_focused else ORANGE,width=3)
         d.text((36,7),fitted(d,title,font(18,True),width-44),font=font(18,True),fill=TEXT)
     return im,d
 
 
-def brand_footer(image):
-    # Match the shield and wordmark used by the startup screen.
-    scale=3
-    badge=Image.new('RGBA',(156*scale,32*scale))
-    draw=ImageDraw.Draw(badge)
-    x,y=0,scale
-    shield_width,shield_height=26*scale,30*scale
-    points=[(.5,0),(1,.12),(.99,.37),(.96,.54),(.89,.70),(.79,.82),(.64,.93),(.5,1),(.36,.93),(.21,.82),(.11,.70),(.04,.54),(.01,.37),(0,.12)]
-    draw.polygon([(x+px*shield_width,y+py*shield_height) for px,py in points],fill=(247,124,24))
-    centered(draw,(x,y-2*scale,x+shield_width,y+shield_height),'B',font(23*scale,True),TEXT)
-    for stem in (.40,.56):
-        sx=x+shield_width*stem
-        draw.rectangle((sx,y+shield_height*.14,sx+1.4*scale,y+shield_height*.82),fill=TEXT)
-    centered(draw,(33*scale,0,156*scale,32*scale),'Bitvero',font(25*scale,True),TEXT)
-    badge=badge.resize((156,32),Image.Resampling.LANCZOS)
-    image.paste(badge,((image.width-badge.width)//2,200),badge)
+def cell_span(start, end, count, index):
+    """Divide an inclusive pixel range into cells with equal gaps."""
+    pixels = end - start + 1 - GAP * (count - 1)
+    left = start + index * GAP + index * pixels // count
+    right = start + index * GAP + (index + 1) * pixels // count - 1
+    return left, right
+
 
 def render(ui,width,title,lines,help_text):
     im,d=frame(width,title,getattr(ui,'back_focused',False))
-    options=getattr(ui,'menu_active',False) or any(str(line).startswith('> ') for line in lines)
-    for row,line in enumerate(list(lines)[:5]):
-        selected=str(line).startswith('> ')
-        text=str(line)[2:] if selected else str(line)
-        if options:
-            y=40+row*30
-            d.rounded_rectangle((8,y,width-8,y+27),radius=5,fill=ORANGE if selected else CARD)
-            d.text((15,y+1),fitted(d,text,ui.font,width-30),font=ui.font,fill=BG if selected else TEXT)
-        else:
-            d.text((9,42+row*29),fitted(d,text,ui.font,width-18),font=ui.font,fill=TEXT)
-    brand_footer(im)
+    rows = list(lines)[:5]
+    options=getattr(ui,'menu_active',False) or any(str(line).startswith('> ') for line in rows)
+    right = width - MARGIN
+    if options:
+        for row, line in enumerate(rows):
+            selected = str(line).startswith('> ')
+            label = str(line)[2:] if selected else str(line)
+            y, bottom = cell_span(CONTENT_TOP, CONTENT_BOTTOM, len(rows), row)
+            d.rounded_rectangle((MARGIN,y,right,bottom),radius=6,fill=ORANGE if selected else CARD)
+            centered(d,(15,y,width-15,bottom),fitted(d,label,ui.font,width-30),ui.font,BG if selected else TEXT)
+    elif rows:
+        d.rounded_rectangle((MARGIN,CONTENT_TOP,right,CONTENT_BOTTOM),radius=8,fill=PANEL)
+        line_height = 29
+        top = (CONTENT_TOP + CONTENT_BOTTOM - len(rows) * line_height) // 2
+        for row, line in enumerate(rows):
+            y = top + row * line_height
+            centered(d,(9,y,width-9,y+line_height),fitted(d,line,ui.font,width-18),ui.font,TEXT)
     ui.disp.show_image(im,0,0)
+
+def keyboard(ui, width, number, prefix, keys, focus, invalid):
+    image, draw = frame(width, tr('Parola %d' % number), focus == -1)
+    word_font = font(20, True)
+    typed = fitted(draw, prefix or '—', word_font, width - 20)
+    centered(draw, (10, 38, width - 10, 65), typed, word_font, TEXT)
+    key_font = font(15, True)
+    cell_width = (width - 12) // KEYBOARD_COLUMNS
+    for index, label in enumerate(keys):
+        row, col = divmod(index, KEYBOARD_COLUMNS)
+        left = 6 + col * cell_width
+        top = 70 + row * 28
+        box = (left, top, left + cell_width - 3, top + 25)
+        active = index == focus
+        draw.rounded_rectangle(box, radius=4, fill=ORANGE if active else CARD)
+        centered(draw, box, label, key_font, BG if active else TEXT)
+    hint = tr('Parola non trovata') if invalid else tr('K1: cancella · K3: esci')
+    centered(draw, (6, 212, width - 6, 237), hint, font(13), MUTED)
+    ui.disp.show_image(image, 0, 0)
+
 
 def die(d,box,value,selected=False):
     fill=ORANGE if selected else '#eaf0fa';ink=BG
@@ -75,17 +98,18 @@ def die(d,box,value,selected=False):
         xx=cx+px*dx;yy=cy+py*dy;r=2.3
         d.ellipse((xx-r,yy-r,xx+r,yy+r),fill=ink)
 
-def dice(ui,width,value,done,total,rolls):
-    im,d=frame(width,tr('Lancio %d/%d'%(done+1,total)),getattr(ui,'back_focused',False))
+def dice(ui,width,value,done,total,rolls,diceware=False):
+    title = 'Parola %d/%d' % (done // 5 + 1, total // 5) if diceware else 'Lancio %d/%d' % (done + 1, total)
+    im,d=frame(width,tr(title),getattr(ui,'back_focused',False))
     d.rounded_rectangle((10,40,width-10,48),radius=3,fill=PANEL)
     if done:d.rounded_rectangle((10,40,10+(width-20)*done/total,48),radius=3,fill=ORANGE)
     f=font(16)
-    d.text((12,53),tr('Ultimi: '+''.join(map(str,rolls[-12:]))),font=f,fill=MUTED)
-    cell=45;gap=12;left=(width-(cell*3+gap*2))//2
+    status = 'Lancio %d/5' % (done % 5 + 1) if diceware else 'Ultimi: ' + ''.join(map(str,rolls[-12:]))
+    centered(d,(10,49,width-10,77),tr(status),f,MUTED)
     for i in range(6):
-        x=left+(i%3)*(cell+gap);y=79+(i//3)*55
-        die(d,(x,y,x+cell,y+cell),i+1,selected=i+1==value and not getattr(ui,'back_focused',False))
-    brand_footer(im)
+        left, right = cell_span(MARGIN, width - MARGIN, 3, i % 3)
+        top, bottom = cell_span(79, CONTENT_BOTTOM, 2, i // 3)
+        die(d,(left,top,right,bottom),i+1,selected=i+1==value and not getattr(ui,'back_focused',False))
     ui.disp.show_image(im,0,0)
 
 def icon(d,kind,cx,cy,color):
@@ -102,36 +126,35 @@ def icon(d,kind,cx,cy,color):
 def home(ui,width,index):
     im,d=frame(width,'SEEDGEN',is_home=True,power_focused=index==4)
     labels=tuple(tr(v) for v in ('Seed BIP39','Passphrase','Verifica','Strumenti'))
-    cw=(width-24)//2
-    for i,label in enumerate(labels):
-        x=8+(i%2)*(cw+8);y=43+(i//2)*76
-        box=(x,y,x+cw,y+69);active=i==index
-        d.rounded_rectangle(box,radius=8,fill=ORANGE if active else CARD)
-        color=BG if active else TEXT
-        icon(d,i,x+cw/2,y+23,color)
-        size=15 if width==240 else 18
-        while size>11 and font(size,True).getlength(label)>cw-8:size-=1
-        centered(d,(x,y+46,x+cw,y+67),label,font(size,True),color)
-    brand_footer(im)
+    for i, label in enumerate(labels):
+        left, right = cell_span(MARGIN, width - MARGIN, 2, i % 2)
+        top, bottom = cell_span(CONTENT_TOP, CONTENT_BOTTOM, 2, i // 2)
+        active = i == index
+        d.rounded_rectangle((left,top,right,bottom),radius=8,fill=ORANGE if active else CARD)
+        color = BG if active else TEXT
+        icon(d,i,(left+right)/2,top+32,color)
+        size = 18
+        label_font = font(size,True)
+        while size > 11 and label_font.getlength(label) > right - left - 8:
+            size -= 1
+            label_font = font(size,True)
+        centered(d,(left,top+56,right,bottom-5),label,label_font,color)
     ui.disp.show_image(im,0,0)
 
 def power_menu(ui,width,index):
     im,d=frame(width,'Power',back_focused=index==-1)
-    card_width=(width-24)//2
     for position,label in enumerate(('Restart','Power off')):
-        left=8+position*(card_width+8)
-        right=left+card_width
+        left, right = cell_span(MARGIN, width - MARGIN, 2, position)
         cx=(left+right)//2
-        cy=96
+        cy=111
         active=position==index
         color=BG if active else TEXT
-        d.rounded_rectangle((left,52,right,167),radius=8,fill=ORANGE if active else CARD)
+        d.rounded_rectangle((left,CONTENT_TOP,right,CONTENT_BOTTOM),radius=8,fill=ORANGE if active else CARD)
         if position==0:
             d.arc((cx-17,cy-17,cx+17,cy+17),-75,245,fill=color,width=4)
             d.polygon(((cx-16,cy-18),(cx-4,cy-19),(cx-10,cy-8)),fill=color)
         else:
             d.arc((cx-17,cy-17,cx+17,cy+17),-55,235,fill=color,width=4)
             d.line((cx,cy-20,cx,cy),fill=color,width=4)
-        centered(d,(left,126,right,157),label,font(16,True),color)
-    brand_footer(im)
+        centered(d,(left,150,right,191),label,font(16,True),color)
     ui.disp.show_image(im,0,0)
