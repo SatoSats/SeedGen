@@ -29,7 +29,7 @@ CORE_SHA256='a347d11ec5d23dac0799c5d19ef5495d74b744e479eb67e706c0a7ad62c2564b'
 LENGTHS=(12,15,18,21,24)
 MAIN_MENU=tuple('BIP39: %d parole' % n for n in LENGTHS)+(
     'Diceware', 'Verifica BIP39', 'Test integrita',
-    'Audit Mode', 'Test pulsanti', 'Spegni Raspberry')
+    'Audit Mode', 'Spegni Raspberry')
 
 
 def diceware_words(rolls, dictionary):
@@ -292,9 +292,8 @@ class App:
             elif key in ('OK', 'K2'):
                 rolls.append(value)
                 if len(rolls) == n:
-                    if self.menu('Conferma blocco', ['Usa questi %d lanci' % n, 'Correggi ultimo lancio']) == 0:
-                        return rolls
-                    rolls.pop()
+                    self.menu('Conferma blocco', ['Usa questi %d lanci' % n])
+                    return rolls
                 value = 1
 
     def choose_word(self, words, number):
@@ -358,7 +357,7 @@ class App:
 
     def verify_copy(self, words, dictionary, *, bip39=False):
         while True:
-            self.note('Verifica copia', ['Usa solo il foglio.', 'Inserisci TUTTE le parole', 'nello stesso ordine.', 'K3 annulla: non verificata.'])
+            self.note('Verifica copia', ['Inserisci TUTTE le parole', 'nello stesso ordine.'])
             entered = [self.choose_word(dictionary, i+1) for i in range(len(words))]
             good = hmac.compare_digest(' '.join(entered).encode('utf-8'), ' '.join(words).encode('utf-8'))
             if good and bip39:
@@ -431,27 +430,11 @@ class App:
             else:
                 self.note('Seed BIP39 pronta', ['Prepara carta e penna.', 'Ambiente sicuro e privato.', 'Niente foto o telecamere.'])
             self.display_words(words, 'Diceware' if diceware else 'Seed BIP39')
-            if diceware:
-                self.note('Trascrivi su carta', ['Trascrivi in minuscolo.', 'Un solo spazio tra parole.'])
             self.verify_copy(words, self.dw if diceware else self.wl, bip39=not diceware)
         finally:
             self.screen('Sessione chiusa', ['Nessun segreto salvato.', 'RAM Python non azzerabile.', 'Spegni il dispositivo.'])
             words = rolls = entropy = None
             gc.collect()
-
-    def diagnostics(self):
-        last='Nessuno';back=False
-        try:
-            while True:
-                self.ui.back_focused=back
-                self.screen('Test pulsanti',['Prova joystick','e tutti i pulsanti.','Ultimo: '+tr(last)],
-                            'Freccia: Centro per uscire' if back else 'Su: indietro / Centro: apri')
-                key=self.ui.key()
-                if key=='BACK' or back and key in ('OK','K2'):return
-                last=key
-                if key=='UP':back=True
-                elif key=='DOWN':back=False
-        finally:self.ui.back_focused=False
 
     def verify_mnemonic(self):
         require_offline()
@@ -669,13 +652,12 @@ class App:
 
     def tools_menu(self):
         while True:
-            choice=self.menu('Strumenti',['Test integrita','Audit Mode','Test pulsanti','Lingua','Spegni Raspberry'])
+            choice=self.menu('Strumenti',['Test integrita','Audit Mode','Lingua','Spegni Raspberry'])
             try:
                 if choice==0:self.integrity()
                 elif choice==1:self.audit()
-                elif choice==2:self.diagnostics()
-                elif choice==3:self.language_menu()
-                elif choice==4:self.shutdown()
+                elif choice==2:self.language_menu()
+                elif choice==3:self.shutdown()
             except Cancel:self.ui.back_focused=False
 
     def run(self):

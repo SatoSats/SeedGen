@@ -1,6 +1,6 @@
 SeedGen Pi Zero 240×240 — verifiche della PR #1
 
-Test host — 17 novembre 2026
+Test host — 21 novembre 2026
 Ambiente: Linux, CPython 3.12.14 e Pillow 13.0.0.
 Dalla cartella raspberry/240x240:
   shasum -a 256 -c SOURCE-SHA256SUMS
@@ -22,10 +22,13 @@ b7406c0cffeefc9ebf46d9533197af4f302977a05eec1dcfb4f5b7d57da4db3b
 La prova su host e la prova funzionale del manutentore non sostituiscono
 un audit indipendente.
 
+La revisione del 21 novembre semplifica la conferma dei lanci e la
+verifica della copia e rimuove la diagnostica dei pulsanti dal menu.
+Risultati di seguito riferiti alla suite host di questa revisione.
+
 Output completo dei test host
 test_all_languages_have_native_labels_and_accents (test_navigation.NavTests.test_all_languages_have_native_labels_and_accents) ... ok
 test_classic_route_still_generates_original_word_lengths (test_navigation.NavTests.test_classic_route_still_generates_original_word_lengths) ... ok
-test_diagnostics_back_without_k3 (test_navigation.NavTests.test_diagnostics_back_without_k3) ... ok
 test_dice_back_does_not_record_a_roll (test_navigation.NavTests.test_dice_back_does_not_record_a_roll) ... ok
 test_dice_return_from_header_then_enter (test_navigation.NavTests.test_dice_return_from_header_then_enter) ... ok
 test_dynamic_translation_and_page_titles (test_navigation.NavTests.test_dynamic_translation_and_page_titles) ... ok
@@ -58,9 +61,9 @@ test_strength_and_boundary_all_formats (test_passwords.PasswordTests.test_streng
 test_all_lengths_and_checksum (test_ui.Tests.test_all_lengths_and_checksum) ... ok
 test_audit_parameters (test_ui.Tests.test_audit_parameters) ... ok
 test_cancelled_dice_generation_displays_no_mnemonic (test_ui.Tests.test_cancelled_dice_generation_displays_no_mnemonic) ... ok
+test_confirm_rolls_has_one_option (test_ui.Tests.test_confirm_rolls_has_one_option) ... ok
 test_copy_bip39_can_retry_after_unexpected_validation_error (test_ui.Tests.test_copy_bip39_can_retry_after_unexpected_validation_error) ... ok
 test_copy_bip39_validates_reentered_words_before_confirmation (test_ui.Tests.test_copy_bip39_validates_reentered_words_before_confirmation) ... ok
-test_correct_final_roll (test_ui.Tests.test_correct_final_roll) ... ok
 test_diceware_all_indices (test_ui.Tests.test_diceware_all_indices) ... ok
 test_full_copy_and_mismatch (test_ui.Tests.test_full_copy_and_mismatch) ... ok
 test_generation_both_flows (test_ui.Tests.test_generation_both_flows) ... ok
@@ -81,6 +84,6 @@ test_startup_self_test_fail_blocks_generation (test_ui.Tests.test_startup_self_t
 test_undo_and_cancel (test_ui.Tests.test_undo_and_cancel) ... ok
 
 ----------------------------------------------------------------------
-Ran 56 tests in 0.450s
+Ran 55 tests in 0.439s
 
 OK

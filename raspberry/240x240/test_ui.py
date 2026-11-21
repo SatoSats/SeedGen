@@ -40,8 +40,9 @@ class Tests(unittest.TestCase):
             self.assertEqual(N,expected); self.assertGreaterEqual(k,bits)
             self.assertEqual(p,v5.core.acceptance_probability(bits))
     def test_menu_scroll_and_wrap(self):
-        a=self.app(['DOWN']*10+['OK'])
-        self.assertEqual(a.menu('Menu',v5.MAIN_MENU),10)
+        last=len(v5.MAIN_MENU)-1
+        a=self.app(['DOWN']*last+['OK'])
+        self.assertEqual(a.menu('Menu',v5.MAIN_MENU),last)
         self.assertIn('> Spegni Raspberry',a.ui.frames[-1][1])
         a=self.app(['UP','DOWN','OK']); self.assertEqual(a.menu('Menu',v5.MAIN_MENU),0)
     def test_large_font_word_pages(self):
@@ -66,9 +67,10 @@ class Tests(unittest.TestCase):
 
     def test_menu_cancel(self):
         with self.assertRaises(v5.Cancel): self.app(['BACK']).menu('Menu',v5.MAIN_MENU)
-    def test_correct_final_roll(self):
-        a=self.app(['OK','OK','DOWN','OK','RIGHT','OK','OK'])
+    def test_confirm_rolls_has_one_option(self):
+        a=self.app(['OK','RIGHT','OK','OK'])
         self.assertEqual(a.collect(2),[1,2])
+        self.assertEqual(a.ui.frames[-1][:2], ('Conferma blocco', ['> Usa questi 2 lanci']))
     def test_undo_and_cancel(self):
         with self.assertRaises(v5.Cancel): self.app(['OK','K1','BACK']).collect(2)
     def test_keyboard_corrects_letter_without_restarting_word(self):

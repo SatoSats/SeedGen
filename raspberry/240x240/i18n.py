@@ -14,7 +14,6 @@ Lingua applicata|Language selected|Langue choisie|Idioma seleccionado
 Valida per questa sessione.|Applies to this session.|Valable pour cette session.|Válido para esta sesión.
 Al riavvio torna italiano.|Italian after restart.|Italien au redémarrage.|Italiano al reiniciar.
 Test integrita|Integrity test|Test d'intégrité|Test de integridad
-Test pulsanti|Button test|Test des boutons|Prueba de botones
 Spegni Raspberry|Power off|Éteindre|Apagar
 Riavvio|Restart|Redémarrage|Reinicio
 Riavvia ora|Restart now|Redémarrer maintenant|Reiniciar ahora
@@ -89,7 +88,6 @@ Prob. accettazione: %d%%|Acceptance: %d%%|Acceptation : %d%%|Aceptación: %d%%
 Seed BIP39 pronta|BIP39 seed ready|Seed BIP39 prête|Semilla BIP39 lista
 Conferma blocco|Confirm block|Confirmer le bloc|Confirmar bloque
 Usa questi %d lanci|Use these %d rolls|Utiliser ces %d lancers|Usar estas %d tiradas
-Correggi ultimo lancio|Edit last roll|Corriger le dernier lancer|Corregir última tirada
 Distribuzione anomala|Unusual distribution|Distribution anormale|Distribución anómala
 Tutto il blocco scartato.|Entire block discarded.|Bloc entier rejeté.|Bloque completo descartado.
 Blocco scartato.|Block discarded.|Bloc rejeté.|Bloque descartado.
@@ -100,8 +98,6 @@ la casualita dei dadi.|randomness of the dice.|le hasard des dés.|la aleatoried
 Blocco rifiutato|Block rejected|Bloc refusé|Bloque rechazado
 tutto il blocco scartato.|entire block discarded.|bloc entier rejeté.|bloque completo descartado.
 Passphrase Diceware|Diceware passphrase|Phrase Diceware|Frase Diceware
-Trascrivi in minuscolo.|Write in lowercase.|Écrivez en minuscules.|Escribe en minúsculas.
-Un solo spazio tra parole.|One space between words.|Un espace entre les mots.|Un espacio entre palabras.
 Numeri esclusi.|Exclude word numbers.|Sans numéros de mots.|Sin números de palabras.
 Conserva separata|Keep it separate|Conservez-la séparément|Guárdala separada
 dalla seed BIP39.|from the BIP39 seed.|de la seed BIP39.|de la seed BIP39.
@@ -129,10 +125,8 @@ Nessun segreto salvato.|No secret saved.|Aucun secret enregistré.|Ningún secre
 RAM Python non azzerabile.|Python RAM cannot be securely wiped.|La RAM Python ne peut être effacée sûrement.|La RAM de Python no se borra de forma segura.
 Spegni dopo la prova.|Power off after testing.|Éteignez après le test.|Apaga tras la prueba.
 Verifica copia|Verify copy|Vérifier la copie|Verificar copia
-Usa solo il foglio.|Use only your paper copy.|Utilisez seulement votre feuille.|Usa solo la copia en papel.
 Inserisci TUTTE le parole|Enter ALL the words|Saisissez TOUS les mots|Introduce TODAS las palabras
 nello stesso ordine.|in the same order.|dans le même ordre.|en el mismo orden.
-K3 annulla: non verificata.|Back cancels: unverified.|Retour annule : non vérifiée.|Atrás cancela: sin verificar.
 Copia verificata|Copy verified|Copie vérifiée|Copia verificada
 Parole e ordine corretti.|Words and order match.|Mots et ordre corrects.|Palabras y orden correctos.
 Conserva il foglio al sicuro.|Keep your paper copy safe.|Gardez votre feuille en sécurité.|Guarda el papel en lugar seguro.
@@ -162,10 +156,7 @@ Checksum BIP39 valido|Valid BIP39 checksum|Checksum BIP39 valide|Checksum BIP39 
 %d parole riconosciute.|%d words recognised.|%d mots reconnus.|%d palabras reconocidas.
 %d bit di entropia.|%d entropy bits.|%d bits d'entropie.|%d bits de entropía.
 Verifica chiusa|Verification closed|Vérification terminée|Verificación cerrada
-Prova joystick|Test the joystick|Testez le joystick|Prueba el joystick
-e tutti i pulsanti.|and all the buttons.|et tous les boutons.|y todos los botones.
 Nessuno|None|Aucun|Ninguno
-Ultimo: %s|Last: %s|Dernier : %s|Último: %s
 K3: termina.|Back: finish.|Retour : terminer.|Atrás: terminar.
 Audit: %d parole|Audit: %d words|Audit : %d mots|Auditoría: %d palabras
 N = %d lanci|N = %d rolls|N = %d lancers|N = %d tiradas

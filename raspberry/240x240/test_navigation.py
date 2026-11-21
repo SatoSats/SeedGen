@@ -42,9 +42,6 @@ class NavTests(unittest.TestCase):
  def test_dice_return_from_header_then_enter(self):
   a=self.app(['UP','DOWN','OK','OK'])
   self.assertEqual(a.collect(1),[1])
- def test_diagnostics_back_without_k3(self):
-  a=self.app(['UP','OK']);a.diagnostics()
-  self.assertFalse(a.ui.back_focused)
  def test_home_power_is_reachable_without_k3(self):
   a=self.app(['UP','OK','DOWN','OK']);focus=[]
   a.ui.home=lambda index:focus.append(index)
