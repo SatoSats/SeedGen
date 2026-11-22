@@ -66,3 +66,17 @@ Questa integrazione aggiunge solo la cartella raspberry/. I launcher e i documen
 Il [modello di minaccia Linux](../THREAT_MODEL.md) descrive i rischi comuni. Sul Pi la rete viene controllata passivamente leggendo lo stato delle interfacce, e lo swap tramite `/proc/swaps`. Il profilo presume un avvio da microSD con immagine verificata e controllo fisico di scheda, display e dispositivo. La verifica della firma va eseguita prima di scrivere la microSD. Password e seed passano per la memoria di CPython, che non garantisce l’azzeramento sicuro.
 
 Le nuove build registrano in `/opt/SEEDGEN_PI_BUILD_INFO.txt` l’hash del core incluso e i commit effettivi di SeedSigner OS, dell’app e dei relativi submodule. Il core viene sempre da `vendor/`.
+
+## Sostieni SeedGen
+
+Il codice e l’immagine Raspberry restano gratuiti. Se il porting ti è stato utile, puoi offrire un contributo volontario di qualsiasi importo.
+
+**Lightning:** `bitvero@cake.cash`
+
+![QR per un contributo Lightning a SeedGen](../assets/donations/seedgen-lightning.svg)
+
+**Bitcoin on-chain:** `bc1qttxjdmn89z2yky5rz2wjk33xy9r9403nc5zjk4`
+
+![QR per un contributo Bitcoin on-chain a SeedGen](../assets/donations/seedgen-bitcoin-onchain.svg)
+
+Prima di inviare, controlla nel wallet che il pagamento usi la rete corretta. SeedGen non riceve né gestisce questi pagamenti.
