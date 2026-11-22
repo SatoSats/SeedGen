@@ -51,3 +51,17 @@ SHA-256 binario Linux x86_64:
 ## Licenza
 
 SeedGen è distribuito con licenza MIT. Vedere LICENSE.
+
+## Sostieni SeedGen
+
+SeedGen, il codice e le immagini Linux/Raspberry restano gratuiti. Se il progetto ti è stato utile, puoi offrire un contributo volontario di qualsiasi importo.
+
+**Lightning:** `bitvero@cake.cash`
+
+![QR per un contributo Lightning a SeedGen](assets/donations/seedgen-lightning.svg)
+
+**Bitcoin on-chain:** `bc1qttxjdmn89z2yky5rz2wjk33xy9r9403nc5zjk4`
+
+![QR per un contributo Bitcoin on-chain a SeedGen](assets/donations/seedgen-bitcoin-onchain.svg)
+
+Prima di inviare, controlla nel wallet che il pagamento usi la rete corretta. SeedGen non riceve né gestisce questi pagamenti.
