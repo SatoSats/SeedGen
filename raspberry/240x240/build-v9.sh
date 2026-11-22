@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SEEDGEN_TAG="${SEEDGEN_TAG:-v1.0.2}"
+SEEDGEN_TAG="v1.0.2"
 SS_TAG="${SS_TAG:-0.8.7}"
 BOARD_TYPE="${BOARD_TYPE:-pi0}"
-BASE="${PWD}"; WORK="${BASE}/work"; SS_OS="${WORK}/seedsigner-os"; SS_APP="${WORK}/seedsigner-app"; SEEDGEN="${WORK}/SeedGen"; OUT="${BASE}/images"
+BASE="${PWD}"; WORK="${BASE}/work"; SS_OS="${WORK}/seedsigner-os"; SS_APP="${WORK}/seedsigner-app"; SEEDGEN="${BASE}/vendor"; OUT="${BASE}/images"
 mkdir -p "$WORK" "$OUT"
 test "$BOARD_TYPE" = pi0
 command -v git >/dev/null; command -v docker >/dev/null
 
 echo "[1/8] Sources"
-[ -d "$SEEDGEN/.git" ] || git clone --depth 1 --branch "$SEEDGEN_TAG" https://github.com/SatoSats/SeedGen.git "$SEEDGEN"
 [ -d "$SS_OS/.git" ] || git clone --recursive --branch "$SS_TAG" https://github.com/SeedSigner/seedsigner-os.git "$SS_OS"
 git -C "$SS_OS" submodule update --init --recursive
 [ -d "$SS_APP/.git" ] || git clone --recurse-submodules --depth 1 --branch "$SS_TAG" https://github.com/SeedSigner/seedsigner.git "$SS_APP"
 
+git -C "$SS_APP" submodule update --init --recursive
+
 echo "[2/8] Verify bundled upstream"
-SEEDGEN="$BASE/vendor"
 (cd "$SEEDGEN" && shasum -a 256 -c SHA256SUMS)
 # Fix the small boot image without deleting compiled components.
 sed -i.bak 's/count=50/count=128/' "$SS_OS/opt/pi0/board/post-image-seedsigner.sh"
@@ -35,7 +35,16 @@ mkdir -p "$OVERLAY/opt/src/fonts"
 cp "$BASE/fonts/DejaVuSans.ttf" "$BASE/fonts/DejaVuSans-Bold.ttf" "$BASE/fonts/LICENSE.txt" "$OVERLAY/opt/src/fonts/"
 mkdir -p "$OVERLAY/opt/src/seedgen_upstream"
 cp "$SEEDGEN/seedgen.py" "$SEEDGEN/bip39_wordlist.txt" "$SEEDGEN/diceware_wordlist.txt" "$SEEDGEN/eff_short_wordlist_1.txt" "$SEEDGEN/LICENSE" "$SEEDGEN/EFF-ATTRIBUTION.txt" "$OVERLAY/opt/src/seedgen_upstream/"
-printf "SEEDGEN_PI_V9_MARKER\nSeedGen=%s\nSeedSignerOS=%s\nBoard=%s\n" "$SEEDGEN_TAG" "$SS_TAG" "$BOARD_TYPE" > "$OVERLAY/opt/SEEDGEN_PI_BUILD_INFO.txt"
+{
+  printf 'SEEDGEN_PI_V9_MARKER\nSeedGen=%s\nSeedSignerOS=%s\nBoard=%s\n' "$SEEDGEN_TAG" "$SS_TAG" "$BOARD_TYPE"
+  printf 'SeedGenCoreSHA256=%s\n' "$(shasum -a 256 "$SEEDGEN/seedgen.py" | cut -d ' ' -f 1)"
+  printf 'SeedSignerOSCommit=%s\n' "$(git -C "$SS_OS" rev-parse HEAD)"
+  printf 'SeedSignerAppCommit=%s\n' "$(git -C "$SS_APP" rev-parse HEAD)"
+  printf 'SeedSignerOSSubmodules:\n'
+  git -C "$SS_OS" submodule status --recursive
+  printf 'SeedSignerAppSubmodules:\n'
+  git -C "$SS_APP" submodule status --recursive
+} > "$OVERLAY/opt/SEEDGEN_PI_BUILD_INFO.txt"
 
 echo "[5/8] Verify custom entrypoint"
 grep -q "SEEDGEN_PI_V9_MARKER" "$OVERLAY/opt/src/main.py"

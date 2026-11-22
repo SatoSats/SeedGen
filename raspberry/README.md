@@ -33,7 +33,7 @@ python3 -m unittest -v test_ui test_passwords test_navigation
 shasum -a 256 -c SOURCE-SHA256SUMS
 ```
 
-56 test host coprono UI/core, passphrase, navigazione e lingue, incluso il controllo BIP39 finale sulle parole reinserite. I 14 self-test originali sono eseguiti dentro la suite. I test host non richiedono GPIO o display. [Comandi, output ed esiti hardware](240x240/REPORT_TEST.txt).
+55 test host coprono UI/core, passphrase, navigazione e lingue, incluso il controllo BIP39 finale sulle parole reinserite. I 14 self-test originali sono eseguiti dentro la suite. I test host non richiedono GPIO o display. [Comandi, output ed esiti hardware](240x240/REPORT_TEST.txt).
 
 ## Compilazione
 
@@ -60,3 +60,9 @@ La forza nominale presume dadi equi e indipendenti. Il filtro diagnostico non ce
 Il porting include branding Bitvero e integra driver/build SeedSigner; la sua proposta non implica approvazione ufficiale da parte di quei progetti.
 
 Questa integrazione aggiunge solo la cartella raspberry/. I launcher e i documenti della distribuzione originale restano quelli upstream. Le [release binarie del fork](https://github.com/ilbitcoiner/SeedGen/releases) riportano il commit sorgente e gli asset di verifica associati a ciascuna immagine.
+
+### Modello operativo del Pi
+
+Il [modello di minaccia Linux](../THREAT_MODEL.md) descrive i rischi comuni. Sul Pi la rete viene controllata passivamente leggendo lo stato delle interfacce, e lo swap tramite `/proc/swaps`. Il profilo presume un avvio da microSD con immagine verificata e controllo fisico di scheda, display e dispositivo. La verifica della firma va eseguita prima di scrivere la microSD. Password e seed passano per la memoria di CPython, che non garantisce l’azzeramento sicuro.
+
+Le nuove build registrano in `/opt/SEEDGEN_PI_BUILD_INFO.txt` l’hash del core incluso e i commit effettivi di SeedSigner OS, dell’app e dei relativi submodule. Il core viene sempre da `vendor/`.

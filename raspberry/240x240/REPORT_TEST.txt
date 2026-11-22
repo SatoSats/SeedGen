@@ -1,30 +1,35 @@
 SeedGen Pi Zero 240×240 — verifiche della PR #1
 
-Test host — 21 novembre 2026
+Test host — 22 novembre 2026
 Ambiente: Linux, CPython 3.12.14 e Pillow 13.0.0.
+Checkout locale distaccato verificato con:
+  git rev-parse HEAD
+  0e95415cc240096a272503202eb73bdfb7ee7b0a
+  git rev-parse HEAD^{tree}
+  e5b680d7729ae522ae39c548467819e0fdf4f678
+  git status --porcelain=v1 --untracked-files=all
+  Output vuoto prima e dopo la suite.
+Lo stesso albero sorgente è pubblicato nel commit
+43eab339da0f2dd31eed08d743391839945ec278 (tag pi-v9.3).
+
 Dalla cartella raspberry/240x240:
   shasum -a 256 -c SOURCE-SHA256SUMS
   bash -n build-v9.sh
   PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -v
 
-Il manutentore ha riferito il funzionamento della build precedente
-con flusso Linux, tastiera e Diceware nel menu Passphrase.
-Il layout a schermo pieno è verificato su host a 240×240.
-Per la revisione a schermo pieno serve ancora associare il binario
-a questi sorgenti e verificare firma e checksum della nuova immagine.
-
-Il pacchetto storico Pi v9.1 consegnato dal manutentore ha superato
-la verifica OpenPGP e SHA-256. Fingerprint della chiave:
-667AAA68AD2D90BBFC682D7E3A5AAF7EB3389C20
-SHA-256 dell’immagine Pi v9.1:
-b7406c0cffeefc9ebf46d9533197af4f302977a05eec1dcfb4f5b7d57da4db3b
-
-La prova su host e la prova funzionale del manutentore non sostituiscono
-un audit indipendente.
-
-La revisione del 21 novembre semplifica la conferma dei lanci e la
-verifica della copia e rimuove la diagnostica dei pulsanti dal menu.
-Risultati di seguito riferiti alla suite host di questa revisione.
+Prova hardware e distribuzione
+  Profilo pi0: Raspberry Pi Zero originale v1.3 ARMv6,
+  display Waveshare ST7789 240×240.
+  Il manutentore ha confermato il funzionamento della Pi v9.3 su hardware.
+  Immagine del pacchetto firmato consegnato: seedgen-pi-v9.3.img.
+  SHA-256: a33f50917fbf944cb7deecb1d8328759a5d340123d62fe54a283f52e41dcad8c
+  Firma OpenPGP del manifest verificata con la chiave:
+  3F4E3C778F5D63EC1B0985F85823FC25A5186930
+  Release: https://github.com/ilbitcoiner/SeedGen/releases/tag/pi-v9.3
+  Il tag collega il pacchetto ai sorgenti del commit sopra indicato.
+  La prova hardware è funzionale. Il confronto SHA-256 conferma il
+  pacchetto pubblicato; una ricompilazione bit-per-bit resta da verificare.
+  I campi di provenienza aggiunti allo script valgono per le build future.
 
 Output completo dei test host
 test_all_languages_have_native_labels_and_accents (test_navigation.NavTests.test_all_languages_have_native_labels_and_accents) ... ok
@@ -84,6 +89,6 @@ test_startup_self_test_fail_blocks_generation (test_ui.Tests.test_startup_self_t
 test_undo_and_cancel (test_ui.Tests.test_undo_and_cancel) ... ok
 
 ----------------------------------------------------------------------
-Ran 55 tests in 0.439s
+Ran 55 tests in 0.536s
 
 OK
