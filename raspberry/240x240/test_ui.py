@@ -71,6 +71,21 @@ class Tests(unittest.TestCase):
         a=self.app(['OK','RIGHT','OK','OK'])
         self.assertEqual(a.collect(2),[1,2])
         self.assertEqual(a.ui.frames[-1][:2], ('Conferma blocco', ['> Usa questi 2 lanci']))
+    def test_dice_cursor_retains_last_face(self):
+        for diceware in (False, True):
+            a = self.app(['DOWN', 'RIGHT', 'OK', 'RIGHT', 'OK', 'OK'])
+            self.assertEqual(a.collect(2, diceware=diceware), [5, 6])
+
+    def test_keyboard_shows_live_matches_and_completes_unique_prefix(self):
+        a = self.app(['OK', 'OK', 'OK', 'K2'])
+        self.assertEqual(a.choose_word(['aardvark', 'aaabc'], 1), 'aaabc')
+        self.assertEqual([state[-1] for state in a.ui.keyboard_frames], [[], ['aaabc', 'aardvark'], ['aaabc', 'aardvark'], ['aaabc']])
+
+    def test_keyboard_suggestions_can_be_cancelled_and_selected(self):
+        a = self.app(['OK', 'OK', 'OK', 'K2', 'BACK', 'K2', 'DOWN', 'OK'])
+        self.assertEqual(a.choose_word(['aaaz', 'aaab', 'bbbb'], 1), 'aaaz')
+        self.assertEqual(a.ui.keyboard_frames[-1][1], 'aaa')
+
     def test_undo_and_cancel(self):
         with self.assertRaises(v5.Cancel): self.app(['OK','K1','BACK']).collect(2)
     def test_keyboard_corrects_letter_without_restarting_word(self):

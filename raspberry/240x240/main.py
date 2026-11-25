@@ -150,8 +150,8 @@ class UI:
     def dice(self,value,done,total,rolls,diceware=False):
         views.dice(self,CANVAS_WIDTH,value,done,total,rolls,diceware)
 
-    def keyboard(self, number, prefix, keys, focus, invalid):
-        views.keyboard(self, CANVAS_WIDTH, number, prefix, keys, focus, invalid)
+    def keyboard(self, number, prefix, keys, focus, invalid, suggestions):
+        views.keyboard(self, CANVAS_WIDTH, number, prefix, keys, focus, invalid, suggestions)
 
     def home(self,index):
         views.home(self,CANVAS_WIDTH,index)
@@ -294,7 +294,6 @@ class App:
                 if len(rolls) == n:
                     self.menu('Conferma blocco', ['Usa questi %d lanci' % n])
                     return rolls
-                value = 1
 
     def choose_word(self, words, number):
         dictionary = set(words)
@@ -303,11 +302,24 @@ class App:
         prefix = ''
         focus = 0
         invalid = False
+        previous_prefix = None
+        suggestions = []
         while True:
-            self.ui.keyboard(number, prefix, keys, focus, invalid)
+            if prefix != previous_prefix:
+                suggestions = sorted(word for word in dictionary if word.startswith(prefix)) if prefix else []
+                previous_prefix = prefix
+            self.ui.keyboard(number, prefix, keys, focus, invalid, suggestions)
             key = self.ui.key()
             if key == 'BACK':
                 raise Cancel()
+            if key == 'K2' and focus >= 0 and suggestions:
+                if len(suggestions) == 1:
+                    return suggestions[0]
+                try:
+                    selection = self.menu('Parole suggerite', suggestions, translate_options=False)
+                except Cancel:
+                    continue
+                return suggestions[selection]
             if key == 'K1' or (key in ('OK', 'K2') and focus >= 0 and keys[focus] == 'DEL'):
                 prefix = prefix[:-1]
                 invalid = False
@@ -318,7 +330,7 @@ class App:
                     if prefix in dictionary:
                         return prefix
                     invalid = True
-                else:
+                elif not prefix or any(word.startswith(prefix + keys[focus]) for word in suggestions):
                     prefix += keys[focus]
                     invalid = False
             elif key == 'UP':

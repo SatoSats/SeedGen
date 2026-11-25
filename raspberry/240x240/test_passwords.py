@@ -77,7 +77,7 @@ class PasswordTests(unittest.TestCase):
   self.assertEqual(''.join(chunks),text)
   self.assertTrue(all(app.body_font().getlength(line)<=app.CANVAS_WIDTH-18 for line in chunks))
  def test_dice_grid_moves_and_undo(self):
-  a=app.App(FakeUI(['DOWN','RIGHT','OK','K1','DOWN','LEFT','OK','OK','OK']))
+  a=app.App(FakeUI(['DOWN','RIGHT','OK','K1','RIGHT','OK','RIGHT','UP','OK','OK']))
   self.assertEqual(a.collect(2),[6,1])
  def test_home_navigation(self):
   ui=FakeUI(['RIGHT','OK']);ui.home=lambda index:None
