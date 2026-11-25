@@ -80,6 +80,7 @@ Passphrase pronta|Passphrase ready|Phrase secrète prête|Frase de paso lista
 Conserva la passphrase separata dalla seed.|Store the passphrase separately from the seed.|Conservez la phrase secrète séparément de la graine.|Guarda la frase de paso separada de la semilla.
 Spegni il dispositivo.|Power off the device.|Éteignez l’appareil.|Apaga el dispositivo.
 Parola %d/%d|Word %d/%d|Mot %d/%d|Palabra %d/%d
+Parole suggerite|Suggested words|Mots suggérés|Palabras sugeridas
 Parola non trovata|Word not found|Mot introuvable|Palabra no encontrada
 K1: cancella · K3: esci|K1: delete · K3: exit|K1 : effacer · K3 : quitter|K1: borrar · K3: salir
 Carattere %d|Character %d|Caractère %d|Carácter %d

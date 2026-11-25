@@ -69,23 +69,36 @@ def render(ui,width,title,lines,help_text):
             centered(d,(9,y,width-9,y+line_height),fitted(d,line,ui.font,width-18),ui.font,TEXT)
     ui.disp.show_image(im,0,0)
 
-def keyboard(ui, width, number, prefix, keys, focus, invalid):
+def keyboard(ui, width, number, prefix, keys, focus, invalid, suggestions):
     image, draw = frame(width, tr('Parola %d' % number), focus == -1)
     word_font = font(20, True)
     typed = fitted(draw, prefix or '—', word_font, width - 20)
     centered(draw, (10, 38, width - 10, 65), typed, word_font, TEXT)
+    if suggestions:
+        preview = '  ·  '.join(suggestions[:2])
+        if len(suggestions) > 2:
+            preview += '  …'
+        suggestion_font = font(14, True)
+        draw.rounded_rectangle((6, 64, width - 6, 85), radius=4, fill=PANEL)
+        centered(draw, (9, 64, width - 9, 85), fitted(draw, preview, suggestion_font, width - 18), suggestion_font, ORANGE)
+    next_letters = {word[len(prefix)] for word in suggestions if len(word) > len(prefix)}
     key_font = font(15, True)
     cell_width = (width - 12) // KEYBOARD_COLUMNS
     for index, label in enumerate(keys):
         row, col = divmod(index, KEYBOARD_COLUMNS)
         left = 6 + col * cell_width
-        top = 70 + row * 28
-        box = (left, top, left + cell_width - 3, top + 25)
+        top = 89 + row * 24
+        box = (left, top, left + cell_width - 3, top + 22)
         active = index == focus
         draw.rounded_rectangle(box, radius=4, fill=ORANGE if active else CARD)
-        centered(draw, box, label, key_font, BG if active else TEXT)
+        available = not prefix or label in next_letters or label in ('DEL', 'OK')
+        color = (BG if active else TEXT) if available else ('#574738' if active else MUTED)
+        centered(draw, box, label, key_font, color)
     hint = tr('Parola non trovata') if invalid else tr('K1: cancella · K3: esci')
-    centered(draw, (6, 212, width - 6, 237), hint, font(13), MUTED)
+    if suggestions and focus >= 0:
+        hint = 'K2: ' + (suggestions[0] if len(suggestions) == 1 else tr('Parole suggerite'))
+    hint_font = font(13)
+    centered(draw, (6, 212, width - 6, 237), fitted(draw, hint, hint_font, width - 12), hint_font, MUTED)
     ui.disp.show_image(image, 0, 0)
 
 
