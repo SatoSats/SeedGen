@@ -6,6 +6,17 @@ LANGUAGES=(('it','Italiano'),('en','English'),('fr','Français'),('es','Español
 _language='it'
 # Key | English | French | Spanish
 _DATA='''
+Test del dado|Die test|Test du dé|Prueba del dado
+Numero di lanci|Roll count|Nombre de lancers|Número de tiradas
+Usa un solo dado.|Use one die.|Utilisez un seul dé.|Usa un solo dado.
+Usa lanci separati dalla seed.|Use separate rolls for the seed.|Utilisez des lancers distincts pour la seed.|Usa tiradas distintas para la semilla.
+K1: annulla ultimo|K1: undo last|K1 : annuler le dernier|K1: deshacer último
+Calcolo in corso…|Calculating…|Calcul en cours…|Calculando…
+Possibile squilibrio|Possible bias|Biais possible|Posible sesgo
+Nessuno squilibrio rilevato|No bias detected|Aucun biais détecté|Sin sesgo detectado
+Il test non certifica il dado.|The test does not certify the die.|Le test ne certifie pas le dé.|La prueba no certifica el dado.
+Conteggi per faccia|Counts per face|Comptes par face|Recuento por cara
+%d lanci|%d rolls|%d lancers|%d tiradas
 Custom|Custom|Personnalisé|Personalizada
 Verifica|Verify|Vérifier|Verificar
 Strumenti|Tools|Outils|Herramientas

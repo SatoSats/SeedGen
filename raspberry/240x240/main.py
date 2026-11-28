@@ -9,6 +9,7 @@ import hmac
 import math
 import os
 from pathlib import Path
+from random import Random
 import subprocess
 from string import ascii_lowercase
 import sys
@@ -30,6 +31,23 @@ LENGTHS=(12,15,18,21,24)
 MAIN_MENU=tuple('BIP39: %d parole' % n for n in LENGTHS)+(
     'Diceware', 'Verifica BIP39', 'Test integrita',
     'Audit Mode', 'Spegni Raspberry')
+
+
+def dice_uniformity_pvalue(counts, simulations=9999):
+    """Estimate the upper tail of Pearson's statistic under uniform rolls."""
+    # For fixed sample size and face count, Pearson's statistic is monotone
+    # in the sum of squared counts. Integer comparisons include ties exactly.
+    observed = sum(count * count for count in counts)
+    faces = len(counts)
+    rolls = range(sum(counts))
+    rng = Random()
+    extreme = 0
+    for _ in range(simulations):
+        sample = [0] * faces
+        for _ in rolls:
+            sample[rng.randrange(faces)] += 1
+        extreme += sum(count * count for count in sample) >= observed
+    return (extreme + 1) / (simulations + 1)
 
 
 def diceware_words(rolls, dictionary):
@@ -150,6 +168,9 @@ class UI:
     def dice(self,value,done,total,rolls,diceware=False):
         views.dice(self,CANVAS_WIDTH,value,done,total,rolls,diceware)
 
+    def fairness_grid(self, faces, value, done, total):
+        views.fairness_grid(self, CANVAS_WIDTH, faces, value, done, total)
+
     def keyboard(self, number, prefix, keys, focus, invalid, suggestions):
         views.keyboard(self, CANVAS_WIDTH, number, prefix, keys, focus, invalid, suggestions)
 
@@ -218,8 +239,8 @@ class App:
         labels=[tr(line) if translate_lines else str(line) for line in lines]
         self.ui.render(tr(title),[('> ' if i==selected else '')+line for i,line in enumerate(labels)],tr(footer))
 
-    def menu(self,title,options,translate_options=True):
-        index=0
+    def menu(self,title,options,translate_options=True,*,initial=0):
+        index=initial
         try:
             while True:
                 self.ui.back_focused=index==-1
@@ -264,13 +285,17 @@ class App:
                 elif key=='BACK':raise Cancel()
         finally:self.ui.back_focused=False
 
-    def collect(self, n, *, diceware=False):
+    def collect(self, n, *, diceware=False, test_faces=None):
+        faces = test_faces or 6
+        columns = 3 if faces == 6 else 4
         rolls = []
         value = 1
         back=False
         while True:
             self.ui.back_focused=back
-            if hasattr(self.ui,'dice'):
+            if test_faces is not None:
+                self.ui.fairness_grid(faces, value, len(rolls), n)
+            elif hasattr(self.ui,'dice'):
                 self.ui.dice(value,len(rolls),n,rolls,diceware)
             else:
                 self.screen('Lancio %d/%d' % (len(rolls)+1,n),['Risultato: %d'%value])
@@ -281,11 +306,12 @@ class App:
                 if key in ('DOWN','RIGHT'):
                     back=False;self.ui.back_focused=False
                 continue
-            if key=='UP' and value<=3:
+            if key=='UP' and value<=columns:
                 back=True;continue
-            if key=='RIGHT': value=((value-1)//3)*3+value%3+1
-            elif key=='LEFT': value=((value-1)//3)*3+(value-2)%3+1
-            elif key in ('UP','DOWN'): value=(value+2)%6+1
+            if key=='RIGHT': value=((value-1)//columns)*columns+value%columns+1
+            elif key=='LEFT': value=((value-1)//columns)*columns+(value-2)%columns+1
+            elif key=='UP': value-=columns
+            elif key=='DOWN': value=(value-1+columns)%faces+1
             elif key == 'K1' and rolls: rolls.pop()
             elif key == 'BACK':
                 self.ui.back_focused=False;raise Cancel()
@@ -662,14 +688,32 @@ class App:
             except Cancel:pass
             return
 
+    def dice_fairness(self):
+        faces = (6, 8, 16)[self.menu('Test del dado', ['D6', 'D8', 'D16'])]
+        sizes = (50, 32, 100)
+        total = sizes[self.menu('Numero di lanci', ['%d lanci' % size for size in sizes])]
+        self.note('Test del dado', ['Usa un solo dado.', 'Usa lanci separati dalla seed.'])
+        rolls = self.collect(total, test_faces=faces)
+        counts = [rolls.count(face) for face in range(1, faces + 1)]
+        self.screen('Test del dado', ['Calcolo in corso…'])
+        p_value = dice_uniformity_pvalue(counts)
+        result = 'Possibile squilibrio' if p_value <= 0.05 else 'Nessuno squilibrio rilevato'
+        self.note('Test del dado', [result, 'D%d · %d lanci' % (faces, total),
+                                   'p ≈ %.4f' % p_value, 'Il test non certifica il dado.'])
+        rows = ['    '.join('%02d: %d' % (face + 1, counts[face])
+                            for face in range(start, min(start + 3, faces)))
+                for start in range(0, faces, 3)]
+        self.note('Conteggi per faccia', rows)
+
     def tools_menu(self):
         while True:
-            choice=self.menu('Strumenti',['Test integrita','Audit Mode','Lingua','Spegni Raspberry'])
+            choice=self.menu('Strumenti',['Test integrita','Audit Mode','Lingua','Spegni Raspberry','Test del dado'])
             try:
                 if choice==0:self.integrity()
                 elif choice==1:self.audit()
                 elif choice==2:self.language_menu()
                 elif choice==3:self.shutdown()
+                elif choice==4:self.dice_fairness()
             except Cancel:self.ui.back_focused=False
 
     def run(self):
