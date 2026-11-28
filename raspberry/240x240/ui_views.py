@@ -125,6 +125,31 @@ def dice(ui,width,value,done,total,rolls,diceware=False):
         die(d,(left,top,right,bottom),i+1,selected=i+1==value and not getattr(ui,'back_focused',False))
     ui.disp.show_image(im,0,0)
 
+def fairness_grid(ui, width, faces, value, done, total):
+    back = ui.back_focused
+    title = tr('D%d · %d/%d' % (faces, done + 1, total))
+    im, draw = frame(width, title, back)
+    columns = 3 if faces == 6 else 4
+    rows = faces // columns
+    top, bottom = 43, 207
+    size = min((width - 2 * MARGIN - GAP * (columns - 1)) // columns,
+               (bottom - top + 1 - GAP * (rows - 1)) // rows)
+    x_start = (width - columns * size - (columns - 1) * GAP) // 2
+    y_start = top + (bottom - top + 1 - rows * size - (rows - 1) * GAP) // 2
+    number_font = font(24 if rows == 4 else 30, True)
+    for index in range(faces):
+        row, col = divmod(index, columns)
+        x = x_start + col * (size + GAP)
+        y = y_start + row * (size + GAP)
+        box = (x, y, x + size - 1, y + size - 1)
+        active = index + 1 == value and not back
+        draw.rounded_rectangle(box, radius=6, fill=ORANGE if active else CARD)
+        centered(draw, box, str(index + 1), number_font, BG if active else TEXT)
+    hint = tr('K1: annulla ultimo')
+    centered(draw, (6, 210, width - 6, 237), hint, font(13), MUTED)
+    ui.disp.show_image(im, 0, 0)
+
+
 def icon(d,kind,cx,cy,color):
     if kind==0:die(d,(cx-14,cy-14,cx+14,cy+14),5,False)
     elif kind==1:

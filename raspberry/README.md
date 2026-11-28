@@ -20,6 +20,12 @@ Lingue UI: italiano, inglese, francese, spagnolo. La scelta è in RAM e torna it
 
 La Home mostra quattro riquadri su tutta l’altezza utile, con il titolo centrato e il tasto Power in alto a destra. Menu, messaggi e griglia dei dadi usano lo stesso margine inferiore.
 
+## Test del dado
+
+In **Strumenti → Test del dado**, scegliere D6, D8 o D16 e fissare il campione a 32, 50 o 100 lanci prima di iniziare. Usare un solo dado. I risultati si inseriscono su una griglia numerata da 3×2 (D6), 4×2 (D8) o 4×4 (D16). Il cursore resta sull’ultima faccia inserita. **KEY1** annulla l’ultimo inserimento.
+
+Il test offline confronta le frequenze osservate con quelle uniformi usando la statistica di Pearson e 9.999 simulazioni Monte Carlo. Con un p-value stimato al massimo pari a 0,05 segnala **Possibile squilibrio**. Con pochi lanci, soprattutto per D16, può sfuggire anche uno squilibrio reale. Il test valuta le frequenze delle facce. Per generare una seed si usa una nuova serie di lanci.
+
 ## Test host
 
 Da questa cartella, creare un ambiente Python e installare Pillow (versione host verificata: 13.0.0):
@@ -34,6 +40,8 @@ shasum -a 256 -c SOURCE-SHA256SUMS
 ```
 
 58 test host coprono UI/core, passphrase, navigazione e lingue, incluso il controllo BIP39 finale sulle parole reinserite. I 14 self-test originali sono eseguiti dentro la suite. I test host non richiedono GPIO o display. [Comandi, output ed esiti hardware](240x240/REPORT_TEST.txt).
+
+[Rapporto del Test del dado e prova hardware](REPORT_TEST_DADO.md).
 
 ## Compilazione
 
